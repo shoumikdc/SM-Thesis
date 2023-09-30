@@ -1,0 +1,290 @@
+% Some formatting
+\ProvidesPackage{formatting}
+\RequirePackage{xparse}
+
+% MARGINS
+\RequirePackage{geometry}
+\geometry{
+	letterpaper,
+	top = 1in,
+	bottom = 1in,
+	inner = 1in,
+	outer = 1in,
+% 	marginparwidth=1.4in,
+% 	marginparsep=0.25in,
+% 	footnotesep = 1cm
+}
+\RequirePackage{tocloft}
+\RequirePackage{parskip}
+\setlength{\parindent}{10pt}
+\RequirePackage{setspace}
+
+%% Load Required Packages
+% Page Layout
+\RequirePackage[table, dvipsnames]{xcolor}
+\RequirePackage{graphicx}
+\graphicspath{{Figures/}}
+\RequirePackage{changepage} % adjustwidth env., for definitions et al.
+\RequirePackage{calc}
+
+% Text Formatting (excluding fonts)
+\RequirePackage[inline]{enumitem} % customize lists
+\RequirePackage{booktabs} % style tables
+\RequirePackage{tabularx} % full-width tables
+\RequirePackage{longtable}
+\RequirePackage{float}
+\RequirePackage{hyphenat} % Custom hyphenation
+
+% Mathematics
+\RequirePackage{amsmath}
+\RequirePackage{amsthm}
+\RequirePackage{amssymb}
+\RequirePackage{thmtools}
+\RequirePackage{mathtools}
+\RequirePackage{stmaryrd}
+\RequirePackage{mathrsfs} % Math Fonts
+\RequirePackage{bm} % Bold Math
+
+% Physics | unfortunately the physics package is not recommended
+% among latex users. So, we manually implement the commands here.
+\RequirePackage{siunitx}
+\RequirePackage{fixdif}
+\RequirePackage[italic=true]{derivative}
+\RequirePackage{tensor}
+
+% Braket Notation - Manual
+\DeclarePairedDelimiter{\bra}{\langle}{\rvert}%
+\DeclarePairedDelimiter{\ket}{\lvert}{\rangle}%
+\DeclarePairedDelimiterX\ip[2]{\langle}{\rangle}{#1\delimsize\vert\mathopen{}#2}%
+\DeclarePairedDelimiterX\braket[2]{\langle}{\rangle}{#1\delimsize\vert\mathopen{}#2}%
+\DeclarePairedDelimiterX\mel[3]{\langle}{\rangle}{#1\delimsize\vert\,\mathopen{}#2\,\delimsize\vert\mathopen{}#3}%
+\DeclarePairedDelimiterX\ketbra[2]{\lvert}{\rvert}{#1\delimsize\rangle\!\delimsize\langle#2}%
+\DeclarePairedDelimiterX\op[2]{\lvert}{\rvert}{#1\delimsize\rangle\!\delimsize\langle#2}%
+\DeclarePairedDelimiterX\proj[1]{\lvert}{\rvert}{#1\delimsize\rangle\!\delimsize\langle#1}%
+
+
+% Usual (decimal) section numbering
+\renewcommand{\thesection}{\arabic{section}}
+\renewcommand{\thesubsection}{\thesection.\arabic{subsection}}
+\renewcommand{\thesubsubsection}{\thesubsection.\arabic{subsubsection}}
+\RequirePackage[toc]{appendix}
+
+
+%%%% FONTS
+\RequirePackage[T1]{fontenc}
+\usepackage{fontspec}
+\defaultfontfeatures[\sffamily]{Scale = 0.95}
+\usepackage{xltxtra}
+\setsansfont{Fonts/Helvetica.ttc}[
+UprightFeatures = {FontIndex=0} ,
+BoldFeatures = {FontIndex=4} ,
+ItalicFeatures = {FontIndex=2} ,
+BoldItalicFeatures = {FontIndex=5} ,
+]% font declaration and title settings
+
+ 
+\setromanfont[
+Path = Fonts/,
+BoldFont=palab.ttf,
+ItalicFont=palai.ttf,
+BoldItalicFont=palabi.ttf]{pala.ttf}
+
+\setsansfont[
+Path = Fonts/,
+BoldFont=NewsGothicMT-Bold.ttf,
+ItalicFont=NewsGothicMT-Italic.ttf, BoldItalicFont=palabi.ttf]{NewsGothicMT.ttf}
+
+\renewcommand{\cftsecfont}{\sffamily}
+\renewcommand{\cfttabfont}{\sffamily}
+\renewcommand{\cftfigfont}{\sffamily}
+\renewcommand{\cftsubsecfont}{\sffamily}
+\renewcommand{\cfttoctitlefont}{\sffamily\Huge}
+\renewcommand{\cftlottitlefont}{\sffamily\Huge}
+\renewcommand{\cftloftitlefont}{\sffamily\Huge}
+\renewcommand{\cftsecpagefont}{\sffamily}
+\renewcommand{\cftfigpagefont}{\sffamily}
+\renewcommand{\cfttabpagefont}{\sffamily}
+\renewcommand{\cftsubsecpagefont}{\sffamily}
+\renewcommand\cftbeforetoctitleskip{-10pt}
+\renewcommand\cftbeforeloftitleskip{-1cm}
+\renewcommand\cftbeforelottitleskip{-1cm}
+\RequirePackage{microtype} % Slightly tweak font spacing for aesthetics; very useful!
+
+%%%% HEADERS and FOOTERS
+\RequirePackage{lastpage} % Get Last Page # 
+\RequirePackage{fancyhdr} % Headers and footers
+\pagestyle{fancy} % All pages have headers and footers
+\renewcommand{\headrulewidth}{0pt}
+\fancyhead{} % Blank out the default header
+\fancyfoot{} % Blank out the default footer
+\fancyfoot[C]{\thepage} 
+
+% Footnotes
+\usepackage[bottom, hang,flushmargin]{footmisc}
+
+%%%% TITLES
+\usepackage{titlesec}
+% Option 1: From Shoumik Formatting
+% \titleformat{\section}[block]{\bfseries\scshape\centering}{\thesection.}{0.5em}{} %
+% \titleformat{\subsection}[block]{\bfseries\sffamily}{\thesubsection.}{0.5em}{} %
+% \titleformat{\subsubsection}[block]{\small\bfseries\sffamily}{\thesubsubsection.}{0.5em}{} %
+
+% Option 2: From Max's Thesis
+\titleformat{\chapter}[display]{\sffamily\Huge}{\filleft\fontsize{100}{120}\selectfont\thechapter}{-50pt}{} %
+\titlespacing*{name=\chapter}{0pt}{-100pt}{10pt}
+\titlespacing*{name=\chapter,numberless}{0pt}{-40pt}{10pt}
+
+ 
+
+\titleformat{\section}[block]{\sffamily\Large}{\thesection}{0.3cm}{} % 
+\titleformat{\subsection}[block]{\sffamily\large}{\thesubsection}{0.3cm}{} %
+\titleformat{\subsubsection}[block]{\sffamily\medium}{\thesubsection}{0.3cm}{} %
+
+%---------------------------------------------
+
+% BIBLIOGRAPHY FORMATTING
+\usepackage[style=nature, refsection=chapter]{biblatex}
+
+
+
+% \usepackage[citestyle=authoryear,refsection=chapter,bibstyle = phys,giveninits=true,maxcitenames=3, minnames = 1,uniquename=false, uniquelist = false]{biblatex}
+% \DeclareFieldFormat{labelnumberwidth}{[#1]  }
+% \DeclareNameAlias{author}{family-given/given-family}
+\addbibresource{thesis_bib.bib}
+
+\defbibenvironment{midbib}
+  {\list
+     {}
+     {\setlength{\leftmargin}{\bibhang}%
+      \setlength{\itemindent}{-\leftmargin}%
+      \setlength{\itemsep}{\bibitemsep}%
+      \setlength{\parsep}{\bibparsep}}}
+  {\endlist}
+  {\item}
+
+% \DeclareCiteCommand{\cite }
+%   {\usebibmacro{prenote}}
+%   {\usebibmacro{citeindex}\printtext[bibhyperref]{\usebibmacro{cite}}}
+%   {\multicitedelim}
+%   {\usebibmacro{postnote}}
+% \let\oldcite\cite
+% \renewcommand*\cite[1]{[\oldcite{#1}]}
+
+%---------------------------------------------
+
+% HYPERLINKS
+\RequirePackage{hyperref}
+\hypersetup{
+     colorlinks = true,
+     linkcolor={linkblue},
+     citecolor={blue},
+     urlcolor={linkred}
+ }
+
+% DRAWING STUFF
+\RequirePackage{pgfplots}
+\usepgfplotslibrary{dateplot}
+\RequirePackage{tikz}
+\pgfplotsset{compat=newest}
+\RequirePackage{multirow}
+%%%%%%%
+\RequirePackage{graphicx}% Include figure files
+\RequirePackage{dcolumn}% Align table columns on decimal point
+\RequirePackage[skip=10pt]{caption}
+\DeclareCaptionLabelSeparator{vert}{$\ \rvert\ $}
+\captionsetup[figure]{labelfont = {bf,sf}, width=\linewidth}%,labelsep=vert}
+\RequirePackage{subcaption}
+\captionsetup[sub]{font=small,labelfont={bf,sf}}
+\newcommand*\mycaption[2]{\caption[#1]{#1#2}}
+\newcommand\numberthis{\addtocounter{equation}{1}\tag{\theequation}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Some custom definitions
+\RequirePackage{accents}
+\newcommand*{\dt}[1]{%
+  \accentset{\mbox{\small\bfseries .}}{#1}}
+\newcommand*{\ddt}[1]{%
+  \accentset{\mbox{\small\bfseries ..}}{#1}}
+\newcommand{\Mod}[1]{\ (\mathrm{mod}\ #1)}
+
+% Custom Underline command
+\RequirePackage{contour}
+\RequirePackage{ulem}
+\renewcommand{\ULdepth}{1.8pt}
+\contourlength{0.8pt}
+\newcommand{\myuline}[1]{%
+  \uline{\phantom{#1}}%
+  \llap{\contour{white}{#1}}%
+
+}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\D}{\mathbb{D}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% BOXES
+\RequirePackage[breakable,skins,xparse]{tcolorbox}
+
+
+\newtcolorbox{goldbox}[1][]
+{
+  noparskip ,
+	boxrule = 0.3pt ,
+	boxsep = 0.1cm , % internal padding,
+  colframe = bordergold,
+  colback  = backgroundgold,
+}
+\newtcolorbox{greybox}[1][]
+{
+  noparskip ,
+	boxrule = 0.3pt ,
+	boxsep = 0.1cm , % internal padding,
+  colframe = bordergrey,
+  colback  = backgroundgrey,
+}
+
+%---------------------------------------------
+
+% MISCELLANEOUS
+\RequirePackage{incgraph} % Embed PDFs in document
+
+
+% COLORS and COLORBOXES
+\definecolor{linkblue}{HTML}{2364AA}
+\definecolor{linkgold}{HTML}{C1900B}
+\definecolor{linkred}{HTML}{B52639}
+
+\definecolor{covergrey}{HTML}{2e303c}
+
+\definecolor{backgroundgold}{rgb}{1.00, 0.93, 0.80}
+\definecolor{backgroundgrey}{rgb}{0.95, 0.95, 0.95}
+\definecolor{bordergold}{HTML}{B58515}
+\definecolor{bordergrey}{HTML}{444444}
+
+\definecolor{backgroundgold} {RGB}{255, 237, 204}
+\definecolor{bordergold}     {RGB}{181, 133, 21 }
+\definecolor{backgroundgrey} {RGB}{242, 242, 242}
+\definecolor{bordergrey}     {RGB}{68 , 68 , 68 }
+\definecolor{backgroundred}  {RGB}{252, 239, 237}
+\definecolor{borderred}      {RGB}{244, 92 , 66 }
+\definecolor{backgroundgreen}{RGB}{244, 255, 234}
+\definecolor{bordergreen}    {RGB}{67,  117, 21 }
+
+
+% Shrug
+\newcommand{\shrug}[1][]{%
+\begin{tikzpicture}[baseline,x=0.8\ht\strutbox,y=0.8\ht\strutbox,line width=0.125ex,#1]
+\def\arm{(-2.5,0.95) to (-2,0.95) (-1.9,1) to (-1.5,0) (-1.35,0) to (-0.8,0)};
+\draw \arm;
+\draw[xscale=-1] \arm;
+\def\headpart{(0.6,0) arc[start angle=-40, end angle=40,x radius=0.6,y radius=0.8]};
+\draw \headpart;
+\draw[xscale=-1] \headpart;
+\def\eye{(-0.075,0.15) .. controls (0.02,0) .. (0.075,-0.15)};
+\draw[shift={(-0.3,0.8)}] \eye;
+\draw[shift={(0,0.85)}] \eye;
+% draw mouth
+\draw (-0.1,0.2) to [out=15,in=-100] (0.4,0.95); 
+\end{tikzpicture}}

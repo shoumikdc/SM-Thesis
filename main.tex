@@ -1,0 +1,132 @@
+\documentclass[12pt]{mitthesis}
+\usepackage{formatting}
+\input{symbols_max.tex}
+\input{symbols}
+
+\begin{document}
+% %%%%% Chapter 0: Title and Preface Material %%%%%%
+% %%%%% Can use \part{} for even higher level sectioning
+
+% % ------------------------------------------------
+% \clearpage
+% \input{Chapters/0_Coverpage}
+% \clearpage
+
+% % Acknowledgements
+% \addcontentsline{toc}{chapter}{Acknowledgements}
+% \chapter*{Acknowledgements}
+% \input{Chapters/0_Acknowledgements}
+% \clearpage
+
+% % Table of Contents
+% \sffamily  
+% \phantomsection
+% \tableofcontents
+% \clearpage
+% % Include \listoffigures and \listoftables here
+% % \addcontentsline{toc}{chapter}{List of Figures}
+
+% \chapter*{List of Symbols}
+% \addcontentsline{toc}{chapter}{List of Symbols}
+% %\input{chapters/list_of_symbols.tex}
+% \clearpage
+% \phantomsection
+% \rmfamily
+
+% %%%%% Chapter 1: Introduction %%%%%%
+% % ------------------------------------------------
+% \input{Chapters/1_Max_Intro_Template}
+% \clearpage
+
+% %%%%% Chapter 2: QEC %%%%%%
+% % ------------------------------------------------
+\input{Chapters/2_Error_Correction}
+\printbibliography[heading=subbibliography, title = References]
+\clearpage
+
+
+%%%%% Appendix A: Resonator Fitting %%%%%%
+% ------------------------------------------------
+\input{Chapters/A_Resonator_Fitting}
+\clearpage
+
+
+
+
+
+
+
+
+%%%%% Bibliography %%%%%%
+% ------------------------------------------------
+\printbibliography[heading=subbibliography, title = References] %, env = midbib]
+\clearpage
+
+\cleardoublepage
+
+\phantomsection
+%\addcontentsline{toc}{chapter}{References}
+
+\sloppy
+\end{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% \chapter[Andreev levels]{Andreev levels\label{ch:al}}
+% \input{chapters/AndreevLevels}
+% \printbibliography[heading=subbibliography, title = References, env = midbib]
+% \clearpage
+
+% \chapter[Probing Andreev levels with cQED]{Probing Andreev levels \newline with cQED\label{ch:al}}
+% \input{chapters/cQED}
+% \printbibliography[heading=subbibliography, title = References, env = midbib]
+% \clearpage
+
+% \chapter[Unlocking the spin of a quasiparticle]{Unlocking the spin of a \newline quasiparticle\label{ch:al}}
+% \input{chapters/ASQ}
+% \printbibliography[heading=subbibliography, title = References, env = midbib]
+% \clearpage
+
+% \chapter{Future directions\label{ch:fd}}
+% \input{chapters/future}
+% \printbibliography[heading=subbibliography, title = References, env = midbib]
+% \clearpage
+
+% \part{The beautiful, messy details}
+
+% \chapter{BCS superconductivity\label{a_bcs}}
+% \input{chapters/BCS}
+% \printbibliography[heading=subbibliography, title = References, env = midbib]
+
+% \chapter[Andreev reflection, Andreev levels, and the Josephson effect]{Andreev reflection, \newline Andreev levels, \newline and the Josephson effect\label{a_andreev}}
+% \input{chapters/andreev}
+% \printbibliography[heading=subbibliography, title = References, env = midbib]
+
+% \chapter[Andreev levels in Josephson nanowires]{Andreev levels in \newline Josephson nanowires\label{a_jnw}}
+% \input{chapters/JosephsonNanowires}
+% \printbibliography[heading=subbibliography, title = References, env = midbib]
+
+% \chapter[What would happen in a topological weak link?]{What would happen in a \newline topological weak link? \label{a_topo}}
+% \input{chapters/topo_junction}
+% \printbibliography[heading=subbibliography, title = References, env = midbib]
+
+% \chapter{The device\label{a_dd}}
+% \input{chapters/device_design}
+% \printbibliography[heading=subbibliography, title = References, env = midbib]
+
+% \chapter[Spectroscopy and dispersive shifts]{Spectroscopy and \newline dispersive shifts\label{a_spec}}
+% \input{chapters/spec_dispersive}
+% \printbibliography[heading=subbibliography, title = References, env = midbib]
+
+% \chapter[Raman transitions of the quasiparticle spin]{Raman transitions of the \newline quasiparticle spin\label{a_ram}}
+% \input{chapters/raman}
+% \printbibliography[heading=subbibliography, title = References, env = midbib]
+
+% \chapter[Interactions of Andreev levels with the environment]{Interactions of Andreev levels \newline with the environment\label{a_ie}}
+% \input{chapters/environment}
+% \printbibliography[heading=subbibliography, title = References, env = midbib]
+
+% \chapter{Unexplained observations\label{a_ue}}
+% \input{chapters/unexplained}
+% \printbibliography[heading=subbibliography, title = References, env = midbib]
+

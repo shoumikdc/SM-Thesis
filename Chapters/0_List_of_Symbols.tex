@@ -1,0 +1,396 @@
+\renewcommand{\arraystretch}{1.4}
+
+{\Large\noindent Acronyms}
+\begin{longtable}{ m{5em} m{29em}}
+AC & alternating current ($\omega>0$)\\
+BCS & Bardeen-Cooper-Schrieffer (theory of superconductivity)\\
+cQED & circuit quantum electrodynamics\\
+DC & direct current ($\omega=0$)\\
+HEMT & high-electron-mobility transistor\\
+QND & quantum non-demolition\\
+SPA & SNAIL parametric amplifier\\
+RF & radio-frequency\\
+\end{longtable}
+\vspace{.2cm}
+
+{\Large\noindent Physical constants}
+\vspace{-.2cm}
+\begin{longtable}{ m{5em} m{29em}}
+$h$ & Planck's constant \\
+$\hbar$ & reduced Planck's constant ($= h / 2\pi$)\\
+$e$ & charge of an electron\\
+$m_e$ & mass of an electron\\
+$c$ & speed of light\\
+$\Phi_0$ & magnetic flux quantum ($=h/2e$)\\
+$k_\mathrm{B}$ & Boltzmann constant\\
+$\mu_\mathrm{B}$ & Bohr magneton\\
+$R_q$ & superconducting resistance quantum ($=h/(2e)^2$)\\
+$G_q$ & superconducting conductance quantum ($=1/R_q$) \\
+$g$ & electron $g$-factor \\
+\end{longtable}
+\vspace{.2cm}
+
+{\Large\noindent Electron variables}
+\vspace{-.2cm}
+\begin{longtable}{ m{5em} m{29em}}
+$k$ & electronic momentum \\
+$\vf$ & Fermi velocity \\
+$\kf$ & Fermi wavenumber \\
+$\mu$ & chemical potential \\
+$E$ & single-particle energy: excitation picture \\
+\end{longtable}
+\vspace{.2cm}
+
+{\Large\noindent Microwave variables}
+\vspace{-.2cm}
+\begin{longtable}{ m{5em} m{29em}}
+$f$ & microwave frequency \\
+$\omega$ & angular microwave frequency \\
+$\beta$ & wavenumber  \\
+$\lambda$ & wavelength\\
+$c_\mathrm{eff}$ & speed of light on transmission line \\
+$Z_0$ & transmission line characteristic impedance \\
+\end{longtable}
+\vspace{.2cm}
+
+{\Large\noindent Bias knobs}
+\vspace{-.2cm}
+\begin{longtable}{ m{5em} m{29em}}
+$\Phi$ & magnetic flux  \\
+$V_0$ & electrostatic voltage  \\
+$\Vg$ & cutter gate voltage  \\
+$\Vnw$ & plunger gate voltage  \\
+$V_\mathrm{rms}$ & RMS voltage noise \\
+$B_\perp$ & magnetic field perpendicular to the substrate\\
+\end{longtable}
+\vspace{.2cm}
+
+{\Large\noindent Andreev levels: general}
+\vspace{-.2cm}
+\begin{longtable}{ m{5em} m{29em}}
+$\Delta$ & superconducting gap \\
+$\varphi$ & superconducting phase  \\
+$\rA$ & Andreev reflection coefficient \\
+$\pA$ & Andreev reflection phase \\
+$\HA$ & weak link Hamiltonian\\
+\end{longtable}
+\vspace{.2cm}
+
+{\Large\noindent Weak link properties}
+\vspace{-.2cm}
+\begin{longtable}{ m{5em} m{29em}}
+$L$ & weak link length \\
+$\xi_0$ & coherence length ($=\hbar \vf/\Delta$) \\
+$r$ & reflection coefficient \\
+$\phi_r$ & reflection phase ($=\mathrm{Arg}(r)$) \\
+$\tau$ & channel transparency ($=1 - |r|^2$) \\
+\end{longtable}
+\vspace{.2cm}
+
+{\Large\noindent Andreev levels: short junction regime}
+\vspace{-.2cm}
+\begin{longtable}{ m{5em} m{29em}}
+$\g$ & ground state \\
+$\down$ & one quasiparticle, spin down \\
+$\up$ & one quasiparticle, spin up \\
+$\e$ & two quasiparticles \\
+$\EA$ & level energy: excitation picture \\
+$\fp$ & frequency of pair transition $\g \leftrightarrow \e$ ($= 2 \EA/h$) \\
+\end{longtable}
+\vspace{.2cm}
+
+{\Large\noindent Andreev levels: long Josephson nanowires}
+\vspace{-.2cm}
+\begin{longtable}{ m{5em} m{29em}}
+$\g$ & ground state \\
+$\oa$ &  one quasiparticle in lower doublet, spin down\\
+$\ob$ &  one quasiparticle in lower doublet, spin up\\
+$\oc$ &  one quasiparticle in upper doublet, spin up\\
+$\oD$ &  one quasiparticle in upper doublet, spin down\\
+$\coa{P_\downarrow}$ & occupation probability of $\oa$ \\
+$\cob{P_\uparrow}$ & occupation probability of $\ob$ \\
+$E_{n,\pm}$ & ballistic energies of a long junction, $n \in \mathbb{Z}$ \\
+$\es$ & energy splitting between $\oa$ and $\ob$ \\
+$E_\mathrm{Z}$ & Zeeman energy\\
+$f_{ss'}$ & inter-doublet transition frequencies, $s,s' \in \{ \coa{\downarrow}, \cob{\uparrow}, \coc{\uparrow}, \cod{\downarrow}\}$ \\
+$\omega_{ss'}$ & inter-doublet angular transition frequencies, $s,s' \in \{ \coa{\downarrow}, \cob{\uparrow}, \coc{\uparrow}, \cod{\downarrow}\}$ \\
+\end{longtable}
+\vspace{.2cm}
+
+{\Large\noindent Timescales}
+\vspace{-.2cm}
+\begin{longtable}{ m{5em} m{29em}}
+$\tp$ & parity lifetime \\
+$\ts$ & spin lifetime \\
+$T_{aq,\uparrow}$ & interdoublet-decay rate, spin up \\
+$T_{aq,\downarrow}$ & interdoublet-decay rate, spin down \\
+$T_1$ & qubit energy lifetime \\
+$T_\phi$ & pure dephasing lifetime \\
+$T_{2}$ & coherence lifetime \\
+$T_{2\mathrm{R}}$ & coherence lifetime measured with Ramsey sequence \\
+$T_{2\mathrm{E}}$ & coherence lifetime measured with a Hahn-echo sequence \\
+\end{longtable}
+\vspace{.2cm}
+
+{\Large\noindent Microwave resonators}
+\vspace{-.2cm}
+\begin{longtable}{ m{5em} m{29em}}
+$\fr$ & resonator frequency \\
+$\wres$ & angular resonator frequency \\
+$\Zr$ & resonator impedance \\
+$\kc$ & angular decay frequency to transmission line \\
+$\ki$ & angular decay frequency to ``internal'' of freedom \\
+$\ell$ & coplanar strip resonator length \\
+\end{longtable}
+\vspace{.2cm}
+
+{\Large\noindent Readout}
+\vspace{-.2cm}
+\begin{longtable}{ m{5em} m{29em}}
+$\omega_\mathrm{ro}$ & readout frequency \\
+$\Gamma$ & resonator reflection coefficient \\
+$I$, $Q$ & real and imaginary parts of $\Gamma$ ($I = \mathrm{Re}(\Gamma)$, $Q = \mathrm{Im}(\Gamma)$) \\
+$\theta$ & angle of $\Gamma$ ($= \mathrm{Arg}(\Gamma)$) \\
+$\sigma$ & standard deviation of $\Gamma$ \\
+$\mathcal{F}$ & readout fidelity \\
+\end{longtable}
+\vspace{.2cm}
+
+{\Large\noindent General cQED}
+\vspace{-.2cm}
+\begin{longtable}{ m{5em} m{29em}}
+$\wq$ & angular qubit frequency \\
+$\sigma_i$ & pauli matrices, $i \in \{ x,y,z,+,-\}$ \\
+$a$, $a^\dagger$ & photonic creation and annihilator operators \\
+$n$ & number of photons \\
+$\Hc$ & system/resonator coupling Hamiltonian \\
+$\gc$ & qubit/resonator coupling \\
+$g_{ij}$ & multilevel-system/resonantor coupling \\
+$\chi$ & dispersive shift \\
+$\HJC$ & Jaynes-Cummings Hamiltonian \\
+$\epsilon_{n,\sigma}$ & joint qubit/resonator energy $\sigma \in \{+1, -1\}$ \\
+$H_\mathrm{dispersive}$ & dispersive Hamiltonian \\
+\end{longtable}
+\vspace{.2cm}
+
+{\Large\noindent Andreev level/microwave coupling}
+\vspace{-.2cm}
+\begin{longtable}{ m{5em} m{29em}}
+$\JA$ & weak link current operator\\
+$\IA$ & average level current \\
+$\Lin$ & weak link inverse inductance operator\\
+$\phi$ & RF flux drive amplitude over shared inductance \\
+$p$ & participation ratio of shared inductance \\
+$\Pzpf$ & resonator zero-point flux fluctuations ($=\sqrt{\hbar \Zr/2}$) \\
+$\Phir$ & zero-point flux fluctuations over shared inductance ($=p \Pzpf$) \\
+$Z_L$ & shared inductance impedance \\
+$\Gamma_L$ & shared inductance reflection coefficient \\
+$\coa{\chi_\downarrow}$ & $\chi$ of $\oa$ \\
+$\cob{\chi_\uparrow}$ & $\chi$ of $\ob$ \\
+\end{longtable}
+\vspace{.2cm}
+
+{\Large\noindent Microwave drives}
+\vspace{-.2cm}
+\begin{longtable}{ m{5em} m{29em}}
+$\fd$ & drive frequency \\
+$\omega_\mathrm{d}$ & angular drive frequency \\
+$A$ & normalized pulse amplitude \\
+$\tau$ & inter-pulse delay \\
+\end{longtable}
+\vspace{.2cm}
+
+{\Large\noindent Raman transitions}
+\vspace{-.2cm}
+\begin{longtable}{ m{5em} m{29em}}
+$f_s$ & frequency of spin $s$ drive \\
+$\omega_s$ & angular frequency of spin $s$ drive \\
+$A_s$ & normalized amplitude of spin $s$ drive \\
+$\DR$ & detuning of drives from $\ket{s_q}\leftrightarrow\oc$ \\
+$\DR'$ & detuning of drives from $\ket{s_q}\leftrightarrow\oD$ \\
+$\delta$ & detuning of drives from virtual level \\
+$\Omega_s$ & rabi rate of  spin $s$ drive \\
+$M_{s s'}$ & inter-doublet drive matrix elements, $s,s' \in \{ \coa{\downarrow}, \cob{\uparrow}, \coc{\uparrow}, \cod{\downarrow}\}$ \\ 
+$\delta_\mathrm{eff}$ & effective detuning of Raman qubit \\
+$\Omega_\mathrm{eff}$ & effective Rabi rate of Raman qubit \\
+$H_\mathrm{r}$ & transformation Hamiltonian \\
+$\gamma_\mathrm{de-trap}$ & drive-induced quasiparticle de-trapping rate \\
+\end{longtable}
+\vspace{.2cm}
+
+\clearpage
+
+{\huge \noindent Chapters 6, 7, 8, and 9}
+
+\vspace{4mm}
+
+\noindent \textit{These chapters are a bit notation heavy, a lot of which isn't used elsewhere in the thesis. As such, it's grouped separately. For some symbols involving electrons and holes, we will use color as the sole differentiator. 
+For example, $\eC{k}$ is the wavenumber of an electron-like Bogoliubon, while $\hC{k}$ is the wavenumber of a hole-like Bogoliubon.}
+
+\vspace{4mm}
+
+{\Large\noindent Electron variables}
+\vspace{-.2cm}
+\begin{longtable}{ m{5em} m{29em}}
+$k$ & electronic momentum \\
+$s$ & electronic spin \\
+$\vf$ & Fermi velocity \\
+$\kf$ & Fermi wavenumber \\
+$\mu$ & chemical potential \\
+$\mathcal{E}_k$ & kinetic energy ($=\hbar^2 k^2/2 m_e - \mu$) \\
+$\psi_{s}(x)$ & electron annihilation operator, position $x$ and spin $s$ \\
+$c_{k,s}$ & electron annihilation operator, momentum $\hbar k$ and spin $s$ \\
+$H$ & 1D free-electron Hamiltonian \\
+$\nu_\mathrm{N}$ & normal density of states \\
+\end{longtable}
+\vspace{.2cm}
+
+{\Large\noindent BCS: general}
+\vspace{-.2cm}
+\begin{longtable}{ m{5em} m{29em}}
+$p$ & electron pair correlation ($= \langle \boldsymbol{\psi}_s^\dagger(x)\boldsymbol{\psi}_{\overline{s}}^\dagger(x) \rangle$) \\
+$V$ & strength of electron-electron attraction \\
+$\varphi$ & superconducting phase  ($=-\mathrm{Arg}(p)$)\\
+$\Delta$ & BCS gap ($=pV$) \\
+$H_\mathrm{BCS}$ & 1D BCS Hamiltonian\\
+$\xi_0$ & coherence length ($=\hbar \vf/\Delta$) \\
+$\nu_\mathrm{S}$ & superconducting density of states \\
+$\ket{g_\varphi}$ & superconducting ground state, phase $\varphi$ \\
+$\ket{N}$ & superconducting ground state, $N$ Cooper pairs \\
+\end{longtable}
+\vspace{.2cm}
+
+{\Large\noindent BCS: one-particle picture}
+\vspace{-.2cm}
+\begin{longtable}{ m{5em} m{29em}}
+$\epsilon$ & single-particle energy\\
+$\eC{c_{k}^{}}$ & electron annihilation operator, momentum $\hbar k$ ($= c_{k,s}^{}$) \\
+$\hC{h_{k}^{}}$ & hole annihilation operator, momentum $\hbar k$ ($= c_{-k,\overline{s}}^\dagger$) \\
+$\Psi_k$ & electron/hole spinor, momentum $\hbar k$ ($= \big(\begin{smallmatrix}\eC{c_{k}} \\
+\hC{h_{k}}\end{smallmatrix}\big)$) \\
+$\sigma_i$ & Pauli matrices acting in electron-hole space, $i \in \{x, y, z\}$ \\
+$U_k$ & unitary diagonalization matrix, fixed momentum $\hbar k$ \\
+$\gamma_{k,\pm}^{}$ & Bogoliubon annihilation operator, energy $\pm \epsilon_k$ \\
+$\eC{\gamma_{\pm, \rightarrow}^{}}$ & electron-like Bogoliubon, $k >0$ \\
+$\eC{\gamma_{\pm, \leftarrow}^{}}$ & electron-like Bogoliubon, $k <0$ \\
+$\hC{\gamma_{\pm, \rightarrow}^{}}$ & hole-like Bogoliubon, $k >0$ \\
+$\hC{\gamma_{\pm, \leftarrow}^{}}$ & hole-like Bogoliubon, $k <0$ \\
+$u_k,v_k$ & coherence factors, momentum $\hbar k$ \\
+$\psi_\pm$ & Bogoliubon wavefunction, energy $\pm \epsilon_k$ \\
+$\eC{u}$ & electron amplitude, electron-like Bogoliubon \\
+$\eC{v}$ & hole amplitude, electron-like Bogoliubon \\
+$\eC{k}$ & wavenumber, electron-like Bogoliubon \\
+$\eC{\psi_\rightarrow}$ & wavefunction, $k >0$ electron-like Bogoliubon\\
+$\eC{\psi_\leftarrow}$ & wavefunction, $k <0$ electron-like Bogoliubon\\
+$\hC{u}$ & electron amplitude, hole-like Bogoliubon \\
+$\hC{v}$ & hole amplitude, hole-like Bogoliubon \\
+$\hC{k}$ & wavenumber, electron-like Bogoliubon \\
+$\hC{\psi_\rightarrow}$ & wavefunction, $k >0$ hole-like Bogoliubon\\
+$\hC{\psi_\leftarrow}$ & wavefunction, $k <0$ hole-like Bogoliubon\\
+\end{longtable}
+\vspace{.2cm}
+
+{\Large\noindent BCS: excitation picture}
+\vspace{-.2cm}
+\begin{longtable}{ m{5em} m{29em}}
+$E$ & single-particle energy \\
+$\gamma_{k,s}^{}$ & Bogoliubon annihilation operator, spin $s$ \\
+\end{longtable}
+\vspace{.2cm}
+
+{\Large\noindent BCS: semiconductor picture}
+\vspace{-.2cm}
+\begin{longtable}{ m{5em} m{29em}}
+$\tilde{E}$ & single-particle energy \\
+$\sigma_i$ & Pauli matrices acting in electron-hole space, $i \in \{x, y, z\}$ \\
+$s_i$ & Pauli matrices acting in spin space, $i \in \{x, y, z\}$ \\
+$\eC{c_{k,s}^{}}$ & electron annihilation operator, momentum $\hbar k$ and spin $s$ ($= c_{k,s}^{}$) \\
+$\hC{h_{k,s}^{}}$ & hole annihilation operator, momentum $\hbar k$ and spin $s$ ($= c_{-k,\overline{s}}^\dagger$) \\
+$\Upsilon_k$ & electron/hole spinor, momentum $\hbar k$ \\
+$\psi_i$ & Bogoliubon wavefunction, $i \in \{1, 2, 3, 4\}$ \\
+$\mathcal{P}$ & electron-hole symmetry operator \\
+$K$ & complex-conjugation operator \\
+
+\end{longtable}
+\vspace{.2cm}
+
+{\Large\noindent Andreev reflection}
+\vspace{-.2cm}
+\begin{longtable}{ m{5em} m{29em}}
+$\rA$ & Andreev reflection coefficient \\
+$\pA$ & Andreev reflection phase ($=\mathrm{Arg}(\rA)$) \\
+$\eC{\psi_{\rightarrow, N}}$ & wavefunction, electron-like Bogoliubon in normal region $k >0$\\
+$\hC{\psi_{\rightarrow, N}}$ & wavefunction, hole-like Bogoliubon in normal region $k >0$\\
+$\eC{\psi_{\rightarrow, S}}$ & wavefunction, electron-like Bogoliubon in superconductor $k >0$\\
+$\psi_{\mathrm{A}}(x)$ & wavefunction, Andreev reflection process\\
+$\xi$ & energy-dependent coherence length \\
+$\eA$ & short-junction level energy: one-particle picture \\
+$c_\mathrm{in}$ & incoming electron annihilation operator  \\
+$h_\mathrm{in}$ & incoming hole annihilation operator  \\
+$\Psi_\mathrm{in}$ & incoming electron-hole spinor \\
+$c_\mathrm{out}$ & outgoing electron annihilation operator  \\
+$h_\mathrm{out}$ & outgoing hole annihilation operator  \\
+$\Psi_\mathrm{out}$ & outgoing electron-hole spinor \\
+$S_\mathrm{A}$ & Andreev scattering matrix \\
+\end{longtable}
+\vspace{.2cm}
+
+{\Large\noindent Normal region properties}
+\vspace{-.2cm}
+\begin{longtable}{ m{5em} m{29em}}
+$S_\mathrm{N}$ & scattering matrix \\
+$S_\mathrm{e,s}$ & electron scattering matrix, spin $s$ \\
+$S_\mathrm{h,s}$ & hole scattering matrix, spin $s$ \\
+$L$ & length \\
+$\pp$ & propagation phase \\
+$r$ & reflection amplitude \\
+$t$ & transmission amplitude \\
+$\tau$ & channel transparency ($= |t|^2 = 1 - |r|^2$) \\
+$x_0$ & single-scatterer model, scatterer position \\
+$\varepsilon_\pm$ & double-barrier model, normalized energies \\
+$r_i$ & double-barrier model, reflection amplitude $i \in \{\mathrm{L}, \mathrm{R} \}$ \\
+$t_i$ & double-barrier model, transmission amplitude $i \in \{\mathrm{L}, \mathrm{R} \}$ \\
+$t_\mathrm{DB}$ & double-barrier model, full transmission amplitude \\
+$t_\mathrm{RL}$ & resonant-level model, full transmission amplitude \\
+$\Gamma_i$ & resonant-level model, lead coupling $i \in \{\mathrm{L}, \mathrm{R} \}$ \\
+$\Gamma$ & resonant-level model, total lead coupling ($=\Gamma_\mathrm{L} + \Gamma_\mathrm{R}$) \\
+$E_\mathrm{r}$ & resonant-level model, level energy \\
+\end{longtable}
+\vspace{.2cm}
+
+{\Large\noindent Spin-orbit coupling}
+\vspace{-.2cm}
+\begin{longtable}{ m{5em} m{29em}}
+$H_\mathrm{SO}$ & spin-orbit coupling Hamiltonian \\
+$\sigma_i$ & Pauli matrices in spin space, $i \in \{x, y, z\}$ \\
+$\mathbf{p}$ & 3D electron momentum \\
+$\mathbf{E_\mathrm{nuc}}$ & electric field produced by nucleus \\
+$\mathbf{B}_\mathrm{SO}$ & spin-orbit-induced effective magnetic field \\
+$g$ & $g$-factor \\
+$H_\mathrm{R}$ & Rashba Hamiltonian \\
+$E$ & homogeneous crystal electric field \\
+$\alpha$ & spin-orbit coupling strength \\
+$\omega$ & frequency between nanowire sub-bands \\
+$\pps$ & propagation phase, slow \\
+$\ppf$ & propagation phase, fast \\
+$\vfs$ & Fermi velocity, slow \\
+$\vff$ & Fermi velocity, fast \\
+$\kfs$ & Fermi wavenumber, slow \\
+$\kff$ & Fermi wavenumber, fast \\
+$\varepsilon_\mathrm{1}$ & double-barrier model, slow normalized energy \\
+$\varepsilon_\mathrm{2}$ & double-barrier model, fast normalized energy \\
+\end{longtable}
+\vspace{.2cm}
+
+{\Large\noindent Josephson effect}
+\vspace{-.2cm}
+\begin{longtable}{ m{5em} m{29em}}
+$E_\mathrm{J}$ & Josephson energy \\
+$L_\mathrm{J}$ & Josephson inductance \\
+$R_\mathrm{N}$ & normal-state resistance \\
+$G_\mathrm{N}$ & normal-state conductance \\
+\end{longtable}
+\vspace{.2cm}
+
+
+\renewcommand{\arraystretch}{1}
