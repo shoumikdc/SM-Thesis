@@ -44,6 +44,9 @@
 \RequirePackage{stmaryrd}
 \RequirePackage{mathrsfs} % Math Fonts
 \RequirePackage{bm} % Bold Math
+\let\myhbar\hbar
+\let\h\hbar
+\DeclareMathOperator{\Tr}{Tr}
 
 % Physics | unfortunately the physics package is not recommended
 % among latex users. So, we manually implement the commands here.
@@ -57,11 +60,11 @@
 \DeclarePairedDelimiter{\ket}{\lvert}{\rangle}%
 \DeclarePairedDelimiterX\ip[2]{\langle}{\rangle}{#1\delimsize\vert\mathopen{}#2}%
 \DeclarePairedDelimiterX\braket[2]{\langle}{\rangle}{#1\delimsize\vert\mathopen{}#2}%
-\DeclarePairedDelimiterX\mel[3]{\langle}{\rangle}{#1\delimsize\vert\,\mathopen{}#2\,\delimsize\vert\mathopen{}#3}%
+\DeclarePairedDelimiterX\mel[3]{\langle}{\rangle}{#1\delimsize\vert\mathopen{}#2\delimsize\vert\mathopen{}#3}%
 \DeclarePairedDelimiterX\ketbra[2]{\lvert}{\rvert}{#1\delimsize\rangle\!\delimsize\langle#2}%
 \DeclarePairedDelimiterX\op[2]{\lvert}{\rvert}{#1\delimsize\rangle\!\delimsize\langle#2}%
 \DeclarePairedDelimiterX\proj[1]{\lvert}{\rvert}{#1\delimsize\rangle\!\delimsize\langle#1}%
-
+\DeclarePairedDelimiterX\ev[1]{\langle}{\rangle}{#1}%
 
 % Usual (decimal) section numbering
 \renewcommand{\thesection}{\arabic{section}}
@@ -110,6 +113,7 @@ ItalicFont=NewsGothicMT-Italic.ttf, BoldItalicFont=palabi.ttf]{NewsGothicMT.ttf}
 \renewcommand\cftbeforelottitleskip{-1cm}
 \RequirePackage{microtype} % Slightly tweak font spacing for aesthetics; very useful!
 
+
 %%%% HEADERS and FOOTERS
 \RequirePackage{lastpage} % Get Last Page # 
 \RequirePackage{fancyhdr} % Headers and footers
@@ -134,41 +138,16 @@ ItalicFont=NewsGothicMT-Italic.ttf, BoldItalicFont=palabi.ttf]{NewsGothicMT.ttf}
 \titlespacing*{name=\chapter}{0pt}{-100pt}{10pt}
 \titlespacing*{name=\chapter,numberless}{0pt}{-40pt}{10pt}
 
- 
-
 \titleformat{\section}[block]{\sffamily\Large}{\thesection}{0.3cm}{} % 
 \titleformat{\subsection}[block]{\sffamily\large}{\thesubsection}{0.3cm}{} %
 \titleformat{\subsubsection}[block]{\sffamily\medium}{\thesubsection}{0.3cm}{} %
+\counterwithin{section}{chapter}
 
 %---------------------------------------------
 
 % BIBLIOGRAPHY FORMATTING
-\usepackage[style=nature, refsection=chapter]{biblatex}
-
-
-
-% \usepackage[citestyle=authoryear,refsection=chapter,bibstyle = phys,giveninits=true,maxcitenames=3, minnames = 1,uniquename=false, uniquelist = false]{biblatex}
-% \DeclareFieldFormat{labelnumberwidth}{[#1]  }
-% \DeclareNameAlias{author}{family-given/given-family}
-\addbibresource{thesis_bib.bib}
-
-\defbibenvironment{midbib}
-  {\list
-     {}
-     {\setlength{\leftmargin}{\bibhang}%
-      \setlength{\itemindent}{-\leftmargin}%
-      \setlength{\itemsep}{\bibitemsep}%
-      \setlength{\parsep}{\bibparsep}}}
-  {\endlist}
-  {\item}
-
-% \DeclareCiteCommand{\cite }
-%   {\usebibmacro{prenote}}
-%   {\usebibmacro{citeindex}\printtext[bibhyperref]{\usebibmacro{cite}}}
-%   {\multicitedelim}
-%   {\usebibmacro{postnote}}
-% \let\oldcite\cite
-% \renewcommand*\cite[1]{[\oldcite{#1}]}
+\usepackage[style=phys, refsection=chapter, biblabel=brackets, giveninits=true, maxcitenames=3, minnames = 1]{biblatex}
+\addbibresource{bibliography.bib}
 
 %---------------------------------------------
 
@@ -176,7 +155,7 @@ ItalicFont=NewsGothicMT-Italic.ttf, BoldItalicFont=palabi.ttf]{NewsGothicMT.ttf}
 \RequirePackage{hyperref}
 \hypersetup{
      colorlinks = true,
-     linkcolor={linkblue},
+     linkcolor={red},
      citecolor={blue},
      urlcolor={linkred}
  }
@@ -206,10 +185,11 @@ ItalicFont=NewsGothicMT-Italic.ttf, BoldItalicFont=palabi.ttf]{NewsGothicMT.ttf}
 \newcommand*{\ddt}[1]{%
   \accentset{\mbox{\small\bfseries ..}}{#1}}
 \newcommand{\Mod}[1]{\ (\mathrm{mod}\ #1)}
+\newcommand\floor[1]{\lfloor#1\rfloor}
 
 % Custom Underline command
 \RequirePackage{contour}
-\RequirePackage{ulem}
+\RequirePackage[normalem]{ulem}
 \renewcommand{\ULdepth}{1.8pt}
 \contourlength{0.8pt}
 \newcommand{\myuline}[1]{%

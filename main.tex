@@ -3,6 +3,10 @@
 \input{symbols_max.tex}
 \input{symbols}
 
+% To-Do: Marked in Red
+\newcommand{\todo}[1]{\textcolor{red}{\textsc{To-do:} #1}} % 
+
+
 \begin{document}
 % %%%%% Chapter 0: Title and Preface Material %%%%%%
 % %%%%% Can use \part{} for even higher level sectioning
@@ -19,38 +23,52 @@
 % \clearpage
 
 % % Table of Contents
-% \sffamily  
-% \phantomsection
-% \tableofcontents
-% \clearpage
-% % Include \listoffigures and \listoftables here
-% % \addcontentsline{toc}{chapter}{List of Figures}
+\sffamily  
+\phantomsection
+\tableofcontents
+\clearpage
+% Include \listoffigures and \listoftables here
+% \addcontentsline{toc}{chapter}{List of Figures}
 
 % \chapter*{List of Symbols}
 % \addcontentsline{toc}{chapter}{List of Symbols}
-% %\input{chapters/list_of_symbols.tex}
+% This seems painful to document.
+% % \input{chapters/list_of_symbols.tex}
 % \clearpage
 % \phantomsection
-% \rmfamily
+\rmfamily
 
 % %%%%% Chapter 1: Introduction %%%%%%
 % % ------------------------------------------------
-% \input{Chapters/1_Max_Intro_Template}
-% \clearpage
+\chapter{Introduction\label{ch:1_Introduction}}
+\input{Chapters/1_Introduction}
+\printbibliography[heading=subbibliography, title = References]
+\clearpage
 
 % %%%%% Chapter 2: QEC %%%%%%
 % % ------------------------------------------------
+\chapter{Quantum Error Correction with GKP Codes\label{ch:2_QEC}}
 \input{Chapters/2_Error_Correction}
 \printbibliography[heading=subbibliography, title = References]
 \clearpage
 
+% %%%%% Chapter 3: cQED %%%%%%
+% % ------------------------------------------------
+\chapter{Circuit QED\label{ch:3_cQED}}
+\clearpage
 
 %%%%% Appendix A: Resonator Fitting %%%%%%
 % ------------------------------------------------
-\input{Chapters/A_Resonator_Fitting}
-\clearpage
+% \appendix
+% \chapter{Appendix: Resonator Fitting\label{ch:AppA}}
+% \input{Chapters/A_Resonator_Fitting}
+% \clearpage
 
-
+%%%%% Appendix B: Making 3D Cavities %%%%%%
+% ------------------------------------------------
+% \chapter{Appendix: Fabricating High-Q 3D Cavities \label{ch:AppB}}
+% \input{Chapters/B_Etching}
+% \clearpage
 
 
 
@@ -59,7 +77,7 @@
 
 %%%%% Bibliography %%%%%%
 % ------------------------------------------------
-\printbibliography[heading=subbibliography, title = References] %, env = midbib]
+\printbibliography[heading=subbibliography, title = References]
 \clearpage
 
 \cleardoublepage

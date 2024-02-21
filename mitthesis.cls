@@ -284,7 +284,7 @@ reserved.\par\permission}}
 \@prevdegrees
 \vspace{20pt}
 \par
-\choosecase{Submitted to the} \choosecase{\@department} \\
+\choosecase{Submitted to the} \choosecase{\@department}
 \choosecase{in partial fulfillment of the requirements for the}
 \choosecase{\@degreeword} 
 \choosecase{of}
@@ -302,7 +302,7 @@ reserved.\par\permission}}
 \vfill
 \unvbox\@titlesupervisor
 \par
-\vfill
+\vskip 8pt
 \signature{Accepted by}{\@chairmanname \\ \@chairmantitle}
 \vfill
 \end{titlepage}}
