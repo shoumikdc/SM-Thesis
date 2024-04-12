@@ -43,7 +43,6 @@
 \RequirePackage{mathtools}
 \RequirePackage{stmaryrd}
 \RequirePackage{mathrsfs} % Math Fonts
-\RequirePackage{bm} % Bold Math
 \let\myhbar\hbar
 \let\h\hbar
 \DeclareMathOperator{\Tr}{Tr}
@@ -75,7 +74,7 @@
 
 %%%% FONTS
 \RequirePackage[T1]{fontenc}
-\usepackage{fontspec}
+\RequirePackage[no-math]{fontspec}
 \defaultfontfeatures[\sffamily]{Scale = 0.95}
 \usepackage{xltxtra}
 \setsansfont{Fonts/Helvetica.ttc}[
@@ -111,11 +110,11 @@ ItalicFont=NewsGothicMT-Italic.ttf, BoldItalicFont=palabi.ttf]{NewsGothicMT.ttf}
 \renewcommand\cftbeforetoctitleskip{-10pt}
 \renewcommand\cftbeforeloftitleskip{-1cm}
 \renewcommand\cftbeforelottitleskip{-1cm}
-\RequirePackage{microtype} % Slightly tweak font spacing for aesthetics; very useful!
+% \RequirePackage{microtype} % Slightly tweak font spacing for aesthetics; very useful!
 
 
 %%%% HEADERS and FOOTERS
-\RequirePackage{lastpage} % Get Last Page # 
+% \RequirePackage{lastpage} % Get Last Page # 
 \RequirePackage{fancyhdr} % Headers and footers
 \pagestyle{fancy} % All pages have headers and footers
 \renewcommand{\headrulewidth}{0pt}
@@ -148,7 +147,7 @@ ItalicFont=NewsGothicMT-Italic.ttf, BoldItalicFont=palabi.ttf]{NewsGothicMT.ttf}
 % BIBLIOGRAPHY FORMATTING
 \usepackage[style=phys, refsection=chapter, biblabel=brackets, giveninits=true, maxcitenames=3, minnames = 1]{biblatex}
 \addbibresource{bibliography.bib}
-
+\appto\bibfont{\setlength{\emergencystretch}{.5em}}
 %---------------------------------------------
 
 % HYPERLINKS
@@ -229,7 +228,8 @@ ItalicFont=NewsGothicMT-Italic.ttf, BoldItalicFont=palabi.ttf]{NewsGothicMT.ttf}
 
 % MISCELLANEOUS
 \RequirePackage{incgraph} % Embed PDFs in document
-
+\SetSymbolFont{stmry}{bold}{U}{stmry}{m}{n}
+\RequirePackage{bm} % Bold Math
 
 % COLORS and COLORBOXES
 \definecolor{linkblue}{HTML}{2364AA}

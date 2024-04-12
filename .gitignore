@@ -1,0 +1,21 @@
+# LaTeX auxiliary files
+*.aux
+*.log
+*.out
+*.toc
+*.gz
+*.bbl
+*.blg
+*.bcf
+*.xml
+*.synctex.gz
+*.fdb_latexmk
+*.fls
+*.dvi
+
+# Build directories
+_build/
+dist/
+
+# VSCode settings
+.vscode/
