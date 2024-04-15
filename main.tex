@@ -7,159 +7,85 @@
 \newcommand{\todo}[1]{\textcolor{red}{\textsc{To-do:} #1}} % 
 
 
+% \includeonly{Chapters/5_Next_Steps_in_2D}
+
+
 \begin{document}
 % %%%%% Chapter 0: Title and Preface Material %%%%%%
 % %%%%% Can use \part{} for even higher level sectioning
 
-% % ------------------------------------------------
-% \clearpage
-% \input{Chapters/0_Coverpage}
-% \clearpage
+%% Cover Page 
+\clearpage
+\include{Chapters/0_Coverpage}
+\clearpage
 
-% % Acknowledgements
-% \addcontentsline{toc}{chapter}{Acknowledgements}
-% \chapter*{Acknowledgements}
-% \input{Chapters/0_Acknowledgements}
-% \clearpage
+%% Acknowledgements
+\addcontentsline{toc}{chapter}{Acknowledgements}
+\include{Chapters/0_Acknowledgements}
+\clearpage
 
-% % Table of Contents
+%% Table of Contents
 \sffamily  
 \phantomsection
 \tableofcontents
 \clearpage
 % Include \listoffigures and \listoftables here
-% \addcontentsline{toc}{chapter}{List of Figures}
+\addcontentsline{toc}{chapter}{List of Figures}
 
-% \chapter*{List of Symbols}
-% \addcontentsline{toc}{chapter}{List of Symbols}
-% This seems painful to document.
-% % \input{chapters/list_of_symbols.tex}
-% \clearpage
-% \phantomsection
+\chapter*{List of Symbols}
+\addcontentsline{toc}{chapter}{List of Symbols}
+This seems painful to document.
+\include{chapters/0_List_of_Symbols}
+\clearpage
+\phantomsection
 \rmfamily
+% % ------------------------------------------------
 
 % %%%%% Chapter 1: Introduction %%%%%%
-% % ------------------------------------------------
-\chapter{Introduction\label{ch:1_Introduction}}
-% \input{Chapters/1_Introduction}
-% \printbibliography[heading=subbibliography, title = References]
-\clearpage
-
-% %%%%% Chapter 2: QEC %%%%%%
-% % ------------------------------------------------
-\chapter{Quantum Error Correction with GKP Codes\label{ch:2_QEC}}
-% \input{Chapters/2_Error_Correction}
-% \printbibliography[heading=subbibliography, title = References]
-\clearpage
-
-% %%%%% Chapter 3: cQED %%%%%%
-% % ------------------------------------------------
-\chapter{Review of Circuit QED with Fluxonium\label{ch:3_cQED}}
-% \input{Chapters/3_Circuit_QED}
-\clearpage
-
-% %%%%% Chapter 4: 3D GKP Project %%%%%%
-% % ------------------------------------------------
-\chapter{Fluxonium in a 3D Cavity: Experiments\label{ch:4_3DGKP}}
-\input{Chapters/4_GKP_3D_Experiment}
-
-\clearpage
-
-
-
-% %%%%% Chapter 5: Next Steps and 2D GKP %%%%%%
-% \chapter{Next Steps and Move to 2D\label{ch:5_2DGKP}}
-
-
-%%%%% Appendix A: Resonator Fitting %%%%%%
-% ------------------------------------------------
-% \appendix
-% \chapter{Appendix: Resonator Fitting\label{ch:AppA}}
-% \input{Chapters/A_Resonator_Fitting}
-% \clearpage
-
-%%%%% Appendix B: Making 3D Cavities %%%%%%
-% ------------------------------------------------
-% \chapter{Appendix: Fabricating High-Q 3D Cavities \label{ch:AppB}}
-% \input{Chapters/B_Etching}
-% \clearpage
-
-
-
-
-
-
-%%%%% Bibliography %%%%%%
-% ------------------------------------------------
-% \emergencystretch 2em
+\include{Chapters/1_Introduction}
 \printbibliography[heading=subbibliography, title = References]
 \clearpage
+% % ------------------------------------------------
 
-\cleardoublepage
+% %%%%% Chapter 2: QEC %%%%%%
+\include{Chapters/2_Error_Correction}
+\printbibliography[heading=subbibliography, title = References]
+\clearpage
+% % ------------------------------------------------
 
-\phantomsection
+% %%%%% Chapter 3: cQED %%%%%%
+\include{Chapters/3_Circuit_QED}
+\clearpage
+% % ------------------------------------------------
+
+% %%%%% Chapter 4: 3D GKP Project %%%%%%
+\include{Chapters/4_GKP_3D_Experiment}
+\printbibliography[heading=subbibliography, title = References]
+\clearpage
+% % ------------------------------------------------
+
+% %%%%% Chapter 5: Next Steps and 2D GKP %%%%%%
+\include{Chapters/5_Next_Steps_in_2D}
+\printbibliography[heading=subbibliography, title = References]
+\clearpage
+% % ------------------------------------------------
+
+%%%%% Appendix A: Resonator Fitting %%%%%%
+\appendix
+\include{Chapters/A_Resonator_Fitting}
+\printbibliography[heading=subbibliography, title = References]
+\clearpage
+% ------------------------------------------------
+
+%%%%% Appendix B: Making 3D Cavities %%%%%%
+\include{Chapters/B_Etching}
+\clearpage
+% ------------------------------------------------
+
+
+%%%%% The End %%%%%%
+%\cleardoublepage
+%\phantomsection
 %\addcontentsline{toc}{chapter}{References}
-
 \sloppy
 \end{document}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-% \chapter[Andreev levels]{Andreev levels\label{ch:al}}
-% \input{chapters/AndreevLevels}
-% \printbibliography[heading=subbibliography, title = References, env = midbib]
-% \clearpage
-
-% \chapter[Probing Andreev levels with cQED]{Probing Andreev levels \newline with cQED\label{ch:al}}
-% \input{chapters/cQED}
-% \printbibliography[heading=subbibliography, title = References, env = midbib]
-% \clearpage
-
-% \chapter[Unlocking the spin of a quasiparticle]{Unlocking the spin of a \newline quasiparticle\label{ch:al}}
-% \input{chapters/ASQ}
-% \printbibliography[heading=subbibliography, title = References, env = midbib]
-% \clearpage
-
-% \chapter{Future directions\label{ch:fd}}
-% \input{chapters/future}
-% \printbibliography[heading=subbibliography, title = References, env = midbib]
-% \clearpage
-
-% \part{The beautiful, messy details}
-
-% \chapter{BCS superconductivity\label{a_bcs}}
-% \input{chapters/BCS}
-% \printbibliography[heading=subbibliography, title = References, env = midbib]
-
-% \chapter[Andreev reflection, Andreev levels, and the Josephson effect]{Andreev reflection, \newline Andreev levels, \newline and the Josephson effect\label{a_andreev}}
-% \input{chapters/andreev}
-% \printbibliography[heading=subbibliography, title = References, env = midbib]
-
-% \chapter[Andreev levels in Josephson nanowires]{Andreev levels in \newline Josephson nanowires\label{a_jnw}}
-% \input{chapters/JosephsonNanowires}
-% \printbibliography[heading=subbibliography, title = References, env = midbib]
-
-% \chapter[What would happen in a topological weak link?]{What would happen in a \newline topological weak link? \label{a_topo}}
-% \input{chapters/topo_junction}
-% \printbibliography[heading=subbibliography, title = References, env = midbib]
-
-% \chapter{The device\label{a_dd}}
-% \input{chapters/device_design}
-% \printbibliography[heading=subbibliography, title = References, env = midbib]
-
-% \chapter[Spectroscopy and dispersive shifts]{Spectroscopy and \newline dispersive shifts\label{a_spec}}
-% \input{chapters/spec_dispersive}
-% \printbibliography[heading=subbibliography, title = References, env = midbib]
-
-% \chapter[Raman transitions of the quasiparticle spin]{Raman transitions of the \newline quasiparticle spin\label{a_ram}}
-% \input{chapters/raman}
-% \printbibliography[heading=subbibliography, title = References, env = midbib]
-
-% \chapter[Interactions of Andreev levels with the environment]{Interactions of Andreev levels \newline with the environment\label{a_ie}}
-% \input{chapters/environment}
-% \printbibliography[heading=subbibliography, title = References, env = midbib]
-
-% \chapter{Unexplained observations\label{a_ue}}
-% \input{chapters/unexplained}
-% \printbibliography[heading=subbibliography, title = References, env = midbib]
-

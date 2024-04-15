@@ -1,3 +1,5 @@
+\chapter{Introduction\label{ch:1_Introduction}}
+
 \section{From Quantum Computation to Error Correction}
 
 The field of quantum information science (QIS) involves leveraging the fundamental principles of quantum mechanics to accomplish novel and useful information processing tasks. Central to this vision is a machine called the quantum computer, which at its lowest level encodes information in the quantum mechanical degrees of freedom of a physical system. The promise of quantum computers is to solve certain computational problems more efficiently than conventional classical computers, and this has, in large part, motivated the remarkable pace of development of QIS over the last two decades. 
@@ -20,9 +22,14 @@ To ease the hardware requirements, bosonic error correction has recently been de
 
 \todo{Introduce GKP and why we care}
 
-\section{Thesis Overview}
 
+\section{Structure of this thesis}
 \todo{}
+% E.g. from Max: This thesis is arranged into two parts: a main body where we present the ideas and results central to this thesis (chapters 2-5), and a series of later chapters that give detailed explanations and information concerning those same ideas and results. 
+
+% In the main chapters, we will first give an overview of how Andreev levels arise in weak links, with a focus on how the Andreev levels of Josephson nanowires differ from those of conventional tunnel junctions. 
+% We will then discuss how Andreev levels can be probed using cQED, and present as a case study our investigation of pair transitions in Josephson nanowires. 
+% Finally, we will present the main result of thesis: the realization of the Andreev spin qubit, which is formed from the two spin states of a quasiparticle trapped in the Andreev levels of a Josephson nanowire.  
 
 % ============= OLD ======================
 % It is sometimes said that the idea that quantum error correction is possible at all is even more remarkable that the concept of quantum computation itself. By redundantly encoding information into a larger state space than the two levels of a physical qubit, we can store both the logical quantum state as well as information about the errors. The incredible feature of QEC is that collapsing the physical state of the system to infer whether or not an error has occurred need not affect the logical state being stored. Since the first QEC code introduced by Peter Shor in the mid-nineties \cite{shor1995scheme}, there have been a variety of quantum codes that have been proposed and studied \cite{steane1996error, gottesman1996class, kitaev2003fault, fowler2012surface}. The most popular of these is the surface code \cite{fowler2012surface}, which uses a register of physical `data' qubits arranged in a 2D lattice. Using $N$ physical qubits, the size of the redundant state space grows as $\mathcal{O}(2^N)$. Furthermore, the surface code has the useful property that if the physical error rate per qubit $p_{\rm err}$ is below a threshold value $p_{\rm thres}$, the total logical error rate $p_L$ decreases \textit{exponentially} with increasing $N$. As a concept, this is very attractive and is the reason why the surface code is the current ``north star'' in our field that  various experimental quantum computing groups across academia and industry are working towards. 

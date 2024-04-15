@@ -1,3 +1,6 @@
+% PDF/A Standard
+% \usepackage[a-1b]{pdfx}
+
 % Some formatting
 \ProvidesPackage{formatting}
 \RequirePackage{xparse}
@@ -21,11 +24,13 @@
 
 %% Load Required Packages
 % Page Layout
-\RequirePackage[table, dvipsnames]{xcolor}
+\RequirePackage{xcolor}
 \RequirePackage{graphicx}
 \graphicspath{{Figures/}}
 \RequirePackage{changepage} % adjustwidth env., for definitions et al.
 \RequirePackage{calc}
+
+
 
 % Text Formatting (excluding fonts)
 \RequirePackage[inline]{enumitem} % customize lists
@@ -147,7 +152,8 @@ ItalicFont=NewsGothicMT-Italic.ttf, BoldItalicFont=palabi.ttf]{NewsGothicMT.ttf}
 % BIBLIOGRAPHY FORMATTING
 \usepackage[style=phys, refsection=chapter, biblabel=brackets, giveninits=true, maxcitenames=3, minnames = 1]{biblatex}
 \addbibresource{bibliography.bib}
-\appto\bibfont{\setlength{\emergencystretch}{.5em}}
+% \appto\bibfont{\setlength{\emergencystretch}{.5em}}
+\appto\bibfont{\setstretch{1}\setlength{\bibitemsep}{4pt plus 1pt minus 1pt}}
 %---------------------------------------------
 
 % HYPERLINKS

@@ -1,3 +1,5 @@
+\chapter{Fluxonium in a 3D Cavity: Experiments\label{ch:4_3DGKP}}
+
 \section{Experimental Design and Theory}
 
 In this section, we 
@@ -158,7 +160,7 @@ In Fig. \ref{fig:4_rabi}, we show a typical \textbf{power Rabi} measurement, tak
 
 In subsequent measurements, we typically tuned up two kinds of $\pi$-pulses: the first was a shorter $\tau = 48$ ns pulse, which we used in most of the time-resolved qubit experiments. The second was a ``selective'' qubit pulse, of length $\tau = 2.4$ $\mu$s, chosen so that the associated spectral bandwidth of the pulse $1/\tau$ was smaller (at least at half-flux) than the dispersive shift $\chi$ between the qubit and storage mode (cf. Sec \ref{sec:4_StorageChi} where we discuss this further). We also later switched from Gaussian to cosine pulses; the latter were easier to work with due to their well-defined end points (zero amplitude at the start and end of the pulse). 
 
-\subsection{Measuring the Fluxonium \texorpdfstring{$T_1$}{T1}}
+\subsection{Measuring the Fluxonium \texorpdfstring{$T_1$}{T1}\label{sec:4_fluxonium_T1}}
 
 Our next set of experiments involved measuring the $T_1$ relaxation time of the fluxonium. The post-selection sequence we used to realize the measurement consists of two readouts separated by a variable length delay. The first readout initializes the qubit in either $\ket{g}$ or $\ket{e}$, while the second is used to track a change of state. The result is a characteristic $T_1$ relaxation curve showing an exponential decay of the qubit populations with time. We show an example of such a curve in Fig. \ref{fig:4_qubit_T1_vs_flux_single}(a), from which we extract a decay constant $T_1 = 220 \pm 10$ $\mu$s. Panel (b) shows the results of the same experiment now repeated across various external flux biases: we see that the flux-dependence of the qubit $T_1$ is very sharply peaked and symmetric about half-flux, with a maximum value of $T_1 \approx 265$ $\mu$s.
 
@@ -180,8 +182,7 @@ If we go out even further in flux, we see an even richer structure to the flux-d
     \label{fig:4_qubit_T1_vs_flux_spec}
 \end{figure}
 
-In the right panel of Fig. \ref{fig:4_qubit_T1_vs_flux_spec}, we reproduce the $T_1$ data from the left panel, but also now align it with two-tone spectroscopy data taken earlier. At this resolution, the storage and the two antenna modes are straight lines. On top of these we see certain flux-dependent transitions: it turns out that these are ``two-photon'' transitions! (We showed these in Fig. \ref{fig:4_two_tone_vs_flux_full} as well). Specifically, they correspond to the frequencies of the linear modes \textit{plus} the qubit $\ket{g}\to\ket{e}$ frequency, i.e. they are activated when $\omega_d \approx \omega_{\rm lin} + \omega_{ge}$ where $\omega_{\rm lin}$ can be the frequency of the storage or either antenna. Intuitively, we can understand the drop-offs in qubit $T_1$ occurring when this ``two-photon'' transition is tuned into resonance with one of the \textit{other} linear modes. For example, at $\Phi_{\rm ext} \approx 0.48\Phi_0$, we have $\omega_{\rm C} + \omega_{ge} \approx \omega_{s}$, and at $\Phi_{\rm ext} \approx 0.47\Phi_0$, we have $\omega_{\rm A} + \omega_{ge} \approx \omega_{s}$. In both cases, the resulting resonance leads to a direct Purcell decay of the qubit. We have since reproduced this behavior in numerical Purcell simulations, including the initial drop-off shown in Fig. \ref{fig:4_qubit_T1_vs_flux_single}; although the latter does not correspond to a direct resonance, we suspect it arises as a higher order term in perturbation theory. I will leave a full investigation of this effect to future work.
-
+In the right panel of Fig. \ref{fig:4_qubit_T1_vs_flux_spec}, we reproduce the $T_1$ data from the left panel, but also now align it with two-tone spectroscopy data taken earlier. At this resolution, the storage and the two antenna modes are straight lines. On top of these we see certain flux-dependent transitions: it turns out that these are ``two-photon'' transitions! (We showed these in Fig. \ref{fig:4_two_tone_vs_flux_full} as well). Specifically, they correspond to the frequencies of the linear modes \textit{plus} the qubit $\ket{g}\to\ket{e}$ frequency, i.e. they are activated when $\omega_d \approx \omega_{\rm lin} + \omega_{ge}$ where $\omega_{\rm lin}$ can be the frequency of the storage or either antenna. Intuitively, we can understand the drop-offs in qubit $T_1$ occurring when this ``two-photon'' transition is tuned into resonance with one of the \textit{other} linear modes. For example, at $\Phi_{\rm ext} \approx 0.48\Phi_0$, we have $\omega_{\rm C} + \omega_{ge} \approx \omega_{s}$, and at $\Phi_{\rm ext} \approx 0.47\Phi_0$, we have $\omega_{\rm A} + \omega_{ge} \approx \omega_{s}$. In both cases, the resulting resonance leads to a direct Purcell-type decay of the qubit. We have since been able to reproduce this behavior using numerical Purcell simulations, including the initial drop-off at half-flux shown in Fig. \ref{fig:4_qubit_T1_vs_flux_single}; although the latter does not correspond to a direct resonance, we suspect it arises as a higher order term in perturbation theory. I will leave a full investigation of this effect to future work. \todo{Maybe add a simulation result if there is time?}
 
 \subsection{Ramsey, Echo, and Flux Noise Amplitude Characterization}
 
@@ -234,3 +235,7 @@ We are now ready to discuss measurements of the storage resonator. We had alread
     \label{fig:4_storage_T1_numsplit}
 \end{figure}
 
+\subsection{Testing and Progress}
+
+
+\subsection{Direct Measurement of Loss from the Flux Line}
