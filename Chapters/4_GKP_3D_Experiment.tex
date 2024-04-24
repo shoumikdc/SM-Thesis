@@ -255,7 +255,7 @@ The storage spectroscopy measurement above presents a method to extract the disp
     \label{fig:4_tunable_chi}
 \end{figure}
 
-\noindent Since we used a selective $\pi$-pulse of the same length $\tau = 2.4$ $\mu$s at each flux point, we don't expect this method to work well near the zero crossing point where $\chi_{qs} \to 0$ since there the condition $\tau \gg 1/\chi_{qs}$ ceases to hold. We consequently see slightly larger error bars at the crossing and cannot measure the exact point at which $\chi_{qs}=0$ (the fit fails). 
+\noindent Since we used a selective $\pi$-pulse of the same length $\tau = 2.4$ $\mu$s at each flux point, we don't expect this method to work well near the zero crossing point where $\chi_{qs} \to 0$ since there the condition $\tau \gg 1/\chi_{qs}$ ceases to hold. We consequently see slightly larger error bars at the crossing and cannot measure the exact point at which $\chi_{qs}=0$ (the fit fails there). 
 
 \clearpage
 
@@ -281,7 +281,7 @@ We were very surprised to measure a storage lifetime of $T_{1s} \approx 1$ $\mu$
 \begin{figure}[t]
     \centering
     \includegraphics[width=\linewidth]{Figures/4/3D_Cavity_Debugging.pdf}
-    \caption{Maximum single-photon $T_{1s}$ measured across all three resonator in the Mark III cavity. Each configuration was tested during a different cooldown of the fridge.}
+    \caption{Maximum single-photon $T_{1s}$ measured across all three resonators of the Mark III cavity. Each configuration was tested during a different cooldown of the fridge.}
     \label{fig:4_3D_Cavity_Debugging}
 \end{figure}
 
@@ -313,6 +313,6 @@ We were finally able to resolve the storage loss question by revisiting our E\&M
 
 From these simulations, we realized that the `ground plane' loss channel (ii) will always arise if there is significant metallization inside the chip tunnel. While this could in principle be alleviated by somehow grounding the chip to the tunnel wall (e.g. using indium), doing so would necessarily also introduce seam losses, and thus it is not immediately clear how to proceed. Meanwhile, the `flux line' loss (i) could be solved in several ways, e.g. by using some form of on-chip microwave filtering \cite{pozar2012microwave} (more discussion of this in Ch. \ref{ch:5_2DGKP}). We even found in simulation that the shape of the flux tine tip seemed to affect the storage loss significantly [cf. Fig. \ref{fig:4_HFSS_Simulation}(b-c)]; in particular, using the exact shape of the flux line in Fig. \ref{fig:4_HFSS_Simulation}(b), we found $T_{1s} \simeq 0.5$ $\mu$s in simulation, whereas the approximate shape in Fig. \ref{fig:4_HFSS_Simulation}(c) resulted in $T_{1s} \simeq 1.9$ ms. 
 
-In summary, we learned from our experiments that it is a difficult technical challenge to integrate a fast flux line in 3D while maintain the coherence of an otherwise high-Q cavity. Although this presents a major hurdle for using fluxonium in a 3D-cavity architecture for the purpose of bosonic QEC, there are potential paths forward. We will discuss a few such approaches in the upcoming chapter. 
+In summary, we learned from our experiments that it is a difficult technical challenge to integrate a fast-flux line in 3D while maintain the coherence of an otherwise high-Q cavity. Although this presents a major hurdle for using fluxonium in a 3D-cavity architecture for the purpose of bosonic QEC, there are potential paths forward. We will discuss a few such approaches in the upcoming chapter. 
 
 \printbibliography[heading=subbibliography, title = References]

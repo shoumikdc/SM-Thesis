@@ -1,13 +1,13 @@
 \chapter{Next Steps and Moving to 2D\label{ch:5_2DGKP}}
 
 
-In the previous chapter, we presented the results of our experiments with a fluxonium in a 3D cavity. We demonstrated a tunable dispersive shift between the qubit and the storage resonator via bosonic mode threading and characterized the various components of our system. In doing so, we discovered that the lifetime of the storage mode was \textit{significantly} lower than expected (as compared to its bare value) whenever the qubit chip was inserted into the resonator package. After many rounds of experimentation and testing, we were ultimately able to attribute this effect to two main sources: (i) the storage mode's coupling to the lossy qubit flux line; and (ii), its participation in spurious slotline modes of the 3D superconducting package. While the former issue could in principle be solved via clever microwave engineering and filtering, the latter unfortunately is intrinsic to our 3D design and not easily remedied. As we came to learn, it is generally difficult to integrate fast-flux into a 3D cavity while also maintaining the cavity coherence. 
+In the previous chapter, we presented the results of our experiments with a fluxonium in a 3D cavity. We demonstrated a tunable dispersive shift between the qubit and the storage resonator via bosonic mode threading and characterized the various components of our system. In doing so, we discovered that the lifetime of the storage mode was \textit{significantly} lower than expected (as compared to its bare value) whenever the qubit chip was inserted into the resonator package. After many rounds of experimentation and testing, we were ultimately able to attribute this effect to two main sources: (i) the storage mode's coupling to the lossy qubit flux line; and (ii), its participation in spurious modes of the 3D superconducting package. While the former issue could in principle be solved via clever microwave engineering and filtering, the latter unfortunately is intrinsic to our 3D design and not easily remedied. As we came to learn, it is generally difficult to integrate fast-flux into a 3D cavity while also maintaining the cavity coherence. 
 
 There are certain approaches that have been proposed and implemented in the literature that work towards integrating fast-flux in 3D. One such example is the magnetic hose from Refs. \cite{gargiulo2021fast,valadares2023demand}. Here, the authors route flux from an external coil to a tunable transmon qubit in a 3D superconducting package using a ``hose'' composed of concentric aluminium and mu-metal layers. In the experiment of Ref. \cite{valadares2023demand} specifically, this is done for the purpose of bosonic cQED, and the authors demonstrate that the lifetime of their 3D storage resonator is not limited by their flux delivery mechanism. Unfortunately, however, the design and implementation of a magnetic hose is quite painstaking, and would require a full redesign of both the cavities and the fluxonium chips that were presented in Ch. \ref{ch:4_3DGKP}. Other designs have also been proposed recently, e.g. Ref. \cite{hutin2024monitoring} or Ref. \cite{maiti2024ancilla}, which both rely on some form of on-chip distributed-element microwave filtering to prevent losses from the flux line at the frequency of the storage. Despite requiring more advanced microwave engineering in design, these approach seem promising for integrating fast-flux in 3D while maintaining the storage resonator lifetime. 
 
 In our case, however, after discovering the root cause of our storage coherence issues and identifying various avenues to proceed from there, we decided to forgo the 3D architecture entirely. This was in part due to the time and difficulty of implementing fast-flux delivery in 3D (which, as highlighted above, is a difficult project in of itself); but it was also a choice we made consciously, motivated by the idea of moving our experiments to 2D. Over the course of our 3D-GKP project, we ended up developing an entirely separate but novel way to do GKP error correction in 2D, using a microwave-activated coupler to generate faster conditional displacements. This 2D project, first proposed using a transmon control qubit and later a fluxonium, represents an improvement over the ``direct dispersive'' approach we took in our 3D-GKP project in most ways. As such, we decided that moving to 2D is a more promising long term path towards building extensible GKP error correction systems. 
 
-In this chapter, we present three of our proposals for implementing GKP error correction in 2D. Within our bosonic subgroup in EQuS, we refer to these as the ``RAT'' (see Ch. \ref{sec:5_RAT}), the ``RAF'' (see Ch. \ref{sec:5_RAF}), and the ``2D dispersive'' (see Ch. \ref{sec:5_2D_Disp}) approaches, respectively\footnote{The meaning behind these names will become apparent shortly!}. We will go through the basic theory for all three approaches and discuss high-level results: in particular, we have already completed designs for the RAF and 2D dispersive projects, which are currently being fabricated as of this writing. 
+In this chapter, we present three of our proposals for implementing GKP error correction in 2D. Within our bosonic subgroup in EQuS, we refer to these as the ``RAT'' (see Ch. \ref{sec:5_RAT}), the ``RAF'' (see Ch. \ref{sec:5_RAF}), and the ``2D dispersive'' (see Ch. \ref{sec:5_2D_Disp}) approaches, respectively\footnote{The meaning behind these names will become apparent shortly!}. We will go through the basic theory for all three approaches and discuss high-level results. In particular, we have already completed designs for the RAF and 2D dispersive projects, which are currently being fabricated as of this writing. 
 
 Here, my aim is give a broad overview to our upcoming 2D experiments; however, more details and a discussion of the careful design and simulation considerations taken can be found in the SM thesis of Shantanu Jha. 
 \clearpage
@@ -69,6 +69,7 @@ Following black-box quantization, we can diagonalize $\hat{H}_{\rm lin, 0}$ as a
 \begin{align}
 \hat{\theta} &= \theta_{q, 0}(\hat{q}_0 + \hat{q}_0^\dagger) = \theta_q(\hat{q} + \hat{q}^\dagger) + \theta_b(\hat{b} + \hat{b}^\dagger) + \theta_a(\hat{a} + \hat{a}^\dagger) \\
 \hat{\varphi} &= \phi_{b, 0}(\hat{b}_0 + \hat{b}_0^\dagger) = \phi_q(\hat{q} + \hat{q}^\dagger) + \phi_b(\hat{b} + \hat{b}^\dagger) + \phi_a(\hat{a} + \hat{a}^\dagger)
+\label{eq:linear_basis_RAT_RAF}
 \end{align}
 Here, $\theta_i$ denotes the participation of mode $i$ in the phase across the Josephson junction in the transmon, while $\phi_i$ is the participation in the phase across the ATS. In total, we have
 \begin{equation}
@@ -140,11 +141,73 @@ Despite the challenges associated with it, the RAT remains a novel and interesti
 
 \section{The Resonator-ATS-Fluxonium (RAF) Experiment \label{sec:5_RAF}}
 
-Our current main approach to realizing GKP error correction in 2D is called the RAF. It builds upon the idea of using an ATS as a coupler to realize fast conditional displacements, but now uses a fluxonium control qubit instead. Here, I will give only a brief overview of the RAF; for a more complete treatment, I refer the interested reader to the upcoming SM thesis of my colleague Shantanu Jha. 
+Our current main approach to realizing GKP error correction in 2D is called the RAF. It builds upon the idea of using an ATS as a coupler to realize fast conditional displacements, but instead uses a heavy fluxonium control qubit. To understand the principle behind the RAF, we start from the Hamiltonian for a coupled a storage resonator, ATS, and fluxonium system: $\hat{H} = \hat{H}_a + \hat{H}_b + \hat{H}_q + \hat{H}_{\rm int}$, where $\hat{H}_{\rm int}$ is a linear capacitive coupling term and $\hat{H}_q$ is:
+\begin{equation}
+    \hat{H}_q = 4E_C \hat{n}_q^2 + \frac{1}{2}\hat{\theta}^2 - E_J\cos(\hat{\theta}-\theta{\rm ext}) = \omega_{q, 0} \hat{q}_0^\dagger\hat{q}_0 - E_J\cos(\hat{\theta}-\theta{\rm ext})
+\end{equation}
+Here we have written the fluxonium Hamiltonian in its ``LC basis'' (i.e. the Fock basis for the linear part of the circuit). Following our approach in Sec. \ref{sec:5_RAT}, we can now analyze the full coupled system using a normal mode basis, i.e. absorbing the linear coupling term to get three normal modes $\hat{a}$, $\hat{b}$, and $\hat{q}$ for the storage, ATS, and qubit respectively. In this basis, 
+\begin{equation}
+    \hat{H} = \sum_{c = \{a, b, q\}}\omega_c \hat{c}^\dagger \hat{c} - E_{J,q}\cos(\hat{\theta}-\theta_\mathrm{ext}) - 2E_J \cos(\varphi_\Sigma)\cos(\hat{\varphi} + \varphi_\Delta)
+    \label{eq:RAF_H}
+\end{equation}
+where the phase operators $\hat{\theta}$ and $\hat{\varphi}$ for the fluxonium and ATS may be expressed as linear combinations of $\hat{a}, \hat{a}^\dagger$, $\hat{b}, \hat{b}^\dagger$, and $\hat{q}, \hat{q}^\dagger$ as in Eq. \eqref{eq:linear_basis_RAT_RAF}, in terms of the participations $\theta_a, \theta_b, \theta_q$ ($\phi_a, \phi_b, \phi_q$) of the the various modes in the fluxonium (ATS) phase. This basis is reminiscent of black-box quantization, but we stress here that no approximation has been made --- as long as we do not truncate the fluxonium, Eq. \eqref{eq:RAF_H} is exact. 
 
+To implement conditional displacements with the RAF, we bias the ATS at the \textit{symmetric} bias point $(\varphi_\Sigma, \varphi_\Delta) = (\pi/2, 0)$ and modulate about this via $\varphi_\Sigma(t) = \pi/2 + \epsilon(t)$. In this case, we get
+\begin{equation}
+    \hat{H} = \sum_{c = \{a, b, q\}}\omega_c \hat{c}^\dagger \hat{c} - E_{J,q}\cos(\hat{\theta}-\theta_\mathrm{ext}) - 2E_J \sin[\epsilon(t)]\cos\hat{\varphi}
+    \label{eq:RAF_H_biaspoint}
+\end{equation}
+The fluxonium nonlinear term will now give rise to dispersive shifts $\chi_{xy}$ between the three modes, as well as Kerr nonlinearities $K_x$ for $x, y \in \{a, b, q\}$, while the ATS nonlinear term will give us the desired microwave-activated conditional displacement interaction. Let's now focus on the latter term. We can write $\hat{\varphi} = \hat{\varphi}_a + \hat{\varphi}_b + \hat{\varphi}_q$ and Taylor expand the drive $\sin[\epsilon(t)] \approx \epsilon(t) = \epsilon_p\cos(\omega_p t)$. Doing so, we can express this part of the Hamiltonian $\hat{H}_{\rm CD}$ as follows:
+\begin{equation}
+    \hat{H}_{\rm CD} = - 2E_J\epsilon(t)\big[\cos\hat{\varphi}_q\cos{(\hat{\varphi}_a + \hat{\varphi}_b)} - \sin\hat{\varphi}_q\sin{(\hat{\varphi}_a + \hat{\varphi}_b)}\big]
+    \label{eq:RAF_HCD_expanded}
+\end{equation}
+Here, we have used a trigonometric identity to separate out the qubit ($\hat{\varphi}_q$) terms from the others, for the following reason. The storage $\hat{\varphi}_a = \varphi_a(\hat{a} + \hat{a}^\dagger)$ and ATS $\hat{\varphi}_b= \varphi_b(\hat{b} + \hat{b}^\dagger)$ both have small phase fluctuations, which will allow us to Taylor expand using $\varphi_a, \varphi_b$ as small parameters. Meanwhile, the fluxonium \textit{cannot} be expanded in this manner, and thus we must keep the full nonlinearities $\sin(\hat{\varphi}_q)$ and $\cos(\hat{\varphi}_q)$. Keeping this in mind, we can expand to 
+\begin{equation*}
+    \cos{(\hat{\varphi}_a + \hat{\varphi}_b)} = \cos\hat{\varphi}_a\cos \hat{\varphi}_b - \sin\hat{\varphi}_a\sin \hat{\varphi}_b \approx \bigg[1 - \frac{\hat{\varphi}_a^2}{2}\bigg]\bigg[1 - \frac{\hat{\varphi}_b^2}{2}\bigg] - \hat{\varphi}_a\hat{\varphi}_b
+\end{equation*}
+and 
+\begin{equation*}
+    \sin{(\hat{\varphi}_a + \hat{\varphi}_b)} = \sin\hat{\varphi}_a\cos \hat{\varphi}_b + \cos\hat{\varphi}_a\sin \hat{\varphi}_b \approx \hat{\varphi}_a\bigg[1 - \frac{\hat{\varphi}_b^2}{2}\bigg] + \hat{\varphi}_b\bigg[1 - \frac{\hat{\varphi}_a^2}{2}\bigg]
+\end{equation*}
+If we now go into the rotating frames of modes $a$ and $b$, and further set the ATS flux drive frequency to the storage frequency $\omega_p = \omega_a$, then we can perform an RWA on Eq. \eqref{eq:RAF_HCD_expanded} to get an effective
+\begin{equation}
+    \hat{H}_{\rm CD} = 2E_J \bigg[1 - \frac{\varphi_b^2}{2} - \varphi_b^2\hat{b}^\dagger\hat{b}\bigg]\bigg(\frac{\epsilon_p}{2}\bigg)\hat{\varphi_a}\sin(\hat{\varphi}_q)
+\end{equation}
+Finally, assuming that the ATS mode is never populated due to its detuning from the other modes, we set $\ev{\hat{b}^\dagger\hat{b}} \approx 0$ and can then expand $\hat{\varphi}_a = \varphi_a(\hat{a} + \hat{a}^\dagger)$ to get a final effective Hamiltonian
+\begin{equation}
+    \hat{H}_{\rm CD} = E_J  \epsilon_p\varphi_a \bigg[1 - \frac{\varphi_b^2}{2} \bigg](\hat{a} + \hat{a}^\dagger)\sin\hat{\varphi}_q \triangleq \hat{H}_{\rm CD}^{(q)} (\hat{a} + \hat{a}^\dagger)
+\end{equation}
+where we group the prefactors and qubit terms into $\hat{H}_{\rm CD}^{(q)}$. From here, we can calculate the displacement and conditional displacement rates via the sum and difference matrix elements of the qubit part:
+\begin{align}
+    \begin{split}
+        g_\mathrm{disp} &= \frac{1}{2}\Big[\langle g|\hat{H}_{\rm CD}^{(q)}|g\rangle + \langle e|\hat{H}_{\rm CD}^{(q)}|e\rangle \Big] = A\bigg[\langle g|\sin\hat{\varphi}_q|g\rangle + \langle e|\sin\hat{\varphi}_q|e\rangle\bigg] \\
+        g_{\rm CD} &= \frac{1}{2}\Big[\langle g|\hat{H}_{\rm CD}^{(q)}|g\rangle - \langle e|\hat{H}_{\rm CD}^{(q)}|e\rangle \Big] = A\bigg[\langle g|\sin\hat{\varphi}_q|g\rangle - \langle e|\sin\hat{\varphi}_q|e\rangle\bigg]
+    \end{split}
+\end{align}
+with a common scale factor $A = \frac{1}{2}E_J\epsilon_p   \varphi_a[1 - \varphi_b^2/2]$. If we truncate the qubit to a two-level subspace, we get
+\begin{equation}
+    \hat{H}_{\rm CD}^{\rm tls} = g_{\rm disp} (\hat{a}+\hat{a}^\dagger) + g_{\rm CD} (\hat{a}+\hat{a}^\dagger)\hat{\sigma}_z
+\end{equation}
+This is precisely the conditional displacement interaction we wanted, though it also comes with an additional direct displacement. It so happens, however, that for a heavy-fluxonium away from half-flux, the difference in matrix elements (i.e. $g_{\rm CD}$) can be quite large, while the sum (i.e. $g_{\rm disp}$) can be made quite small; nonetheless, we envision using a cancellation drive to null out the displacement. 
 
+In practice, starting from Eq. \eqref{eq:RAF_H_biaspoint}, we diagonalize the qubit Hamiltonian numerically to compute \textit{all} metrics of interest, such as dispersive shifts and Kerr nonlinearities, in terms of the relevant fluxonium matrix elements. Going from this theoretical proposal to a fully realized experiment took many rounds of design, simulation, and refinement of the theory before we arrived at a final parameter set for the system that satisfied all of the experimental design constraints. I will not discuss these details here; for a more complete treatment, I direct readers to the SM thesis of my colleague Shantanu Jha. 
 
+Instead, I will here just briefly summarize the main results. For our final choice of system parameters, we are able to achieve a large conditional displacement rate $g_{\rm CD}/2\pi \simeq 4$ MHz over a wide range of qubit external flux bias points as shown in Fig. \ref{fig:5_RAF_Metrics}. Over this range, the dispersive shift $\chi_{aq}$ between the fluxonium and storage remains small, and so we don't expect to be limited by oscillator dephasing during qubit reset (which, as we recall from Ch. \ref{ch:4_3DGKP}, was an important consideration in our 3D dispersive experiment and the reason we engineered a flux-tunable dispersive shift to cross through zero there). Lastly, the Kerr nonlinearities $K_g$ and $K_e$ inherited by the storage resonator are neglible (mHz-level). With these values, we expect to be able to achieve state-of-the-art GKP QEC performance. In Fig. \ref{fig:5_RAF_Final_Design}, I also show a false-color image of the final design for the RAF, which is being fabricated as of this writing. In addition the core storage, ATS, and fluxonium subsystem, we have also incorporated a readout resonator and Purcell filter to be able to achieve faster unconditional qubit reset in approximately 100 ns via fluxonium sideband cooling. With this, we expect to be able to perform a cycle of SBS error correction within $\delta t = 400$ ns. 
 
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.9\linewidth]{Figures/5/RAF_Metrics.pdf}
+    \caption{Simulated metrics of interest for the RAF using our final design parameters. We get a CD rate of $g_{\rm CD}/2\pi \simeq 4$ MHz across a wide band of external flux operating points for the qubit, as well as low residual dispersive shift $\chi_{aq}$ to the storage ($< 0.5$ kHz) and negligible (mHz-level) Kerr nonlinearity.}
+    \label{fig:5_RAF_Metrics}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.7\linewidth]{Figures/5/RAF_Final_Design.pdf}
+    \caption{Final chip design for the RAF, consisting of a storage resonator, ATS coupler, and fluxonium control qubit, as well as a readout resonator and Purcell filter for fast reset. For more details, we invite readers to refer to the upcoming SM thesis of Shantanu Jha.}
+    \label{fig:5_RAF_Final_Design}
+\end{figure}
 
 \clearpage
 
@@ -196,18 +259,7 @@ using which we calculated the dispersive shift $\chi = \omega_s^{|e\rangle} - \o
     \label{fig:5_2D_disp_chi_and_Kerr}
 \end{figure}
 
-\noindent \textbf{Readout and Purcell Filter:} We used a similar design for the readout resonator and Purcell filter as the RAF; both resonators were standard 50 $\Omega$ coplanar waveguide resonators with frequencies $\omega_r/2\pi = 6.125$ and $\omega_p/2\pi = 6.137$. We chose $g_{pr}$ to be greater than the detuning of the modes, so that the two are almost fully hybridized with normal mode frequencies of roughly $\omega_r - g_{pr}$ and $\omega_p + g_{pr}$ [to see this, diagonalize $\hat{H}_{pr} = \omega_r\hat{r}^\dagger \hat{r} + \omega_p\hat{p}^\dagger \hat{p} + g_{pr}(\hat{r}^\dagger\hat{p} + \hat{r}\hat{p}^\dagger)$]. The Purcell filter is strongly coupled to a transmission line with a coupling of $\kappa_p/2\pi \simeq 38.8$ MHz and, choosing $g_{pr} \lesssim \kappa_p$, results in an effective linewidth of the readout of $\kappa_r/2\pi \simeq 16$ MHz. 
-
-
-identical nominal frequencies of $\omega_r/2\pi = 6.125$ GHz. The two resonators are coupled via the Hamiltonian
-\begin{equation}
-    \hat{H}_{pr} = \omega_r\hat{r}^\dagger \hat{r} + \omega_p\hat{p}^\dagger \hat{p} + g_{pr}(\hat{r}-\hat{r}^\dagger)(\hat{p} - \hat{p}^\dagger)
-\end{equation}
-from which we get normal modes with frequencies $\approx \omega_r \pm g_{pr}$ for the hybridized system. The Purcell filter is strongly coupled to a transmission line with a coupling of $\kappa_p/2\pi \simeq 38.8$ MHz. We chose 
-
-
-As further shown in Fig. \ref{fig:5_SBS_Sideband_Reset}, our proposed approach to implement the qubit reset here is to use direct fluxonium sideband cooling by driving the $\ket{e0}\leftrightarrow\ket{g1}$ transition between the qubit and readout resonator. 
-
+\noindent \textbf{Readout and Purcell Filter:} We used a similar design for the readout resonator and Purcell filter as the RAF; both resonators were standard 50 $\Omega$ coplanar waveguide resonators with frequencies $\omega_r/2\pi = 6.125$ and $\omega_p/2\pi = 6.137$. We chose $g_{pr}$ to be greater than the detuning of the modes, so that the two are almost fully hybridized with normal mode frequencies of roughly $\omega_r - g_{pr}$ and $\omega_p + g_{pr}$ [to see this, diagonalize $\hat{H}_{pr} = \omega_r\hat{r}^\dagger \hat{r} + \omega_p\hat{p}^\dagger \hat{p} + g_{pr}(\hat{r}^\dagger\hat{p} + \hat{r}\hat{p}^\dagger)$]. The Purcell filter is strongly coupled to a transmission line with a coupling of $\kappa_p/2\pi \simeq 38.8$ MHz. By choosing $g_{pr} \lesssim \kappa_p$, this results in an effective readout coupling rate of $\kappa_r/2\pi \simeq 16$ MHz. The reason for choosing such a large value of $\kappa_r$ is to implement fast unconditional reset of the qubit. As shown in Fig. \ref{fig:5_SBS_Sideband_Reset}, our proposed approach to implement the reset is via direct fluxonium sideband cooling, as was recently demonstrated in Ref. \cite{najera2024high}. This is done by driving the $\ket{e0}\leftrightarrow\ket{g1}$ transition between the qubit and resonator away from the half-flux sweet spot; the strong loss on the resonator will then cause this to decay to $\ket{g0}$. 
 
 \subsection{Performance Estimates}
 
@@ -219,7 +271,21 @@ The first check we carried out when assessing the feasibility of a 2D dispersive
     \label{fig:5_SBS_Sideband_Reset}
 \end{figure}
 
-\noindent The sequence for SBS is shown in Fig. \ref{fig:5_SBS_Sideband_Reset}: it consists of 4 conditional displacements (CDs), 3 qubit $\pi/2$ rotations, and qubit reset. We assume our CDs take the same time as Ref. \cite{sivak2023gkp-expt} and that our qubit pulses each take 32 ns; meanwhile for reset, we follow Ref. \cite{nordquantique2023gkp-expt} where the authors used $N_{\rm reset} = 2$ dissipative swaps. In our case, our readout has a linewidth of $\kappa_r / 2\pi \approx 9$ MHz, giving a $T_1 \simeq 18$ ns. We thus take $T_{\rm diss. swap} \simeq 132$ ns (which is $\sim\!6T_1$ plus some buffer). In total, the time $\delta t$ that we estimate it will take for a round of SBS is:
+\noindent The sequence for SBS is shown in Fig. \ref{fig:5_SBS_Sideband_Reset}: it consists of 4 conditional displacements (CDs), 3 qubit $\pi/2$ rotations, and qubit reset. We assume our CDs take the same time as Ref. \cite{sivak2023gkp-expt} and that our qubit pulses each take 32 ns; meanwhile for reset, we follow Ref. \cite{nordquantique2023gkp-expt} where the authors used $N_{\rm reset} = 2$ dissipative swaps. In our case, our readout has a linewidth of $\kappa_r / 2\pi \approx 16$ MHz, giving a $T_1 \simeq 9$ ns. From here, we estimate our worst case reset time to be $T_{\rm diss. swap} \simeq 132$ ns\footnote{This estimate is based on comparing to the parameters of Ref. \cite{nordquantique2023gkp-expt}; we hope it will be a worst-case value}. In total, the time $\delta t$ that we estimate it will take for an SBS round is:
 \begin{align*}
 \delta t = T_{\rm sBs}  &= 4T_{\rm pi} + (T_{\rm CD\,1} + T_{\rm CD\,2} + T_{\rm CD\,3}) + \big[N_{\text{reset}}\times T_{\text{diss. swap}}\big] \\ &= 4\times (32) + (470 + 676 + 230) + \Big[2 \times 132\Big] = 1768\, {\rm ns}
 \end{align*}
+We performed extensive SBS simulations using this value of $\delta t$, assuming different levels of single-photon loss $\kappa_{1s}$. We followed the method from Sec. \ref{sec:2_simulations_SBS} by modelling the sequence as an instantaneous QEC channel followed by a loss channel of length $\delta t$ (recall, this gives a lower bound on logical lifetime). For the QEC, we additionally optimized over the error correction parameters (i.e. code size $\Delta$ and small displacements $\epsilon_1, \epsilon_2$) to find the highest logical lifetime $T_L$ at each value of $T_{1s} = 1/\kappa_{1s}$. The results are shown in Fig. \ref{fig:2D_vs_3D_SBS_Comparison}; we plot the dimensionless quantity $T_L/\delta t$ (the number of rounds we can stabilize for) vs. $T_{1s}/\delta t$, the effective storage lifetime in units of the SBS cycle time. We repeat this process for the three cases: (i) a perfect/lossless control qubit (blue); (ii) a control qubit with $T_1 = 1.2$ ms (orange); and (iii) a control qubit with $T_1 = 300$ $\mu$s (green). For each value of $T_{1s}$ we also plot the lifetime of the oscillator $\{\ket{0}, \ket{1}\}$ Fock qubit (black), which is calculated as done in Ref. \cite{royer2020gkp} by $T_L^{\rm fock} = T_{1s}/2$. We see from these results that, at least in simulation, we are able to achieve break-even over the oscillator Fock encoding in all cases. Of course, in practice, the logical lifetime will be reduced by many other experimental factors. But, we see from this that it is at least plausible to realize break-even error correction. Finally, since these curves depend only on the product $\kappa_{1s}\delta t$ (i.e. on $T_{1s}/\delta t$), we can use the x-axis to get a sense of the required storage lifetimes for each of our three experiments: the 3D dispersive, the 2D dispersive, and the RAF (2D parametric). We overlay the three expected performance ranges on the plot; what we see is that in the best case scenario, the performance of the 2D dispersive experiment should not be too far behind the ideal performance that we had originally hoped for in our 3D experiment. Additionally, by the same metric, we see that the RAF experiment has the potential to far outperform the other two approaches, and so we expect to be able to achieve state-of-the-art QEC gain here. 
+
+Overall, we find that both of our upcoming experiments represent promising pathways towards realizing robust and extensible GKP error correction in 2D. The expect to receive both the RAF and 2D dispersive designs shortly after this writing, and are excited to test these platforms in experiment.  
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.8\linewidth]{Figures/5/2D_vs_3D_SBS_Comparison.png}
+    \caption{Simulated plot of dimensionless maximum GKP logical lifetime $T_L/\delta t$ from SBS simulations vs. dimensionless storage lifetime $T_{1s}/\delta t$. Here $\delta t$ is the SBS cycle time. We optimized over GKP code parameters to find the maximum $T_L$ at each value of $T_{1s}$, and repeat this for the cases of a lossless qubit, a qubit with $T_1 = 1.2$ ms (e.g. a fluxonium), and a qubit with $T_1 = 300$ $\mu$s (e.g. a transmon). We find that all three cases outperform the bare oscillator Fock encoding here. The ranges in grey are overlaid on the plot assuming $\delta t = 1.7$ $\mu$s and $T_{1s} \in [45, 200]$ $\mu$s for the 2D dispersive experiment; $\delta t = 2.8$ $\mu$s and $T_{1s} \in [200, 700]$ $\mu$s for the 3D dispersive experiment; and finally $\delta t = 400$ ns and $T_{1s} \in [45, 200]$ $\mu$s for the 2D parametric experiment (RAF).}
+    \label{fig:2D_vs_3D_SBS_Comparison}
+\end{figure}
+
+
+
+\printbibliography[heading=subbibliography, title = References]
