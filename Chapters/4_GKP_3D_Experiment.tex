@@ -1,9 +1,43 @@
 \chapter{Fluxonium in a 3D Cavity: Experiments\label{ch:4_3DGKP}}
 
-\section{Experimental Design and Theory}
+\section{Experimental Design and Theory \label{sec:4_3D_Experiment_Design_Theory}}
 
 In this section, we 
 
+$$
+\hat{H} = \hat{H}_q + \hat{H}_a + \hat{H}_{\rm int} = \Big[4E_C \hat{n}^2 + \frac{1}{2}\hat{\varphi}^2 - E_J\cos(\hat{\varphi}-2\pi\phi_{\rm ext})\Big] + \omega_s \hat{a}^\dagger \hat{a} + J \hat{n}\hat{n}_a
+$$
+
+Here the term in parentheses is the qubit Hamiltonian defined in terms of the fluxonium $E_C$, $E_J$, and $E_L$ parameters, as well as the external flux $\phi_{\rm ext} = \Phi_{\rm ext}/\Phi_0$. The storage oscillator mode is defined in terms of its annihilation operator $\hat{a}$, its frequency $\omega_s$ and its zpf $\varphi_{a, \rm zpf}$, which defines:
+
+\begin{align*}
+\hat{\varphi}_a &= \varphi_{a, \rm zpf} (\hat{a}+\hat{a}^\dagger) \\
+\hat{n}_a &= \frac{i}{2\varphi_{a, \rm zpf}} (\hat{a}^\dagger - \hat{a})
+\end{align*}
+
+Finally, the coupling between the fluxonium and the storage mode is a charge-charge coupling of strength $J$.
+
+We can diagonalize the full system together to get a set of joint eigen-energies $E_{q, s}$ where $q$ and $s$ index the qubit and storage respectively. Then, we can calculate dispersive shift $\chi$
+
+$$
+\chi \equiv \omega_s^{|e\rangle} - \omega_s^{|g\rangle} = [E_{1,1} - E_{1, 0}] - [E_{0, 1} - E_{0, 0}] 
+$$
+
+as well as the “single-photon” Kerr nonlinearities, defined as the anharmonicity:
+
+\begin{align*}
+K_g &= [E_{0, 2} - E_{0, 1}] - [E_{0, 1} - E_{0, 0}] \\
+K_e &= [E_{1, 2} - E_{1, 1}] - [E_{1, 1} - E_{1, 0}]
+\\ \\
+K &= \frac{K_g + K_e}{2}, \quad dK = \frac{K_g - K_e}{2}
+\end{align*}
+
+We can then write down an effective dispersive interaction between the qubit and storage which is defined by the following Hamiltonian:
+
+\begin{align*}
+\hat{H} &= \frac{\chi}{2} \hat{a}^\dagger\hat{a} \sigma_z + \frac{K_g}{2} \hat{a}^\dagger{}^2\hat{a}^2 \,|g\rangle\langle g| + \frac{K_e}{2} \hat{a}^\dagger{}^2\hat{a}^2 \,|e\rangle\langle e| \\
+&= \frac{\chi}{2} \hat{a}^\dagger\hat{a} \sigma_z + \frac{K}{2} \hat{a}^\dagger{}^2\hat{a}^2 + \frac{dK}{2}\hat{a}^\dagger{}^2\hat{a}^2 \sigma_z
+\end{align*}
 
 
 \section{Hardware and Setup}
@@ -59,7 +93,7 @@ In most circuit QED experiments, the readout resonator forms a crucial gateway t
 \begin{figure}[h!]
     \centering
     \includegraphics[width=\linewidth]{Figures/4/resonator_spectroscopy.pdf}
-    \caption{Caption}
+    \caption{\textbf{(a)} Readout cavity resonance measured using a time-domain resonator spectroscopy sequence. We plot the gradient of the phase $\theta$ of the reflected signal. \textbf{(b,c)} Sweep of resonator spectroscopy vs. drive power; here we plot both the magnitude and phase.}
     \label{fig:4_resonator_spectroscopy}
 \end{figure}
 
@@ -70,7 +104,7 @@ Due to its coupling to the fluxonium qubit, we also expect the resonator to inhe
 \begin{figure}[h]
     \centering
     \includegraphics[width=\linewidth]{Figures/4/resonator_spectroscopy_vs_flux.pdf}
-    \caption{Caption}
+    \caption{Resonator spectroscopy vs. external bias voltage on the qubit. The top panel shows high-power data with an LO output power [cf. Fig. \ref{fig:4_resonator_spectroscopy}] of -10 dBm, while bottom panel shows lower-power data taken at -30 dBm. We see the resonator spectrum is indeed periodic with the bias voltage.}
 \label{fig:4_resonator_spectroscopy_vs_flux}
 \end{figure}
 
@@ -103,14 +137,14 @@ In experiment, we performed wideband two-tone spectroscopy to map out the higher
 \end{equation}
 as the qubit parameters for this device by fitting to the data. This is within the range that we designed for, and results in a qubit frequency of approximately 94.1 MHz at half-flux. 
 
-At this resolution, there are also certain features that appear to be constant with flux. We can identify these are the various linear modes in the system, e.g. the storage resonator at 8.86 GHz, and the two on-chip antenna modes at 8.60 GHz and 8.46 GHz. Since each of these modes has a dispersive shift to the readout resonator (also shown), we are able to see them in this two-tone measurement just as we do the other qubit transitions\footnote{We can also see some other faint qubit-like transitions near half-flux. We will comment on these later, as they are actually quite interesting: we'll see that they are two-photon ``parasitic'' qubit-resonator transitions.}. Note that each of these linear modes (including the readout) has \textit{some} flux dispersion if we zoom in close enough. This is important for readout calibration, as typically the readout frequency must be calibrated at each new flux operating point. In the data shown here, we did not do this, and instead used a constant frequency tone at 7.8442 GHz, which was approximately resonant across the entire flux range (cf. low-power data in Fig. \ref{fig:4_resonator_spectroscopy_vs_flux}). While this worked reasonably well, we nonetheless see variations in readout constant that could be improved by first redoing resonator spectroscopy at each flux point prior to two-tone, or by creating a lookup table ahead of time. 
+At this resolution, there are also certain features that appear to be constant with flux. We can identify these are the various linear modes in the system, e.g. the storage resonator at 8.86 GHz, and the two on-chip antenna modes at 8.60 GHz and 8.46 GHz. Since each of these modes has a dispersive shift to the readout resonator (also shown), we are able to see them in this two-tone measurement just as we do the other qubit transitions\footnote{We can also see some other faint qubit-like transitions near half-flux. We'll comment on these later, as they are actually quite interesting: it turns out that they are two-photon ``parasitic'' qubit-resonator transitions.}. Note that each of these linear modes (including the readout) has \textit{some} flux dispersion if we zoom in close enough. This is important for readout calibration, as typically the readout frequency must be calibrated at each new flux operating point. In the data shown here, we did not do this, and instead used a constant frequency tone at 7.8442 GHz, which was approximately resonant across the entire flux range (cf. low-power data in Fig. \ref{fig:4_resonator_spectroscopy_vs_flux}). While this worked reasonably well, we nonetheless see variations in readout constant that could be improved by first redoing resonator spectroscopy at each flux point prior to two-tone, or by creating a lookup table ahead of time. 
 
-From the wideband spectrum (also cf. Fig. \ref{fig:4_two_tone_vs_flux_zoom} below), we can clearly see that the storage resonator frequency lies between the two sets of fluxonium plasmon transitions. This is precisely what we had hoped to engineer in our system: as a reminder, we will refer to this important condition as bosonic mode threading. 
+From the wideband spectrum (also cf. Fig. \ref{fig:4_two_tone_vs_flux_zoom} below), we can clearly see that the storage resonator frequency lies between the two sets of fluxonium plasmon transitions. This is precisely the condition we had hoped to engineer in our system: as a reminder, we refer to it as bosonic mode threading. 
 
-\begin{figure}[hp]
+\begin{figure}[htp]
     \centering
-    \includegraphics[width=0.95\linewidth]{Figures/4/two_tone_vs_flux_full.pdf}
-    \caption{Caption}
+    \includegraphics[width=0.88\linewidth]{Figures/4/two_tone_vs_flux_full.pdf}
+    \caption{\textbf{(a)} Wideband two-tone spectroscopy data showing a landscape of transitions in our 3D-cavity package. \textbf{(b)} Overlaid fitted theoretical predictions based on numerical diagonalization of the fluxonium Hamiltonian with 3 free parameters: $E_C$, $E_J$, $E_L$. Various linear modes such as the storage, readout, and antennas are plotted as straight lines.}
 \label{fig:4_two_tone_vs_flux_full}
 \end{figure}
 \clearpage
@@ -154,7 +188,7 @@ In Fig. \ref{fig:4_rabi}, we show a typical \textbf{power Rabi} measurement, tak
 \begin{figure}[h]
     \centering
     \includegraphics[width=0.95\linewidth]{Figures/4/rabi.pdf}
-    \caption{Caption}
+    \caption{Left: Power Rabi experiment showing characteristic Rabi oscillations as we sweep the qubit drive amplitude for a resonant pulse. Right: we can sweep the frequency to get a ``chevron'' plot; we can use the minimum contrast point to tune up a $\pi$-pulse.}
     \label{fig:4_rabi}
 \end{figure}
 
@@ -167,7 +201,7 @@ Our next set of experiments involved measuring the $T_1$ relaxation time of the 
 \begin{figure}[h]
     \centering
     \includegraphics[width=0.95\linewidth]{Figures/4/qubit_T1_vs_flux_single.pdf}
-    \caption{Caption}
+    \caption{\textbf{(a)} $T_1$ experiment measuring qubit population $P_g$ vs. time. Solid line shows a fit to an exponential decay with an extracted $T_1 = 220 \pm 10$ $\mu$s. \textbf{(b)} Sweep of $T_1$ experiments vs. flux; at each flux, we tune up a $\pi$-pulse and then measure the $T_1$ decay.}
     \label{fig:4_qubit_T1_vs_flux_single}
 \end{figure}
 
@@ -178,64 +212,107 @@ If we go out even further in flux, we see an even richer structure to the flux-d
 \begin{figure}[h]
     \centering
     \includegraphics[width=0.95\linewidth]{Figures/4/qubit_T1_vs_flux_spec.pdf}
-    \caption{Caption}
+    \caption{Left: Sweep of $T_1$ experiment vs. flux over a wider range of external fluxes. We see rich structure, which we associate with accidential two-photon resonances in the spectrum. Right: we match the locations of the largest qubit $T_1$ drops to two-tone spectroscopy, showing that they coincide with the resonances shown. See main text for details.}
     \label{fig:4_qubit_T1_vs_flux_spec}
 \end{figure}
 
-In the right panel of Fig. \ref{fig:4_qubit_T1_vs_flux_spec}, we reproduce the $T_1$ data from the left panel, but also now align it with two-tone spectroscopy data taken earlier. At this resolution, the storage and the two antenna modes are straight lines. On top of these we see certain flux-dependent transitions: it turns out that these are ``two-photon'' transitions! (We showed these in Fig. \ref{fig:4_two_tone_vs_flux_full} as well). Specifically, they correspond to the frequencies of the linear modes \textit{plus} the qubit $\ket{g}\to\ket{e}$ frequency, i.e. they are activated when $\omega_d \approx \omega_{\rm lin} + \omega_{ge}$ where $\omega_{\rm lin}$ can be the frequency of the storage or either antenna. Intuitively, we can understand the drop-offs in qubit $T_1$ occurring when this ``two-photon'' transition is tuned into resonance with one of the \textit{other} linear modes. For example, at $\Phi_{\rm ext} \approx 0.48\Phi_0$, we have $\omega_{\rm C} + \omega_{ge} \approx \omega_{s}$, and at $\Phi_{\rm ext} \approx 0.47\Phi_0$, we have $\omega_{\rm A} + \omega_{ge} \approx \omega_{s}$. In both cases, the resulting resonance leads to a direct Purcell-type decay of the qubit. We have since been able to reproduce this behavior using numerical Purcell simulations, including the initial drop-off at half-flux shown in Fig. \ref{fig:4_qubit_T1_vs_flux_single}; although the latter does not correspond to a direct resonance, we suspect it arises as a higher order term in perturbation theory. I will leave a full investigation of this effect to future work. \todo{Maybe add a simulation result if there is time?}
+In the right panel of Fig. \ref{fig:4_qubit_T1_vs_flux_spec}, we reproduce the $T_1$ data from the left panel, but also now align it with two-tone spectroscopy data taken earlier. At this resolution, the storage and the two antenna modes are straight lines. On top of these we see certain flux-dependent transitions: it turns out that these are ``two-photon'' transitions! (We showed these in Fig. \ref{fig:4_two_tone_vs_flux_full} as well). Specifically, they correspond to the frequencies of the linear modes \textit{plus} the qubit $\ket{g}\to\ket{e}$ frequency, i.e. they are activated when $\omega_d \approx \omega_{\rm lin} + \omega_{ge}$ where $\omega_{\rm lin}$ can be the frequency of the storage or either antenna. Intuitively, we can understand the drop-offs in qubit $T_1$ occurring when this ``two-photon'' transition is tuned into resonance with one of the \textit{other} linear modes. For example, at $\Phi_{\rm ext} \approx 0.48\Phi_0$, we have $\omega_{\rm C} + \omega_{ge} \approx \omega_{s}$, and at $\Phi_{\rm ext} \approx 0.47\Phi_0$, we have $\omega_{\rm A} + \omega_{ge} \approx \omega_{s}$. In both cases, the resulting resonance leads to a direct Purcell-type decay of the qubit. We have since been able to reproduce this behavior using numerical Purcell simulations, including the initial drop-off at half-flux shown in Fig. \ref{fig:4_qubit_T1_vs_flux_single}; although the latter does not correspond to a direct resonance, we suspect it arises as a higher order term in perturbation theory. I will leave a full investigation of this effect to future work. 
 
-\subsection{Ramsey, Echo, and Flux Noise Amplitude Characterization}
+\subsection{Ramsey and Echo Measurements}
 
 We also performed coherence measurements of the qubit using typical $T_2$ Ramsey and Echo sequences. A Ramsey measurement involves applying two ($\pi/2$)-pulses separated by a variable delay $\tau$; by detuning the frequency of the pulses from qubit frequency, we observe characteristic Ramsey oscillation fringes of the qubit population vs. time with a frequency given by the detuning. An Echo measurement is similar, but adds an additional $\pi$-pulse in the middle of the sequence to refocus dephasing errors; in this case, all pulses are set to be resonant with the qubit and we see no oscillations. In both cases, we fit to an overall decay envelope of the form $\exp[-(\tau/T_2)^{1 +\alpha}]$, corresponding to Markovian dephasing and $1/f^\alpha$ flux noise. We show some typical Ramsey and Echo measurements in Fig. \ref{fig:4_T2_ramsey_echo} taken for the qubit parked at half-flux.
+
+\todo{Perhaps mention flux noise amplitude if there is space for it.}
 
 \begin{figure}[h]
     \centering
     \includegraphics[width=0.95\linewidth]{Figures/4/T2_ramsey_echo.pdf}
-    \caption{Caption}
+    \caption{$T_2$ Ramsey and Echo measurements for our fluxonium at half-flux.}
     \label{fig:4_T2_ramsey_echo}
 \end{figure}
 
-We next repeated these measurements as a function of the external flux. We see that the $T_2$ drops away from the half-flux sweet spot, as is expected for a flux-tunable qubit. 
-
-
-
-
+\clearpage
 \section{Storage Resonator Measurements \label{sec:4_StorageChi}}
 
 \subsection{Storage Spectroscopy}
 
-We are now ready to discuss measurements of the storage resonator. We had already identified the storage resonator in two-tone spectroscopy, and we now wanted to corroborate that using a storage spectroscopy measurement. This measurement uses the qubit as a meter to probe the storage resonator frequency; as shown below in Fig. \ref{fig:4_storage_spectroscopy}, it involves driving the storage resonator and then performing a frequency-selective $\pi$-pulse on the qubit. We are in the number split regime where 
-
-
-
+We are now ready to discuss measurements of the storage resonator. At this stage, we had already identified the storage in two-tone spectroscopy, and now wanted to corroborate this using a storage spectroscopy experiment. This measurement uses the qubit as a meter to probe the storage resonator frequency; as shown below in Fig. \ref{fig:4_storage_spectroscopy}, it involves driving the storage resonator and then performing a frequency-selective $\pi$-pulse on the qubit. This $\pi$-pulse is chosen to have length $\tau \gg 1/\chi_{qs}$ and a frequency that corresponds to the qubit frequency when the storage has zero photons. When the initial storage drive is resonant with the cavity, it will displace the storage away from the vacuum $\ket{0}$; as a result, the $\pi$ pulse fails. Only when the storage drive is off-resonant will the cavity remain in its $\ket{n=0}$ state, and thus cause the $\pi$-pulse to be implemented correctly. Finally, given our need for post-selection here, we can initialize the fluxonium in either $\ket{g}$ or $\ket{e}$ to see two different resonance dips. In practice, we used a constant $\tau = 2.4$ $\mu$s for the selective pulse.
 \begin{figure}[h]
     \centering
-    \includegraphics[width=0.75\linewidth]{Figures/4/storage_spectroscopy.pdf}
-    \caption{Caption}
+    \includegraphics[width=0.85\linewidth]{Figures/4/storage_spectroscopy.pdf}
+    \caption{Storage spectroscopy measurement via the qubit. This experiment enables us to determine the storage frequency when the qubit is in $\ket{g}$ or $\ket{e}$ respectively.}
     \label{fig:4_storage_spectroscopy}
 \end{figure}
 
 \subsection{Engineering a Tunable Dispersive Shift}
 
+The storage spectroscopy measurement above presents a method to extract the dispersive shift $\chi_{qs}$ between the fluxonium and storage. We simply sweep the external flux $\Phi_{\rm ext}$ and tune up a frequency-selective $\pi$-pulse at each bias point. Since the storage flux dispersion is minimal, we can perform a storage spectroscopy at each flux, and calculate $\chi_{qs}$ as the difference in the resonance frequency when the qubit is in $\ket{g}$ vs. $\ket{e}$, as is consistent with a Hamiltonian coupling term $\chi_{qs} \hat{a}^\dagger\hat{a}\sigmaz/2$. The result of this measurement is shown in Fig. \ref{fig:4_tunable_chi}, and we see that the dispersive shift indeed tunes with flux and crosses through zero, as is expected with bosonic mode threading. 
+
 \begin{figure}[h]
     \centering
     \includegraphics[width=0.6\linewidth]{Figures/4/tunable_chi.pdf}
-    \caption{Caption}
+    \caption{Measurement of the tunable storage dispersive shift $\chi_{qs}(\Phi_{\rm ext})$ vs. the external flux $\Phi_{\rm ext}$. We mark the approximate zero crossing point, which occurs at $\Phi_{\rm ext} \approx 0.481\Phi_0$.}
     \label{fig:4_tunable_chi}
 \end{figure}
 
+\noindent Since we used a selective $\pi$-pulse of the same length $\tau = 2.4$ $\mu$s at each flux point, we don't expect this method to work well near the zero crossing point where $\chi_{qs} \to 0$ since there the condition $\tau \gg 1/\chi_{qs}$ ceases to hold. We consequently see slightly larger error bars at the crossing and cannot measure the exact point at which $\chi_{qs}=0$ (the fit fails). 
+
+\clearpage
+
 \section{Storage Coherence: Problems and Pitfalls \label{sec:4_StorageCoherenceProblems}}
+
+Our next experimental step was to characterize the coherence of the storage resonator. As we later discovered, however, the storage lifetime was severely limited in our device. This led to a series of A/B tests and many months of debugging before we realized that the problem was in some sense inherent to our design. In this section, we will present some of the major clues that led us to this conclusion. 
 
 \subsection{Initial Time-Domain Measurement}
 
+The first method we took to measure the storage lifetime was based on a number-splitting spectroscopy experiment \cite{schuster2007resolving}. This measurement sequence uses a selective qubit $\pi$-pulse, and in particular consists of playing a storage drive at one of the storage peaks (e.g. $\omega_s^{\ket{g}}$) and then performing qubit spectroscopy with the selective pulse. If we post-select to have started with the qubit in $\ket{g}$, then this will enable us to see multiple resonance peaks in the qubit spectrum corresponding to the photon number distribution in the cavity after it is excited via the storage pulse. We can see an example of this on the left plot in Fig. \ref{fig:4_storage_T1_numsplit} below, which shows the photon number distribution (teal) after driving the storage with a 10 $\mu$s pulse, followed by a 2.4 $\mu$s selective qubit $\pi$-pulse. The distribution is specified via the depth of the various resonance dips, and is expected to follow a Poisson distribution as the storage is driven to a coherent state. We contrast this with the case when the storage pulse is not played (grey), resulting in just a single qubit spectroscopy dip corresponding to the storage having $\ket{n=0}$ photons. 
+
+In order to measure the storage $T_1$ this way, we can introduce a variable delay between the storage drive pulse and the qubit $\pi$-pulse. During this time, the storage will experience photon loss $\kappa_{1s}\mathcal{D}[\hat{a}]$ and thus the number distribution will decay back down towards the vacuum. We can measure this decay by parking at, say, the $\ket{n=0}$ dip and recording the change in contrast vs. time. For single-photon loss rate $\kappa_{1s}$, we expect an initial coherent state $\alpha_0$ to decay as $\alpha(t) = \alpha_0 e^{-\kappa_{1s}t/2}$, i.e. so that $\bar{n}(t) = |\alpha(t)|^2 =  \bar{n}_0 e^{-\kappa_{1s}t}$ with $\bar{n}_0 = |\alpha_0|^2$. We can fit the decay of the $\ket{n=0}$ qubit spectroscopy dip by weighting $\bar{n}(t)$ via the Poisson distribution evaluated at $n = 0$. This gives us a fit function $P_{g, 0}(t) = 1-a\cdot\exp[-\bar{n}_0 e^{-\kappa_{1s}t}]$ for the decay, where $a$ is a scale parameter to account for the partial contrast. From this, we can extract the lifetime $T_{1s} = 1/\kappa_{1s}$. We show the result of such a measurement in the right panel of Fig. \ref{fig:4_storage_T1_numsplit}.
 \begin{figure}[h]
     \centering
     \includegraphics[width=\linewidth]{Figures/4/storage_T1_numsplit.pdf}
-    \caption{Caption}
+    \caption{Left: Number-splitting spectroscopy data for the qubit at half-flux, showing multiple photon-resolved dips (teal) after driving the storage for 10 $\mu$s. If we add a variable delay after the storage pulse, we observe the number distribution decaying back towards the case when the storage has $\ket{n=0}$ photons (grey). Plotting the depth of the $\ket{n=0}$ dip vs. time allows us to measure the single-photon decay and extract the storage lifetime.}
     \label{fig:4_storage_T1_numsplit}
 \end{figure}
 
 \subsection{Testing and Progress}
+We were very surprised to measure a storage lifetime of $T_{1s} \approx 1$ $\mu$s, given the bare lifetime of the Mark II storage cavity of $T_{1s}^{\rm bare} \approx 740$ $\mu$s that we had seen previously without qubit chips. We therefore set out to debug this part of our system over several subsequent cooldowns. In time, we were able to verify that our bare 3D cavity resonators indeed had high coherence; we tested both the Mark II and Mark III cavities in various configurations as shown in Fig. \ref{fig:4_3D_Cavity_Debugging}. These tests also helped us rule out excess coupling loss due to the storage drive pin. One observation we made is that even inserting blank Si chips into the cavity seemed to degrade their lifetime (i.e. with no qubit, flux line, or metallization). We attributed this to the lossy single-side polished Si wafer that was used to fabricate the fluxonium chips. Nonetheless, this effect alone was not enough to account for the drop in cavity lifetime from over 700 $\mu$s to $\sim\!1$ $\mu$s. 
 
+\begin{figure}[t]
+    \centering
+    \includegraphics[width=\linewidth]{Figures/4/3D_Cavity_Debugging.pdf}
+    \caption{Maximum single-photon $T_{1s}$ measured across all three resonator in the Mark III cavity. Each configuration was tested during a different cooldown of the fridge.}
+    \label{fig:4_3D_Cavity_Debugging}
+\end{figure}
+
+Our main suspicion was that the storage loss was coming primarily from the qubit flux line; we thus first attempted to remedy it by adding external DC/RF filtering to our lines. Unfortunately, this is did not seem to solve the problem. We later also attempted capping the flux line with a 50 $\Omega$ terminator and then went as far as fully de-wirebonding it; neither of these changes helped appreciably and the storage lifetime remained around 1 $\mu$s or less. Our conclusions from these tests were also muddied by uncontrolled factors between the various cooldowns (e.g. statistical variations in lifetime, degradation of the cavities with time, or changes to the exact amount of indium used in the seals). 
 
 \subsection{Direct Measurement of Loss from the Flux Line}
+
+We were ultimately able to confirm our suspicions about the flux line loss by performing a direct reflection ($S_{11}$) measurement of the 3D cavities \textit{through} the flux lines. We connected a VNA to the flux line and were able to measure the storage cavity resonance, which alone was enough to tell us that the flux line was too strongly coupled (cf. Fig. \ref{fig:4_storage_loss_thru_flux_line}); we ideally should not be able to see anything. Here, however, the low-power resonator spectroscopy measurement shows two dips associated with the fluxonium being in $\ket{g}$ or $\ket{e}$ respectively. To reflect this, we fitted the data to a double Lorenztian $S_{11}$ model consisting of two weighted peaks with identical linewidths but different frequencies. From here, we were able to extract $\kappa_c/2\pi = 320.9$ kHz and $\kappa_i/2\pi = 2.03$ MHz. 
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.7\linewidth]{Figures/4/storage_loss_thru_flux_line.pdf}
+    \caption{Direct measurement of the storage resonance through the qubit flux line. At half-flux, we see two peaks associated with the states $\ket{g}$ and $\ket{e}$. We fit data to a double Lorentzian $S_{11}$ model with two weighted peaks of identical linewidth to extract $\kappa_c$ and $\kappa_i$.}
+    \label{fig:4_storage_loss_thru_flux_line}
+\end{figure}
+
+In the configuration of measuring $S_{11}$ through the flux line, the constant $\kappa_c$ tells us how much of the total storage loss comes from its coupling to the flux line. We get $T_{1c} = 1/\kappa_c \simeq 0.496$ $\mu$s, thus confirming that the flux line is limiting. However, in this measurement, we found that the internal loss $\kappa_i$ is even larger than $\kappa_c$, suggesting there is \textit{another} loss channel at play beyond just the flux line. 
+
+\subsection{Storage Loss HFSS Simulations and Summary}
+
+We were finally able to resolve the storage loss question by revisiting our E\&M eigenmode simulations of the 3D cavity package using Ansys HFSS\footnote{I'd like to thank R\'eouven Assouly for his insight to re-run the simulations, for various tips for using HFSS, and his help and willingness to brainstorm creative solutions during this turbulent time in the project.}. We found that the storage losses were significant even in simulation and thus inherent to our design. This is ultimately the reason why many of the steps we took during our A/B testing did not improve the cavity lifetimes. We show an example simulation in Fig. \ref{fig:4_HFSS_Simulation}, here characterizing the effect of 50 $\Omega$ loss from the flux line [panel (a)]. We consistently found that when the fluxonium chip is inserted, the electric field of the storage mode does \textit{not} stay confined to the post cavity, but instead `leaks out' and does so in two distinct ways: (i) through the qubit flux line, as shown in panel (d), and (ii) by participating in the ground plane mode between the chip and the tunnel walls, as is depicted in panel (e). We saw the former in our measurement of storage loss down the flux line. The latter effect, however, is more subtle and arises when a voltage develops between the metallization of the ground plane and the chip tunnel wall, giving rise to a $(\lambda/4)$-like mode of the entire ground plane. The storage participates in this mode and thus its field can be thought to `leak' down the tunnel. In turn, the storage will experience a full litany of loss mechanisms that 3D cavities are otherwise supposed to be resilient to (e.g. seam loss at the mouth of the tunnel and mode participation in lossy glue and/or PCB dielectrics) \cite{reagor2013reaching,brecht2015demonstration,reagor2016quantum}. We corroborated this in simulation by later including seam loss explicitly. 
+
+\begin{figure}[t]
+    \centering
+    \includegraphics[width=0.8\linewidth]{Figures/4/HFSS_Simulation.pdf}
+    \caption{\textbf{(a)} HFSS model of our 3D cavity-fluxonium device with a 50 $\Omega$ loss channel. \textbf{(b, c)} Exact and approximate models for the tip of the flux line. \textbf{(d)} Eigenmode simulation result showing storage cavity electric field; the field is mostly concentrated around the post cavity, but also leaks down the flux line. \textbf{(e)} Different angle showing the cavity field also participating in the ``ground plane'' mode, and thus leading down the chip tunnel.}
+    \label{fig:4_HFSS_Simulation}
+\end{figure}
+
+From these simulations, we realized that the `ground plane' loss channel (ii) will always arise if there is significant metallization inside the chip tunnel. While this could in principle be alleviated by somehow grounding the chip to the tunnel wall (e.g. using indium), doing so would necessarily also introduce seam losses, and thus it is not immediately clear how to proceed. Meanwhile, the `flux line' loss (i) could be solved in several ways, e.g. by using some form of on-chip microwave filtering \cite{pozar2012microwave} (more discussion of this in Ch. \ref{ch:5_2DGKP}). We even found in simulation that the shape of the flux tine tip seemed to affect the storage loss significantly [cf. Fig. \ref{fig:4_HFSS_Simulation}(b-c)]; in particular, using the exact shape of the flux line in Fig. \ref{fig:4_HFSS_Simulation}(b), we found $T_{1s} \simeq 0.5$ $\mu$s in simulation, whereas the approximate shape in Fig. \ref{fig:4_HFSS_Simulation}(c) resulted in $T_{1s} \simeq 1.9$ ms. 
+
+In summary, we learned from our experiments that it is a difficult technical challenge to integrate a fast flux line in 3D while maintain the coherence of an otherwise high-Q cavity. Although this presents a major hurdle for using fluxonium in a 3D-cavity architecture for the purpose of bosonic QEC, there are potential paths forward. We will discuss a few such approaches in the upcoming chapter. 
+
+\printbibliography[heading=subbibliography, title = References]

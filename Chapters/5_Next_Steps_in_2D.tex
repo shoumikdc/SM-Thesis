@@ -107,7 +107,7 @@ It turns out that we can cancel many of the unwanted terms above using an echo p
 \hat{H}(t) = \frac{\chi}{2}\hat{a}^\dagger\hat{a}[z(t)\hat{\sigma}_z]   + \Big[g_{\rm CD}(t)\hat{a}^\dagger + g_{\rm CD}^\ast(t)\hat{a}\Big]z(t)\hat{\sigma}_z
 \label{eq:5_FCD_simplified_hamiltonian}
 \end{equation}
-Here we have included a fictitious qubit state parameter $z(t) = \ev{\sigma_z(t)}$ that tells us when to perform $\pi$-pulses \cite{eickbusch2022-ECD}, and also explicitly highlight the time-dependence $g_{\rm CD}(t)$ controlled via the flux pump. We can then solve the Schr\"odinger equation $i\partial_t\hat{U} = \hat{H}(t)\hat{U}$ in terms of a parameterized ansatz $\hat{U}(t)$. We find the same ansatz and solution as Ref. \cite{eickbusch2022-ECD}: 
+Here we have included a fictitious qubit state parameter $z(t) = \ev{\sigma_z(t)}$ that tells us when to perform $\pi$-pulses \cite{eickbusch2022fast}, and also explicitly highlight the time-dependence $g_{\rm CD}(t)$ controlled via the flux pump. We can then solve the Schr\"odinger equation $i\partial_t\hat{U} = \hat{H}(t)\hat{U}$ in terms of a parameterized ansatz $\hat{U}(t)$. We find the same ansatz and solution as Ref. \cite{eickbusch2022fast}: 
 \begin{equation}
     \hat{U}(t) = \exp(i\theta \hat{\sigma}_z / 2)\,\exp\!\Big[\hat{a}^\dagger(\gamma + \delta \hat{\sigma}_z) - \hat{a}(\gamma^\ast + \delta^\ast \hat{\sigma}_z)\Big]\exp(i\phi\hat{a}^\dagger\hat{a}\hat{\sigma}_z)
 \end{equation}
@@ -121,7 +121,7 @@ If the CD gate has length $T$, we want $\phi(T) = 0$ at the end of the gate, and
 \begin{equation*}
     \gamma(T) = - \int_0^T \!d\tau \sin[\phi(\tau)] g_{\rm CD}(\tau)z(\tau) = 0, \,\,\text{and}\,\, \delta(T) = -i \int_0^T \!d\tau \cos[\phi(\tau)] g_{\rm CD}(\tau)z(\tau) \neq 0.
 \end{equation*}
-At this point, observe that if $g_{\rm CD}(t)z(t)$ can be made constant over the gate length $T$, then the symmetries of sine and cosine will automatically ensure $\gamma(T) = 0$ and $\delta(T) \neq 0$. Since the $\pi$-pulse schedule $z(t)$ is constained in its form, we can try several ansatze and modulate $g_{\rm CD}(t)$ with the same time-dependence so that $z(t)g_{\rm CD}(t)$ is constant. We find that a double-echo schedule satisfies all of our requirements, with $\pi$-pulses at $t = T/4$ and $t = 3T/4$, and $z(0)=1$ to initialize the qubit in the ground state $\ket{g}$. An example is plotted below, along with the final pulse sequence for $g_{\rm CD}(t)$ [which, again, is set by modulating the flux pump amplitude $\epsilon_p(t)$]. We named this novel sequence the \textbf{f}ast echoed \textbf{c}onditional \textbf{d}isplacement, or FCD, to contrast it from the usual ``single-echo'' ECD. 
+At this point, observe that if $g_{\rm CD}(t)z(t)$ can be made constant over the gate length $T$, then the symmetries of sine and cosine will automatically ensure $\gamma(T) = 0$ and $\delta(T) \neq 0$. Since the $\pi$-pulse schedule $z(t)$ is constained in its form, we can try several ansatze and modulate $g_{\rm CD}(t)$ with the same time-dependence so that $z(t)g_{\rm CD}(t)$ is constant. We find that a double-echo schedule satisfies all of our requirements, with $\pi$-pulses at $t = T/4$ and $t = 3T/4$, and $z(0)=1$ to initialize the qubit in the ground state $\ket{g}$. An example is plotted below, along with the final pulse sequence for $g_{\rm CD}(t)$ [which, again, is set by modulating the flux pump amplitude $\epsilon_p(t)$]. We named this novel sequence the \textbf{f}ast echoed \textbf{c}onditional \textbf{d}isplacement, or FCD, to contrast it from the usual ``single-echo'' ECD that we saw in Ch. \ref{ch:2_QEC}. 
 
 \begin{figure}[t]
     \centering
@@ -130,70 +130,96 @@ At this point, observe that if $g_{\rm CD}(t)z(t)$ can be made constant over the
     \label{fig:5_double_echo_FCD}
 \end{figure}
 
+We performed numerical simulations of the FCD gate using a two-level qubit truncated version of the full Hamiltonian in Eq. \eqref{eq:5_FCD_full_hamiltonian}, and found that the double $\pi$-pulse sequence we constructed indeed allows us to echo away the unwanted terms (such as the dispersive term $\chi_{aq}$, the displacement $g_{\rm disp}$, and the nonlinear displacement $g_a$). Unfortunately, however, we also find that the strength of the unconditional displacement $g_{\rm disp}$ in this scheme can be much larger than the conditional displacement $g_{\rm CD}$; using realistic device parameters we found that $g_{\rm disp}$ is often an order of magnitude larger. As a result, we expect that a separate ``cancellation drive'' on the storage will be required if we want to implement the FCD scheme in practice. 
 
+Beyond this, we also found that the various design constraints for a realistic RAT device can be quite demanding, as it is somewhat difficult to hit the various couplings and mode capacitances during design/simulation. Moreover, the transmon control qubit in the RAT approach would still be susceptible to frequent bit-flip errors, limiting the GKP code performance. For these reasons, we chose to develop an alternative to the RAT with a fluxonium control qubit in place of the transmon; we will discuss this next. 
 
-\subsection*{Why not the RAT?}
-
-\todo{Finish this section and comment on it}
-% We numerically checked now with the full and saw that terms echo away. 
-% Cancellation tone likely needed??? 
-
+Despite the challenges associated with it, the RAT remains a novel and interesting theoretical proposal for implementing GKP error correction, and we hope the ideas behind it may be useful in developing further experiments in the future. 
  \clearpage
  %%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{The Resonator-ATS-Fluxonium (RAF) Experiment \label{sec:5_RAF}}
 
-\section{The 2D Dispersive Design: Moving 3D \texorpdfstring{$\to$}{to} 2D\label{sec:5_2D_Disp}}
+Our current main approach to realizing GKP error correction in 2D is called the RAF. It builds upon the idea of using an ATS as a coupler to realize fast conditional displacements, but now uses a fluxonium control qubit instead. Here, I will give only a brief overview of the RAF; for a more complete treatment, I refer the interested reader to the upcoming SM thesis of my colleague Shantanu Jha. 
 
-Our final proposed approach to implement GKP error correction in 2D is our so-called 2D dispersive project. We came up with this approach during the penultimate stage of design for the RAF, which also coincided with our last attempts to fix the storage coherence issues in our 3D dispersive experiment (these issues turned out to be inherent to our 3D package). Given the daunting possibility of having to redesign the 3D experiment from scratch this late into the project, we set out to identify as many alternative paths forward as possible, and ultimately settled on the following: why not move the dispersive coupling experiment entirely to 2D, replacing the 3D cavity with an on-chip resonator? 
 
-Of course, as we saw in the previous section, 2D resonators have higher single-photon loss rates. However, given our strategy of using a large gap low-frequency resonator in the RAF, it seems within the realm of possibility to get a storage resonator with a lifetime of $T_1 \simeq 100$ $\mu$s. As we will see below, this would already be enough to demonstrate QEC. Additionally, the idea of moving the dispersive project to 2D is attractive for several other reasons: 
+
+
+
+\clearpage
+
+
+\section{The 2D Dispersive Experiment: Moving 3D \texorpdfstring{$\to$}{to} 2D\label{sec:5_2D_Disp}}
+
+Our final proposed approach to implement GKP error correction in 2D is our so-called 2D dispersive project. We came up with this approach during the penultimate stage of design for the RAF, which also coincided with our last attempts to fix the storage coherence issues in our 3D dispersive experiment (these issues turned out to be inherent to our 3D package). Given the daunting possibility of having to redesign the 3D experiment from scratch this late into the project, we set out to identify as many alternative paths forward as possible and ultimately settled on the following: why not move the dispersive coupling experiment entirely to 2D, replacing the 3D cavity with an on-chip resonator? This idea was attractive to us for several key reasons: 
 \begin{enumerate}
-    \item In 2D, the storage resonator and fluxonium can be directly coupled capacitively and thus we would not need an antenna to mediate the coupling. This would also eliminate the parasitic Purcell resonances that we saw in  Sec. \ref{sec:4_fluxonium_T1}.
+    \item In 2D, the storage and fluxonium can be directly coupled capacitively and we don't need an antenna to mediate the coupling. By reducing one linear mode, this would help alleviate the parasitic Purcell resonances that we saw in  Sec. \ref{sec:4_fluxonium_T1}.
+    \item In contrast to 3D, fast-flux control of the qubit can be implemented straightforwardly via on-chip flux lines in 2D. 
+    \item Specific to our fabrication workflow in EQuS, a 2D design could be fabricated using a standard 2" wafer at Lincoln Lab as opposed to the 8" wafer that was required for the fluxonium chips we used in our 3D experiment; using the more standard process would help with fabrication time, yield, and parameter targeting. 
+    \item We could use the design/simulation infrastructure already developed for the RAF to expedite the process. Indeed, this ultimately proved to be the single most important factor and enabled us to go from ideation to a complete design in under two months. 
+    \item It is a simpler 2D experiment than the RAF, and so helps mitigate the risk of failure. 
 \end{enumerate}
 
+Of course, as we noted in the previous section, 2D resonators have higher single-photon losses. A 2D dispersive design relying on ECD would not be able to correct such errors as efficiently as the RAF. Nonetheless, given our strategy of using a large gap low-frequency resonator, it seems within the realm of possibility to achieve a storage resonator lifetime of $T_1 \simeq 100$ $\mu$s. As we will see below, this would already be enough to demonstrate QEC. 
+
+\subsection{System Parameters and Design Overview}
+The 2D dispersive design consists of four main elements: the storage resonator, fluxonium qubit, readout resonator, and a Purcell filter to help achieve larger resonator linewidth for the SBS reset without causing excess loss to the qubit. As with the RAF, the various design parameters here were chosen to balance many different experimental constraints, and had to be iteratively refined via successive rounds of simulation. The final design is shown in Fig. 5-1, and we will now discuss some of the design considerations that went into it.
+\begin{figure}[h] 
+    \begin{subfigure}{\linewidth}
+        \centering
+        \includegraphics[width=0.8\linewidth]{Figures/5/2D_Dispersive_GDS.pdf}
+        \vspace*{2mm}
+    \end{subfigure} 
+    \begin{subfigure}{\linewidth}
+        \centering
+        \begin{tabular}{c|c|c|c|c|c|c|c|c }
+       $\omega_s/2\pi$ & $J_{fs}/2\pi$ & $E_J/h$  & $E_C/h$ & $E_L/h$ & $g_{rq}/2\pi$ & $\omega_r/2\pi$ & $\omega_p/2\pi$ & $g_{pr}/2\pi$\\\hline
+        4134.0 & 3.0 & 3754.9 & 844.0 & 299.9 & 42.1 & 6125.0 & 6137.0 & 27.6
+    \end{tabular}
+    \end{subfigure}
+    \caption{Final GDS design and parameters for the 2D dispersive experiment, showing the on-chip storage resonator, fluxonium qubit, readout resonator, and Purcell filter. The frequency parameters for the various elements in the table are all listed in MHz}
+    \label{fig:5_2D_Dispersive_GDS}
+\end{figure}
+
+\noindent \textbf{Fluxonium:} We chose the nominal qubit parameters $E_J, E_C, E_L$ shown above in Fig. \ref{fig:5_2D_Dispersive_GDS} to achieve a moderately heavy fluxonium with a frequency of $\omega_q/2\pi \simeq 107$ MHz at half-flux. We expect this will result in a long $T_1^{g\to e}$ away from the sweet spot. These parameters also ensured that the qubit plasmon transition frequencies were high enough to not be limited by heating out of the $\ket{g}$-$\ket{e}$ manifold. 
 
 
-(1) 
+\noindent \textbf{Storage and Fluxonium System:} The storage mode was designed as a large gap (60 $\mu$m) $\lambda/4$ coplanar waveguide resonator with a resulting impedance of $Z_0 = 95.127$ $\Omega$. We chose its frequency to be as low as possible to maximize $T_1$ given a constant $Q = \omega_s T_1$, ultimately settling on $\omega_s/2\pi = 4.134$ GHz. This was co-designed with the fluxonium so as to achieve bosonic mode threading. For the fluxonium-storage coupling $J_{fs}$, we performed numerical diagonalization simulations of the following Hamiltonian (similar to that in Ch. \ref{sec:4_3D_Experiment_Design_Theory}):
+\begin{equation}
+    \hat{H} =  \hat{H}_s + \hat{H}_{\rm int} + \hat{H}_{\rm fluxonium} =  \omega_s \hat{a}^\dagger \hat{a} + J_{fs} \hat{n}\hat{n}_a + \Big[4E_C \hat{n}^2 + \frac{1}{2}\hat{\varphi}^2 - E_J\cos(\hat{\varphi}-\varphi_{\rm ext})\Big],
+\end{equation}
+using which we calculated the dispersive shift $\chi = \omega_s^{|e\rangle} - \omega_s^{|g\rangle} = [E_{e,1} - E_{e, 0}] - [E_{g, 1} - E_{g, 0}]$ as well as the storage Kerr nonlinearities $K = (K_g + K_e)/2$ and $dK = (K_g - K_e)/2$ defined by $K_{g/e} = E_{g/e, 2} + E_{g/e, 0} - 2E_{g/e, 1}$. We then manually varied $\omega_s$ and $J_{fs}$ so as to achieve a low $K$ and $dK$ (on the order of Hz)\footnote{We have seen in simulations that the average Kerr $K$ is worse for GKP performance than differential Kerr $dK$. We can typically afford $dK$ to be slightly (as much as 5-10x) larger than $K$; ideally we have $K < 5$ Hz.} over the external flux range of interest $\Phi_{\rm ext}/\Phi_0 \in [0.43, 0.5]$, while also having a flux-tunable $\chi$ that crosses through zero and that is large enough away from this zero-crossing to perform ECD. We tried to target similar values for $\chi$, $K$, and $dK$ as Ref. \cite{sivak2023gkp-expt}, and ultimately picked a flux operating point with $\chi/2\pi \simeq 50$ kHz, $K/2\pi \simeq 1$ Hz, and $dK/2\pi \simeq 10$ Hz, as shown in Fig. \ref{fig:5_2D_disp_chi_and_Kerr} 
+\begin{figure}[h]
+    \centering
+    % \includegraphics{}
+    \caption{\todo{make this figure!}}
+    \label{fig:5_2D_disp_chi_and_Kerr}
+\end{figure}
+
+\noindent \textbf{Readout and Purcell Filter:} We used a similar design for the readout resonator and Purcell filter as the RAF; both resonators were standard 50 $\Omega$ coplanar waveguide resonators with frequencies $\omega_r/2\pi = 6.125$ and $\omega_p/2\pi = 6.137$. We chose $g_{pr}$ to be greater than the detuning of the modes, so that the two are almost fully hybridized with normal mode frequencies of roughly $\omega_r - g_{pr}$ and $\omega_p + g_{pr}$ [to see this, diagonalize $\hat{H}_{pr} = \omega_r\hat{r}^\dagger \hat{r} + \omega_p\hat{p}^\dagger \hat{p} + g_{pr}(\hat{r}^\dagger\hat{p} + \hat{r}\hat{p}^\dagger)$]. The Purcell filter is strongly coupled to a transmission line with a coupling of $\kappa_p/2\pi \simeq 38.8$ MHz and, choosing $g_{pr} \lesssim \kappa_p$, results in an effective linewidth of the readout of $\kappa_r/2\pi \simeq 16$ MHz. 
 
 
-This idea was very attractive for several reasons. 
+identical nominal frequencies of $\omega_r/2\pi = 6.125$ GHz. The two resonators are coupled via the Hamiltonian
+\begin{equation}
+    \hat{H}_{pr} = \omega_r\hat{r}^\dagger \hat{r} + \omega_p\hat{p}^\dagger \hat{p} + g_{pr}(\hat{r}-\hat{r}^\dagger)(\hat{p} - \hat{p}^\dagger)
+\end{equation}
+from which we get normal modes with frequencies $\approx \omega_r \pm g_{pr}$ for the hybridized system. The Purcell filter is strongly coupled to a transmission line with a coupling of $\kappa_p/2\pi \simeq 38.8$ MHz. We chose 
 
 
-why not move the entire 3D dispersive coupling experiment to 2D? 
+As further shown in Fig. \ref{fig:5_SBS_Sideband_Reset}, our proposed approach to implement the qubit reset here is to use direct fluxonium sideband cooling by driving the $\ket{e0}\leftrightarrow\ket{g1}$ transition between the qubit and readout resonator. 
 
 
+\subsection{Performance Estimates}
 
-if we can fabricate a high-coherence 2D resonator, why 
+The first check we carried out when assessing the feasibility of a 2D dispersive design was to determine how quickly we can implement a round of SBS (i.e. one quadrature of QEC). We based this on preliminary simulations from our theory collaborators Jonathan Pelletier and Baptiste Royer that indicated\footnote{These simulations aren't yet published, but they show that the maximum storage photon number at which ECD starts to break in simulation is similar or even slightly higher for a fluxonium than for a transmon.} that a fluxonium qubit is not significantly different than a transmon from the perspective of carrying out ECD. As a result (cf. above), we designed our storage-fluxonium system to have a similar dispersive shift and Kerr nonlinearity as the storage-transmon system from Ref. \cite{sivak2023gkp-expt}, and assumed in what follows that we can use a similar photon number (approximately 100-140 storage photons) in ECD. 
+\begin{figure}[h]
+    \centering
+ \includegraphics[width=\linewidth]{Figures/5/SBS_Sideband_Reset.pdf}
+    \caption{SBS sequence consisting of 3 conditional displacements (teal), 4 qubit pulses (purple),  and unconditional qubit reset (lilac). The reset can be further decomposed into a number of dissipative swap operations based on fluxonium $\ket{e0}\leftrightarrow\ket{g1}$ sideband cooling.}
+    \label{fig:5_SBS_Sideband_Reset}
+\end{figure}
 
-
-we brainstormed various avenues 
-
-
-we instead arrived at a 
-
-
-In order to proceed, we ultimately arrived at the following conclusion: 
-
-
-We were at this point faced with the daunting engineering challenge of somehow making a 3D design 
-
-
-possibility of a daunting engineering challenge to make a robust 3D design 
-
-our options 
-
-
-associated with implementing a robust 3D design, we arrived 
-
-
-This approach was conceived during the last stages of design for the RAF, which also coincided 
-
-
-rather quickly, as we went from ideation to a completed design in under two months
-
-
-over the course of two months
-
-This approach was developed during the final design stages of the RAF, which also coincided with 
-
+\noindent The sequence for SBS is shown in Fig. \ref{fig:5_SBS_Sideband_Reset}: it consists of 4 conditional displacements (CDs), 3 qubit $\pi/2$ rotations, and qubit reset. We assume our CDs take the same time as Ref. \cite{sivak2023gkp-expt} and that our qubit pulses each take 32 ns; meanwhile for reset, we follow Ref. \cite{nordquantique2023gkp-expt} where the authors used $N_{\rm reset} = 2$ dissipative swaps. In our case, our readout has a linewidth of $\kappa_r / 2\pi \approx 9$ MHz, giving a $T_1 \simeq 18$ ns. We thus take $T_{\rm diss. swap} \simeq 132$ ns (which is $\sim\!6T_1$ plus some buffer). In total, the time $\delta t$ that we estimate it will take for a round of SBS is:
+\begin{align*}
+\delta t = T_{\rm sBs}  &= 4T_{\rm pi} + (T_{\rm CD\,1} + T_{\rm CD\,2} + T_{\rm CD\,3}) + \big[N_{\text{reset}}\times T_{\text{diss. swap}}\big] \\ &= 4\times (32) + (470 + 676 + 230) + \Big[2 \times 132\Big] = 1768\, {\rm ns}
+\end{align*}
