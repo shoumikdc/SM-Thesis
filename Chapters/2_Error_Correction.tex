@@ -1,21 +1,9 @@
 \chapter{Quantum Error Correction with GKP Codes\label{ch:2_QEC}}
 
-\section{General Notions of QEC}
-It is sometimes said that the concept of quantum error correction is more remarkable than the concept of quantum computation itself \cite{girvin2019QECvideo}. Indeed, the fact that quantum error correction is in principle even possible is somewhat surprising, for three fundamental reasons: (1) the \textit{no-cloning} theorem \cite{ike-and-mike}, which forbids us from copying unknown quantum states to naively add redundancy; (2) the \textit{measurement problem}, also known as Born's rule, whereby measuring a quantum state causes it to collapse due to measurement backaction; and (3) errors on quantum states can be continuous-valued and are thus in some sense analog. Despite these somewhat severe restrictions imposed by quantum mechanics, quantum error correction (QEC) can still be realized --- and, in fact, has been done so.
+It is sometimes said that the concept of quantum error correction is more remarkable than the concept of quantum computation itself \cite{girvin2019QECvideo}. Indeed, the fact that quantum error correction is in principle even possible is somewhat surprising, for three fundamental reasons: (1) the \textit{no-cloning} theorem \cite{ike-and-mike}, which forbids us from copying unknown quantum states to naively add redundancy; (2) the \textit{measurement problem}, also known as Born's rule, whereby measuring a quantum state causes it to collapse due to measurement backaction; and (3) errors on quantum states can be continuous-valued and are thus in some sense analog. Despite these somewhat severe restrictions imposed by quantum mechanics, quantum error correction (QEC) can still be realized. 
 
 
-In this thesis, we are concerned with a specific class of quantum error correcting codes called \textit{bosonic codes}, which store information in the continuous-variable degree of freedom of a quantum harmonic oscillator. Specifically, among the various bosonic codes that exist, we will focus on the so-called Gottesman-Kitaev-Preskill (GKP) grid code and its practical realization in experiment. In this chapter, we will introduce the basic notions of bosonic QEC and the GKP code, study specific theoretical proposals for error correction of the GKP codewords, and discuss various challenges and experimental considerations.
-
-
-\subsection{Qubits and the Errors that Befall Them}
-
-\todo{Refer to QIS textbook to write this section.} Plan: Introduce qubit operators like $\sigma_z$ etc. since we'll use them throughout. Talk about quantum gates, quantum channels, Krauss maps, amplitude damping, dephasing, $T_1$, and $T_2$ for a 2-level qubit. 
-
-
-\subsection{The Knill-Laflamme Condition for QEC}
-
-\todo{Decide whether or not to skip this section}
-
+In this thesis, we are concerned with a specific class of quantum error correcting codes called \textit{bosonic codes}, which store information in continuous-variable degrees of freedom of a quantum harmonic oscillator \cite{terhal2020bosonic, cai2021bosonic, joshi2021bosonic}. Bosonic codes offer a hardware-efficient alternative to the traditional qubit-based register codes, such as the surface code, and are thus interesting for practical QEC implementations. Among the various bosonic codes that exist, we will specifically focus on the so-called Gottesman-Kitaev-Preskill (GKP) grid code and the requirements for its realization in experiment. In this chapter, we will introduce the basic notions of bosonic QEC and the GKP code, study specific theoretical proposals for error correction of the GKP codewords, and present simulations of GKP error correction under various error channels. 
 
 \section{Overview of Bosonic Error Correction}
 \subsection{Definitions and Notation \label{sec:2_BosonicQEC_Definitions}}
@@ -65,20 +53,25 @@ By taking the two-dimensional Fourier transform of this function in phase space,
 \begin{equation}
     W(\alpha) = \frac{1}{\pi^2}\int C(\beta) e^{\alpha\beta^\ast - \alpha^\ast\beta} d^2\beta
 \end{equation}
-By plotting $W(\alpha)$ as a function of $x = \sqrt{2}\mathrm{Re}(\alpha)$ and $p = \sqrt{2}\mathrm{Im}(\alpha)$, we can visualize an oscillator state $\rho$ in phase space. The Wigner function has some nice mathematical properties \todo{list the properties; also mention marginal distributions; }
+By plotting $W(\alpha)$ as a function of $x = \sqrt{2}\mathrm{Re}(\alpha)$ and $p = \sqrt{2}\mathrm{Im}(\alpha)$, we can visualize an oscillator state $\rho$ in phase space. We show examples for certain Fock and coherent states in Fig. \ref{fig:2_Fock_Wigners} below. 
 
-We also have \cite{royer1977wigner}:
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=\linewidth]{Figures/2/Fock_Wigners.pdf}
+    \caption{Simulated Wigner functions for the oscillator Fock states $\ket{0}$, $\ket{1}$, $\ket{2}$, $\ket{3}$, as well as a coherent state $\ket{\alpha}$ with $\alpha = 2 + 2i$. }
+    \label{fig:2_Fock_Wigners}
+\end{figure}
+
+The Wigner function has several useful mathematical properties. It integrates to unity, i.e. so that $\int W(x, p)dxdp = 1$ when expressed in terms of $x$ and $p$. Furthermore, we have marginals
+\begin{equation}
+    \int W(x, p)dx = |\psi(x)|^2, \qquad \int W(x, p)dp = |\psi(p)|^2
+\end{equation}
+and thus can also calculate position and momentum wavefunctions from the Wigner function. Finally, we have:
 \begin{equation}
     W(\alpha) = \frac{2}{\pi}\Tr\big[\hat{D}(-\alpha)\hat{\rho}\hat{D}(\alpha)\hat{\Pi}]
 \end{equation}
-where $\hat{\Pi} = (-1)^{\hat{a}^\dagger\hat{a}}$ is the so-called parity operator. This is easy to measure in circuit QED \cite{sun2014tracking}. 
+where $\hat{\Pi} = (-1)^{\hat{a}^\dagger\hat{a}}$ is the so-called parity operator \cite{royer1977wigner}. From this, we see that $|W(\alpha)| \leq 2/\pi$. Moreover, in practice, this gives an easy way to compute Wigner functions in circuit QED since the parity operator is something that we can quite easily measure \cite{sun2014tracking}. 
 
-\begin{figure}
-    \centering
-    \includegraphics[width=\linewidth]{Figures/2/Fock_Wigners.pdf}
-    \caption{Caption}
-    \label{fig:2_Fock_Wigners}
-\end{figure}
 
 \subsection{Control, Nonlinearity, and Auxiliary Qubits\label{sec:2_control_nonlinearity_drive}}
 In circuit QED, we usually control harmonic oscillators by subjecting them to a microwave drive on one of its quadratures \cite{manenti2023quantum}. Specifically, we end up implementing a Hamiltonian of the form:
@@ -123,9 +116,41 @@ Finally, returning to the question of oscillator state preparation for bosonic Q
 
 \subsection{Oscillator Error Mechanisms}
 
-\todo{Introduce the master equation}
+Up until now, we have not yet formally discussed why oscillators may be a good platform for implementing QEC. The reason for this turns out to be that physical quantum harmonic oscillators have a particular simple set of loss channels: single-photon loss and dephasing. In superconducting resonators, the dephasing rate $\kappa_\phi$ can be an order of magnitude larger than the single-photon loss rate $\kappa_1$ and thus we refer to single-photon loss as the dominant error mechanism. 
+
+At short times, the effect of photon loss can be described via a Kraus map on the density matrix $\hat{\rho}$ of the oscillator. Specifically, at short times, we can write the evolution $\hat{\rho}(t + \delta t)$ using a Kraus map
+\begin{equation}
+    \hat{\rho}(t + \delta t) = \mathcal{E}_{\rm loss}\big[\hat{\rho}(t)] \triangleq \sum_{\ell = 0}^\infty  \hat{E}_\ell \rho(t)  \hat{E}_\ell^\dagger
+\end{equation}
+where the photon loss Kraus operators $ \hat{E}_\ell$ are defined in terms of $\kappa_1$ via $\gamma = 1 - e^{-\kappa_1 \delta t}$ and have the form \cite{albert2018performance-and-structure}:
+\begin{equation}
+    \hat{E}_\ell = \bigg(\frac{\gamma}{1 - \gamma}\bigg)^{\ell/2} \frac{\hat{a}^\ell}{\sqrt{\ell !}} (1 - \gamma)^{\hat{n}/2}
+\end{equation}
+When the single-photon loss rate $\kappa_1$ or time-step $\delta t$ are small, we can approximate $\gamma \approx \kappa_1 \delta t$ and consider only:
+\begin{equation}
+    \hat{E}_0 \approx \hat{I} - \frac{\kappa_1 \delta t}{2}\hat{a}^\dagger\hat{a}, \quad \hat{E}_1 \approx \sqrt{\kappa_1 \delta t}\hat{a}
+\end{equation}
+Therefore, 
+\begin{equation}
+    \hat{\rho}(t + \delta t) \approx \kappa_1\delta t\bigg[\hat{a}\hat{\rho}(t)\hat{a}^\dagger - \frac{1}{2}\Big(\hat{a}^\dagger\hat{a}\hat{\rho}(t) + \hat{\rho}(t)\hat{a}^\dagger\hat{a}\Big)\bigg] + \mathcal{O}(\delta t^2)
+\end{equation}
+From here, we can formally write down a differential equation for the density matrix that is subject to single-photon loss. If we further include a Hamiltonian evolution $\partial_t \hat{\rho} = i[\hat{H}, \hat{\rho}]$ on top of this, we get
+\begin{equation}
+    \frac{d}{dt}\hat{\rho}(t) = i[\hat{H}, \hat{\rho}] + \kappa_1\mathcal{D}[\hat{a}](\hat{\rho})
+    \label{eq:2_lindblad_photon_loss}
+\end{equation}
+where the dissipation superoperator is defined as $\mathcal{D}[\hat{a}](\cdot) = \hat{a}\cdot\hat{a}^\dagger - \frac{1}{2}\{\hat{a}^\dagger\hat{a}, \cdot\}$. We will refer to Eq. \eqref{eq:2_lindblad_photon_loss} as the Lindblad master equation, in this case for single-photon loss $\hat{a}$. For the kinds of error channels we consider in this thesis, the evolution will always take the form of a Lindblad equation, with the error operator specified by the type of loss. In particular, cavity dephasing can be described\footnote{The intuition for this is that dephasing arises from frequency fluctuations of an oscillator. Its Hamiltonian is $[\omega_0 + \delta \omega(t)]\hat{a}^\dagger\hat{a}$, which we can decompose into the bare term $\omega_0 \hat{a}^\dagger\hat{a}$ and a noisy fluctuator $\delta \omega(t)\hat{a}^\dagger\hat{a}$ that couples to the operator $\hat{a}^\dagger\hat{a}$. The same reasoning applies to qubits, whose dephasing is specified by the $\sigmaz$.} by the operator $\hat{a}^\dagger\hat{a}$ and will thus result in the master equation 
+\begin{equation}
+    \frac{d}{dt}\hat{\rho}(t) = i[\hat{H}, \hat{\rho}] + \kappa_\phi\mathcal{D}[\hat{a}^\dagger\hat{a}](\hat{\rho})
+\end{equation}
+with dephasing rate $\kappa_\phi$. Moreover, later on in this chapter, we will also consider errors in a control qubit that is dispersively coupled to the oscillator via the operator $\frac{\chi}{2}\hat{a}^\dagger\hat{a}\sigmaz$. Here too, the continuous evolution of the system under the qubit loss channels can be described by the equation:
+\begin{equation}
+    \frac{d}{dt}\hat{\rho}_{aq}(t) = i[\hat{H}, \hat{\rho}_{aq}] + \gamma_1\mathcal{D}[\sigmax](\hat{\rho}_{aq}) + \gamma_\phi\mathcal{D}[\sigmaz](\hat{\rho}_{aq})
+\end{equation}
+where now the Hamiltonian and density matrix $\hat{\rho}_{aq}$ are for the joint qubit-oscillator system. Here, we have include qubit bit-flip errors at rate $\gamma_1 = 1/T_1$ via the bit-flip operator $\sigmax$ and qubit dephasing errors at rate $\gamma_\phi = 1/T_\phi$ via the phase-flip operator $\sigmaz$. Given that bit-flips and phase-flips are generated by the qubit operators $\sigmax$ and $\sigmaz$ respectively, we might now see why bit-flip errors are particularly harmful for bosonic codes (more so than phase-flip errors). Any bosonic system with a dispersively coupled qubit and oscillator will have an interaction that is mediated via the coupling term $\hat{H}_{\rm int} = \frac{\chi}{2}\hat{a}^\dagger\hat{a}\sigmaz$. Observe that phase-flips commute with this interaction: $[\hat{H}_{\rm int}, \sigmaz] = 0$ and thus a phase flip error on the qubit will, to leading order, be invisible to the oscillator. Of course, this may propagate further and cause losses, but the leading effect is that oscillators should be less sensitive to phase-flips. By contrast, $[\hat{H}_{\rm int}, \sigmax] \neq 0$ and so a bit-flip error will immediately effect the oscillator state. 
 
 
+\clearpage
 \section{A Brief Introduction to GKP Grid Codes\label{sec:2_Intro_to_GKP}}
 
 The Gottesman-Kitaev-Preskill (GKP) grid code is a bosonic encoding that embeds a logical qubit nonlocally within the phase space of a harmonic oscillator. While the code itself has been known for two decades since the original proposal by Gottesman, Kitaev, and Preskill \cite{gottesman2001gkp} in 2001, it was only recently realized experimentally in trapped ions \cite{fluhmann2019gkp-expt, deneeve2022gkp-expt} and superconducting circuits \cite{campagne2020gkp-expt, sivak2023gkp-expt, nordquantique2023gkp-expt}. In this section, we will introduce the basic theory of the GKP code as well as its finite-energy counterpart, and then discuss the various components required for their experimental realization. 
@@ -135,52 +160,37 @@ In general, GKP codes are defined by a lattice in the $(2N)$-dimensional phase s
 \begin{equation}
     \hat{S}_0^X = e^{-i\ells\hat{p}} = \hat{D}(\ell) , \qquad \hat{S}_0^Z = e^{i\ells\hat{x}} = \hat{D}(i\ell)
 \end{equation}
-where we define the reduced lattice constant $\ell = \ells/\sqrt{2}$ as the \textit{phase space} displacement associated with the quadrature displacement $\ell_s$. We can therefore write down the canonical GKP codewords directly. They are given by the $\hat{x}$ basis states
+Here, we have also defined the reduced lattice constant $\ell = \ells/\sqrt{2} = \sqrt{2\pi}$ as the \textit{phase space} displacement associated with the \textit{quadrature} (i.e. $x$ or $p$) displacement $\ell_s$. We can therefore write down the canonical GKP codewords directly. They are given by the $\hat{x}$ basis states:
 \begin{equation}
     \ket{0_L} \propto \sum_{j \in \Z} \ket{x = j\ells}, \qquad \ket{1_L} \propto \sum_{j \in \Z} \ket{x = (j + 1/2)\ells}.
     \label{eq:GKP_codewords_ideal}
 \end{equation}
-Together, these two codewords form a two-dimensional logical subspace $\mathcal{C} \equiv \{\ket{0_L}, \ket{1_L}\}$ within the infinite-dimensional Hilbert space $\mathcal{H}$ of the oscillator. We plot the wavefunctions for the codewords of Eq. \eqref{eq:GKP_codewords_ideal} in the position basis in Fig. \todo{make figure}, as well as the associated Wigner functions for the six cardinal states of the logical Bloch sphere: $\ket{\pm X_L}$, $\ket{\pm Y_L}$, and $\ket{\pm Z_L} \equiv \ket{0_L/1_L}$. By construction, we have $\hat{S}_0^X\ket{\mu_L} = \hat{S}_0^Z\ket{\mu_L} = \ket{\mu_L}$ for $\mu\in\{0, 1\}$, thus confirming that the operators $\hat{S}_0^X, \hat{S}_0^Z$ are indeed stabilizers. From Fig. \todo{make figure}, it is also clear that logical Pauli operators can be implemented via displacements of half the lattice constant: 
+Together, these two codewords form a two-dimensional logical subspace $\mathcal{C} \equiv \{\ket{0_L}, \ket{1_L}\}$ within the infinite-dimensional Hilbert space $\mathcal{H}$ of the oscillator. We plot wavefunctions for the codewords of Eq. \eqref{eq:GKP_codewords_ideal} in Fig. \ref{fig:2_GKP_Ideal_Wavefunctions}, which consist of a sum of Dirac delta functions. Here, we refer to the code states $\ket{0_L/1_L}$ as $\ket{\pm Z_L}$ instead, in reference to the logical Bloch sphere of the GKP qubit. (We will later show Wigner functions for all six cardinal states $\ket{\pm X_L}$, $\ket{\pm Y_L}$, $\ket{\pm Z_L}$ of this Bloch sphere, in the finite-energy case; see Fig. \ref{fig:2_GKP_Codewords}). From the ideal wavefunctions, however, we can verify that the stabilizers should indeed bring the codewords back to themselves: $\hat{S}_0^X\ket{\mu_L} = \hat{S}_0^Z\ket{\mu_L} = \ket{\mu_L}$ for $\mu\in\{0, 1\}$. The former can be seen directly on Fig. \ref{fig:2_GKP_Ideal_Wavefunctions}, while the latter requires us to plot the momentum wavefunctions (or full Wigner). Furthermore, we also see that logical Pauli operators can be implemented via displacements of half the lattice constant: 
+\begin{figure}[t]
+    \centering
+    \includegraphics[width=0.85\linewidth]{Figures/2/GKP_Ideal_Wavefunctions.pdf}
+    \caption{Position-basis wavefunctions for the ideal GKP codewords $\ket{0_L/1_L} = \ket{\pm Z_L}$.}
+    \label{fig:2_GKP_Ideal_Wavefunctions}
+\end{figure}
 \begin{equation}
     \hat{X}_L^0 = \sqrt{\hat{S}_0^X} =  e^{-i\ells\hat{p}/2} , \qquad \hat{Z}_L^0 = \sqrt{\hat{S}_0^Z} = e^{i\ells\hat{x}/2}. 
 \end{equation}
 
-At this point, we might ask how the GKP states introduced above can be used for QEC. As originally proposed, the GKP code was designed to correct error channels that manifest as small phase space displacements of the oscillator, i.e. sending $(x, p) \to (x + \delta_x, p+\delta_p)$. The basic principle is as follows: observe that $[\hat{S}_0^Z, \hat{S}_0^X] = [e^{i\ells\hat{x}}, e^{-i\ells\hat{p}}] = 0$, i.e. the two GKP stabilizers commute and we can measure them simultaneously in their joint eigenbasis. This in turn implies that it is possible to measure $\hat{x}$ and $\hat{p}$ simultaneously as long as both are taken modulo $\ell/2$\footnote{Following \cite{royer2020gkp}, we will sometimes refer to the modular quadratures $\hat{x}_{[m]} \equiv \hat{x} \Mod m$ and $\hat{p}_{[m]} \equiv \hat{p} \Mod m$ with a symmetric modulo, i.e. $\hat{x}_{[m]}, \hat{p}_{[m]} \in [-m/2, m/2)$. We are specifically interested in $\hat{x}_{[\ells/2]}$ and $\hat{p}_{[\ells/2]}$.}. Therefore, if an error shifts the GKP grid $(x, p) \to (x + \delta_x, p+\delta_p)$, we can simply measure the modular quadratures and then apply a correction operation $\hat{D}(-\alpha)$ with $\alpha = (\delta_x + i\delta_p)/\sqrt{2}$ to re-center the grid. If the errors are small, i.e. $|\delta_x|, |\delta_p| < \ells / 4$, this results in a perfect recovery of the logical information, as depicted in Fig. \ref{fig:2-GKP-Ideal-QEC}(a). For realistic oscillators, most physical decoherence processes such as amplitude damping or dephasing occur via a continuous distortion of phase space, and can thus be corrected for if the GKP stabilizers are measured frequently enough \cite{gottesman2001gkp, glancy2006gkperror, albert2018performance-and-structure, noh2018performance-and-structure-pt2}. Among the various single-mode bosonic codes, it has been shown that the GKP code offers the best protection against photon loss, which is the dominant error mechanism for superconducting resonators \cite{albert2018performance-and-structure}. 
+At this point, we might ask how the GKP states introduced above can be used for QEC. As originally proposed, the GKP code was designed to correct error channels that manifest as small phase space displacements of the oscillator, i.e. $(x, p) \to (x + \delta_x/\sqrt{2}, p+\delta_p/\sqrt{2})$. The basic principle is as follows: observe that $[\hat{S}_0^Z, \hat{S}_0^X] = [e^{i\ells\hat{x}}, e^{-i\ells\hat{p}}] = 0$, i.e. the two GKP stabilizers commute and we can measure them simultaneously in their joint eigenbasis. This in turn implies that it is possible to measure $\hat{x}$ and $\hat{p}$ simultaneously as long as both are taken modulo $\ells/2$\footnote{Following \cite{royer2020gkp}, we will sometimes refer to the modular quadratures $\hat{x}_{[m]} \equiv \hat{x} \Mod m$ and $\hat{p}_{[m]} \equiv \hat{p} \Mod m$ with a symmetric modulo, i.e. $\hat{x}_{[m]}, \hat{p}_{[m]} \in [-m/2, m/2)$. We are specifically interested in $\hat{x}_{[\ells/2]}$ and $\hat{p}_{[\ells/2]}$.}. Therefore, if a displacement error shifts the GKP grid by an amount $(x, p) \to (x + \delta_x/\sqrt{2}, p+\delta_p/\sqrt{2})$, we can simply measure the modular quadratures and then apply a correction operation $\hat{D}(-\alpha)$ with $\alpha = \delta_x + i\delta_p$ to re-center the grid. If the errors are small, i.e. $|\delta_x|, |\delta_p| < \ell / 4$ (now expressed in terms of the \textit{phase space} grid), this results in a perfect recovery of the logical information. We depict this process in Fig. \ref{fig:2-GKP-Ideal-QEC}(a) showing the effect of a displacement error on the full Wigner function of the code (which, as expected, has the form of a 2D grid in phase space). Now, it turns out that for realistic oscillators, most physical decoherence processes such as single-photon loss or dephasing occur via a continuous distortion of phase space. This means that these error mechanisms can be corrected by the GKP code if the GKP stabilizers are measured frequently enough \cite{gottesman2001gkp, glancy2006gkperror, albert2018performance-and-structure, noh2018performance-and-structure-pt2}. Among the various single-mode bosonic codes, it was recently shown that the GKP code offers the best protection against photon loss, which is the dominant error mechanism for superconducting resonators \cite{albert2018performance-and-structure}. 
 \begin{figure}[h]
     \centering
-    \includegraphics[width=\linewidth]{Figures/2/GKP Ideal QEC.pdf}
-    \caption{\todo{caption}}
+    \includegraphics[width=0.85\linewidth]{Figures/2/GKP Ideal QEC.pdf}
+    \caption{\textbf{(a)} Wigner function for GKP $|0_L\rangle$ state under the effect of a small displacement $\delta = \delta_x + i\delta_p$. We plot the Wigner in phase space coordinates ${\rm Re}(\alpha)$ and ${\rm Im}(\alpha)$. If the error is small $|\delta_x|, |\delta_p| < \ell / 4$ (purple box), we can correct the error exactly. \textbf{(b,c)} Stabilizer circuit for GKP QEC which uses a conditional displacement to map error information to the phase of a control qubit. We plot this phase along the equator of the control qubit Bloch sphere.}
     \label{fig:2-GKP-Ideal-QEC}
 \end{figure}
 
-For an ideal GKP code, the actual stabilizer measurements can be carried out by using an auxiliary qubit as shown in Fig. \ref{fig:2-GKP-Ideal-QEC}(b). This circuit uses maps the stabilizer information onto the phase of the qubit using a conditional displacement operation
+For an ideal GKP code, the actual stabilizer measurements can be carried out by using an auxiliary qubit as shown in Fig. \ref{fig:2-GKP-Ideal-QEC}(b). This QEC circuit maps the stabilizer information onto the phase of the qubit using a conditional displacement operation
 \begin{equation}
     {\rm CD}(\ell) = \hat{D}\bigg(\frac{\ell}{2}\bigg)\op{g}{g} + \hat{D}\bigg(\frac{-\ell}{2}\bigg)\op{e}{e} = \exp[\ell(\hat{a}^\dagger - \hat{a}) \sigmaz / 2].
     \label{eq:2_CD_unitary_definition}
 \end{equation}
-From the perspective of the oscillator, the CD gate implements a displacement conditioned on the state of the qubit; meanwhile, from the perspective of the qubit, this same operation can be seen as a rotation about the $z$-axis of the Bloch sphere by an amount $\ev{\hat{a}^\dagger - \hat{a}}\ell/2$
+From the perspective of the oscillator, the CD gate implements a displacement conditioned on the state of the qubit; meanwhile, from the perspective of the qubit, this same operation can be seen as a rotation about the $z$-axis of the Bloch sphere by an amount $\ev{\hat{a}^\dagger - \hat{a}}\ell/2$. If the oscillator has suffered a displacement by $\delta = \delta_x + i\delta_p$, the circuit in Fig. \ref{fig:2-GKP-Ideal-QEC}(b) has the the effect of imparting a phase proportional to $\delta_x/\ell$ onto the qubit. By then measuring the qubit, we can use a one-bit phase estimation to determine $\delta_x$ bit-by-bit; we then perform intermediate small displacements to continuously correct this over many rounds of repeated stabilizer measurements \cite{terhal2016phase-estimation, terhal2020bosonic}. We of course, must also interleave this with conditional displacements along the other quadrature $i\ell$ to extract the error $\delta_p$. Intuitively, however, we can think of this QEC process as continuously measuring the quadratures $x$ and $p$ modulo $\ells$ and applying feedback displacements to correct the small displacement errors that arise. 
 
-
-
-By measuring the qubit, one can then extract the error syndrome via a one-bit phase estimation \cite{terhal2016phase-estimation}. 
-
-
-coupling the oscillator to an auxiliary qubit. 
-
-
-
-
-
-$ $
-
-\todo{How does GKP error correct? Measure stabilizers means measuring x and p mod l.}
-
-\begin{figure}
-    \centering
-    \includegraphics[width=0.8\linewidth]{Figures/2/GKP_Codewords.pdf}
-    \caption{Simulated Wigner functions and associated wavefunctions for the six cardinal states of the logical GKP Bloch sphere: \textbf{(a)} $\ket{\pm Z_L}$, \textbf{(b)} $\ket{\pm X_L}$, and \textbf{(c)} $\ket{\pm Y_L}$. Here we have chosen the finite-energy envelope $\Delta = 0.2$, and we plot Wigners vs. the quadratures $(x, p)$.}
-    \label{fig:2_GKP_Codewords}
-\end{figure}
 \clearpage
 
 \subsection{Finite-Energy GKP Codes}
@@ -199,7 +209,8 @@ which, by construction, satisfy $\hat{S}_\Delta^{X/Z}\ket{\tilde{\mu}_L} = \ket{
 \begin{equation}
     \bar{n}_{\rm GKP} = \frac{1}{2} \sum_{\mu\in \{0,1\}} \mel{\tilde{\mu}_L}{\hat{a}^\dagger\hat{a}}{\tilde{\mu}_L} \approx \frac{1}{2\Delta^2} - \frac{1}{2}
 \end{equation}
-and the detrimental effects that come with it. Conversely, increasing $\Delta$ too much results in a non-negligible loss in fidelity due to the increasing finite overlap $\ip{\tilde{0}_L}{\tilde{1}_L}$, and in general reduces the code's ability to correct errors \cite{royer2020gkp}. We can therefore view $\Delta$ as a controllable parameter which determines the `size' of the GKP code, and whose value can be optimized in experiment. 
+and the detrimental effects that come with it. Conversely, increasing $\Delta$ too much results in a non-negligible loss in fidelity due to the increasing finite overlap $\ip{\tilde{0}_L}{\tilde{1}_L}$, and in general reduces the code's ability to correct errors \cite{royer2020gkp}. We can therefore view $\Delta$ as a controllable parameter which determines the `size' of the GKP code, and whose value can be optimized in experiment. For realistic resonators in circuit QED with significant single-photon loss, this type of optimization will bias towards choosing a lower number of oscillator photons in the code; to get an idea, recent GKP experiments in Refs. \cite{sivak2023gkp-expt} and \cite{nordquantique2023gkp-expt} used values of $\Delta = 0.34$ and $\Delta = 0.36$ respectively. 
+
 
 \begin{figure}[h]
     \centering
@@ -208,6 +219,13 @@ and the detrimental effects that come with it. Conversely, increasing $\Delta$ t
     \label{fig:2_GKP_Wigners_Delta}
 \end{figure}
 
+\begin{figure}
+    \centering
+    \includegraphics[width=0.8\linewidth]{Figures/2/GKP_Codewords.pdf}
+    \caption{Simulated Wigner functions and associated wavefunctions for the six cardinal states of the logical GKP Bloch sphere: \textbf{(a)} $\ket{\pm \tilde{Z}_L}$, \textbf{(b)} $\ket{\pm \tilde{X}_L}$, and \textbf{(c)} $\ket{\pm \tilde{Y}_L}$. Here we have chosen the finite-energy envelope $\Delta = 0.2$, and we plot Wigners vs. the quadratures $(x, p)$.}
+    \label{fig:2_GKP_Codewords}
+\end{figure}
+\clearpage
 
 \section{Open-Loop GKP Error Correction \label{sec:2_OpenLoopGKPQEC}}
 
@@ -217,11 +235,11 @@ To arrive at the result above, it ends up being helpful to take a different view
 \begin{figure}[h]
     \centering
     \includegraphics[width=0.85\linewidth]{Figures/2/SBS.pdf}
-    \caption{Caption. In certain cases, the final Hadamard can be discarded and absorbed into reset.}
+    \caption{Gate sequence for the Small-Big-Small (SBS) error correction protocol, which consists of interleaved qubit rotations and oscillator conditional displacements, followed by qubit reset. QEC occurs ``autonomously'' via repeated application of this sequence and its complement (the latter having displacements $\beta \to i\beta$ on all CDs). See text for details.}
     \label{fig:2-SBS}
 \end{figure}
 
-\subsection{The Small-Big-Small (SBS) Protocol}
+\subsection{The Small-Big-Small (SBS) Protocol\label{sec:2_SBS}}
 \textbf{Overview.} The SBS circuit consists of three conditional displacement gates interleaved by qubit rotations. The middle CD involves a large phase space displacement of magnitude $c_\Delta \ell \approx \ell$, and it effectively realizes phase estimation to measure the GKP stabilizer. Here we have defined $c_\Delta \equiv \cosh(\Delta^2)$, and note that $c_\Delta \approx 1$ for all practical values ($\Delta \lesssim 0.4$) of the GKP size. Meanwhile, the first and last CD operations are smaller corrections that account for the finite-energy envelope and perform autonomous error correction respectively (see e.g. \href{https://youtu.be/TOQzHkgsH_E?t=1045}{this talk}). From theory, we have $\epsilon_1 = s_\Delta \ell$ with $s_\Delta \equiv \sinh(\Delta^2) \approx \Delta^2$, and we nominally expect $\epsilon_2 = \epsilon_1$. However, in Ref. \cite{sivak2023gkp-expt}, the authors optimized the two small displacements independently and found, through use of a reinforcement learning (RL) agent, that choosing $\epsilon_2 \gtrsim \epsilon_1$ gave the best QEC performance. This observation has since been corroborated in simulation when accounting for all error channels acting during the SBS unitary, and was also reported in another experiment \cite{nordquantique2023gkp-expt}. Essentially, although $\epsilon_1 = \epsilon_2$ holds for a lossless circuit, when including loss the optimal ratio $\epsilon_2/\epsilon_1$ turns out to be strongly dependent on the actual error channels involved, and is thus another free parameter (like $\Delta$) that can be tweaked in experiment to get the best QEC gain. Finally, it is important to note that the circuit above carries out phase estimation for the $\hat{S}_\Delta^{Z}$ stabilizer; to get the circuit for the $\hat{S}_\Delta^{X}$ stabilizer, we just map ${\rm CD}(\beta) \to {\rm CD}(i\beta)$. The full QEC sequence for SBS then involves repeatedly alternating between the two circuits to stabilize both quadratures. 
 
 \noindent \textbf{Kraus Operators for SBS.} We can describe the SBS protocol in a more quantitative manner by considering it as a quantum channel. To this end, let us imagine that the SBS reset step is implemented using measurement-based active reset. In this case, although the oscillator QEC is still `autonomous', we would have access to the error syndromes by looking at the measurement statistics of the qubit. A subtle yet interesting feature of the circuit above is that---in the absence of errors---it leaves the qubit and oscillator completely disentangled after the unitary evolution (gray box in Fig. \ref{fig:2-SBS}). Thus, if no error occurs, the qubit state will end up in $\ket{g}$ before reset. In our current measurement-based reset approach, then, a measurement outcome $\ket{g}$ would signify ``no error'' while a measurement outcome $\ket{e}$ would imply that an error was detected and corrected. Based on these two outcomes, we can write down the action of the SBS circuit above on just the oscillator by evolving a full qubit-oscillator state through the circuit and then finally tracing out the qubit. This leaves us with a pair of Kraus operators $\hat{K}_g^Z, \hat{K}_e^Z$ for the oscillator, which are given by\footnote{I owe a huge thanks to Jonathan Pelletier for his help deriving these expressions for the general case $\epsilon_1 \neq \epsilon_2$.}:     
@@ -243,13 +261,33 @@ where $\mathcal{R}_\Delta^Z$ is the rank-2 dissipator towards the $+1$ eigenspac
 
 In practice, we envision in our experiments using a fully unconditional qubit reset rather than measurement-based feedback. In this case, we won't have access to the measurement statistics (i.e. the protocol will be truly \textit{open-loop}). Furthermore, the final qubit Hadamard gate can be omitted from the protocol and absorbed into the reset operation. Nonetheless, for theoretical analysis and certain numerical simulations, it will make things considerably easier to continue working in the artificial measurement-based feedback picture using the Kraus operators for SBS.
 
-\noindent\textbf{Logical Pauli Measurements.} Just as SBS allowed us to define 
+\noindent\textbf{Logical Pauli Measurements.} Quantum error correction with the SBS protocol consists of multiple rounds of the circuit from Fig. \ref{fig:2-SBS}, which we saw can be expressed as a quantum channel for the oscillator state in terms of the Kraus operators $\hat{K}_{g/e}^{Z}$ and $\hat{K}_{g/e}^{X}$ above. It will also turn out to be useful to define similar operations to describe logical \textit{measurements}, i.e. measuring $\hat{X}_L^\Delta$, $\hat{Y}_L^\Delta$, and $\hat{Z}_L^\Delta$ within the GKP codespace. These are also derived in Ref. \cite{royer2020gkp} and can be expressed as follows. To measure $\hat{X}_L^\Delta$, $\hat{Y}_L^\Delta$, or $\hat{Z}_L^\Delta$ respectively for a given joint qubit-oscillator state $\hat{\rho}_{aq}$, we first apply one of three unitaries $\hat{M}_x$, $\hat{M}_y$, or $\hat{M}_z$ and then measure the qubit in the $z$-basis. The operators are defined in terms of $\epsilon = s_\Delta \ells$ as follows:
+\begin{align}
+    \begin{split}
+        \hat{M}_x &= e^{-i\ell_s c_\Delta \hat{p}\sigmax / 4} e^{i \epsilon \hat{x}\sigmay/4} \\
+        \hat{M}_y &= e^{-i\ell_s c_\Delta (\hat{x}+\hat{p})\sigmax / 4} e^{i \epsilon (\hat{x}-\hat{p})\sigmay/4} \\
+        \hat{M}_z &= e^{-i\ell_s c_\Delta \hat{x}\sigmax / 4} e^{-i \epsilon \hat{p}\sigmay/4}
+    \end{split}
+\end{align}
+To see an example of this in practice, we demonstrate a numerical simulation of SBS QEC in Fig. \ref{fig:2_SBS_NoLoss_QEC_Sim} below. Here, we consider the case of no error channels  and thus starting from an initial oscillator state $\hat{\rho}_0$ each round of SBS can be described via the application of the two QEC channels
+\begin{equation}
+    \hat{\rho}_{i + 1} = (\mathcal{R}_\Delta^X \circ \mathcal{R}_\Delta^Z)(\hat{\rho}_i) = \mathcal{R}_\Delta^X\Big[\mathcal{R}_\Delta^Z(\hat{\rho}_i)\Big]
+\end{equation}
+i.e. each QEC round consists of stabilizing both $X$ and $Z$. We start from the vacuum state $\hat{\rho}_0 = \op{0}{0}$ in the oscillator and perform 30 rounds of SBS (15 rounds of QEC). Over time, we see the the oscillator converges towards the GKP code manifold, and after 30 rounds the oscillator state is approximately $\hat{\rho} \approx \frac{1}{2}\op{+\tilde{Z}_L}{+\tilde{Z}_L} + \frac{1}{2}\op{+\tilde{X}_L}{+\tilde{X}_L}$. This is because our initial vacuum state $\ket{0}$ has support over both even parity GKP cardinal states $+X_L$/+$Z_L$. 
 
-In addition to stabilizer measurements, we can also define qubit-oscillator circuits to perform measurements of the finite-energy logical Pauli operators 
+After round 30, we perform a projective measurement of $\hat{Z}_L^\Delta$ within the codespace using the operator $\hat{M}_z$. Specifically, we map the oscillator state $\hat{\rho} \mapsto \hat{\rho}_{aq} = \hat{M}_z(\hat{\rho}\otimes \op{g}{g})\hat{M}_z^\dagger$ and project onto the measurement outcome of measuring $\ket{g}$ in the qubit via the projector $\hat{I}_a \otimes \op{g}{g}$. Specifically, we map $\hat{\rho}_{aq} \mapsto (\hat{I}_a \otimes \op{g}{g}) \hat{\rho}_{aq}(\hat{I}_a \otimes \op{g}{g})$, normalize, and then trace out the qubit to get an oscillator-only state $\hat{\rho}_z$ after measurement. Choosing the outcome $\ket{g}$ results in this final oscillator state $\hat{\rho}_z \approx \ket{+\tilde{Z}_L}$; if we had chosen $\ket{e}$, we would end up with a state close to $\ket{-\tilde{Z}_L}$. After the measurement, we continue stabilizing with 30 more rounds of SBS, which brings us closer to the true codeword $\hat{\rho} \to \ket{+\tilde{Z}_L}$. We plot this entire process in Fig. \ref{fig:2_SBS_NoLoss_QEC_Sim} showing the expectation value $\ev{\hat{Z}_L^\Delta}$ as a function of time, as well as the oscillator Wigner functions for (i) the initial state $\hat{\rho}_0$, (ii) the state before measurement, and (iii) the final state $\approx \ket{+Z_L^\Delta}$. 
 
-\todo{finish this!}
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.85\linewidth]{Figures/2/SBS_NoLoss_QEC_Sim.pdf}
+    \caption{Plot of expectation value $\ev{\hat{Z}_L^\Delta}$ vs. time over multiple rounds of SBS. We see the oscillator state converge to the GKP code manifold over 30 rounds of SBS. At round 30, we perform a logical projective measurement of $\hat{Z}_L^\Delta$, and then continue with 30 additional rounds of SBS. The oscillator state converges to the codeword $\hat{\rho} \to \ket{+\tilde{Z}_L}$ as shown by the final Wigner function. We also plot the Wigner functions for the initial vacuum state and the intermediate state before the logical measurement. Note $\Delta = 0.25$ and $\epsilon_1 = \epsilon_2$ here.}
+    \label{fig:2_SBS_NoLoss_QEC_Sim}
+\end{figure}
 
 
+
+
+\clearpage
 \section{Implementing Conditional Displacements in Theory}
 
 As we saw in Secs. \ref{sec:2_Intro_to_GKP} and \ref{sec:2_OpenLoopGKPQEC} above, the condition displacement is an essential ingredient for GKP error correction. Therefore, in this section, we will  outline some commonly-used approaches that one can take to realize conditional displacement gates at the Hamiltonian level. The starting point for our discussion is the so-called spin-boson or ``quantum Rabi'' model defined by \cite{hagelstein2004introductory}:
@@ -321,16 +359,45 @@ with $g_{\rm CD}(t) = \chi\alpha(t)/2$ and a maximum CD rate given by $\chi\alph
 \end{equation}
 The time taken to realize a conditional displacement of $\beta$ is approximately $\beta / (\chi\alpha_{\rm max})$, and so it is important to use as large of an intermediate photon number $\alpha_{\rm max}$ as possible to get fast CDs. However, in experiments, there are almost always additional loss channels or unwanted Hamiltonian terms that get activated at large photon numbers, and in practice there is a limit on how large $\alpha_{\rm max}$ can be made before things break. Determining this limit is highly nontrivial; previous GKP experiments have gotten around this by working in the low $\chi$ regime (kHz level) in order to minimize the strength of unwanted nonlinear terms, such as the oscillator's inherited Kerr nonlinearity \cite{campagne2020gkp-expt, eickbusch2022fast, sivak2023gkp-expt, nordquantique2023gkp-expt}. 
 
-\begin{figure}
-    \centering
-    % \includegraphics{}
-    \caption{\todo{make ECD figure}}
-    \label{fig:2_ECD_pulse_sequence}
-\end{figure}
+% \begin{figure}
+%     \centering
+%     % \includegraphics{}
+%     \caption{\todo{make ECD figure}}
+%     \label{fig:2_ECD_pulse_sequence}
+% \end{figure}
 
+
+
+\clearpage
 \section{QEC Simulations with SBS \label{sec:2_simulations_SBS}}
 
-\subsection{Simulations with SBS: I. Oscillator Error Channels}
+\subsection{Simulations with SBS: I. Oscillator Single-Photon Loss}
+
+In this section, we present an overview of our numerical simulation results of SBS QEC in the presence of different oscillator and qubit error channels. We start by studying the performance of the SBS protocol in the presence of single-photon loss on the oscillator. Specifically, we perform similar simulations to the one shown in Sec. \ref{sec:2_SBS} (see Fig. \ref{fig:2_SBS_NoLoss_QEC_Sim} where we presented SBS stabilization in the lossless case). An example of such a simulation is shown below in Fig. \ref{fig:2_SBS_Lossy_QEC_Sim}.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.85\linewidth]{Figures/2/SBS_Lossy_QEC_Sim.pdf}
+    \caption{Plot of expectation value $\ev{\hat{Z}_L^\Delta}$ vs. time over multiple rounds of SBS. We take $\Delta = 0.25$ and $\epsilon_1 = \epsilon_2$ for the GKP code, and set $\kappa_1\delta t = 8\times 10^{-3}$. Starting from the vacuum state, we first converge to the codespace over 30 rounds, perform a logical measurement of $\hat{Z}_L^\Delta$, and then stabilize for another 30 rounds. Due to the single-photon loss, we see $\ev{\hat{Z}_L^\Delta}$ decay exponentially with time. Compared to Fig. \ref{fig:2_SBS_NoLoss_QEC_Sim}, the contrast of the Wigner functions is also reduced here due to the effect of the loss on the stabilization.}
+    \label{fig:2_SBS_Lossy_QEC_Sim}
+\end{figure}
+
+The simulation setup closely follows the one in Sec. \ref{sec:2_SBS}, but instead each QEC round is now defined by
+\begin{equation}
+    \hat{\rho}_{i + 1} =  \mathcal{E}_{\rm loss}\Big(\mathcal{R}_\Delta^X\Big[\mathcal{E}_{\rm loss}\Big(\mathcal{R}_\Delta^Z(\hat{\rho}_i)\Big)\Big]\Big)
+\end{equation}
+i.e. we interleave the single-photon loss channel $\mathcal{E}_{\rm loss}$ with the error correction steps. Each loss channel is defined in terms of the product $\kappa_1 \delta t$ and we set $\kappa_1 \delta t = 8 \times 10^{-3}$ in Fig. \ref{fig:2_SBS_Lossy_QEC_Sim}. As with the lossless simulation, we perform a logical measurement of $\hat{Z}_L^\Delta$ at round 30 to prepare a state close to the logical state $\ket{+\tilde{Z}_L}$. We can then continue stabilizing in the presence of photon loss and we see a characteristic exponential decay of $\ev{\hat{Z}_L^\Delta}$ with time. By fitting this decay, we extract the logical lifetime $T_{\ket{+Z}}$ for the state $\ket{+\tilde{Z}_L}$. 
+
+We repeat this process for each of the cardinal states $\ket{\pm \tilde{Z}_L}$, $\ket{\pm \tilde{X}_L}$, $\ket{\pm \tilde{Y}_L}$ of the logical Bloch sphere. From here, we calculate $T_Z = \frac{1}{2}[T_{\ket{+Z}} + T_{\ket{-Z}}]$, and likewise for $X$ and $Y$. Finally, we can arrive at
+\begin{equation}
+    T_L = 3\bigg(\frac{1}{T_X} + \frac{1}{T_Y} + \frac{1}{T_Z}\bigg)^{-1}
+\end{equation}
+as the total logical lifetime of the GKP qubit averaged over all six cardinal states \cite{royer2020gkp, sivak2023gkp-expt}. 
+
+
+Our simulations agree with the results of Ref. \cite{royer2020gkp}, and we can draw several key conclusions. First, the logical lifetime of a GKP qubit depends sensitively on the level of single-photon loss, and in particular scales exponentially in the product $\kappa_1\delta t$, where $\kappa_1$ is the loss rate and $\delta t$ is the SBS cycle time. Next, we find that the GKP lifetime is  
+
+
 
 \subsection{Simulations with SBS: II. Control Qubit Error Channels}
 
