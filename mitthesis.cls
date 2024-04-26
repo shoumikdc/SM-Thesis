@@ -238,7 +238,7 @@ reserved.\par\permission}}
 %% \copyrightnotice{stuff} to copyright to someone else, or
 %% \copyrightnoticetext{stuff} to specify the exact text of the copyright
 %% notice.
-\unless\ifodd\mitownedthesis \copyrightnoticetext{\copyright\ \@author\ (\@degreeyear).  All rights reserved.\par\permission}
+\unless\ifodd\mitownedthesis \copyrightnoticetext{\copyright\ \@degreeyear\ \@author.  All rights reserved.\par\permission}
 %% or just
 %%\@degreeyear}}
 \typeout{Copyright given to author,
