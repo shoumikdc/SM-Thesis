@@ -1,72 +1,71 @@
 \chapter{Fluxonium in a 3D Cavity: Experiments\label{ch:4_3DGKP}}
-
+In this chapter, we will introduce our first experimental implementation using fluxonium as the control qubit for an oscillator. In this experiment, we integrated a heavy fluxonium chip into a 3D superconducting cavity resonator architecture. We will start by introducing the basic idea behind the experiment in Sec. \ref{sec:4_3D_Experiment_Design_Theory}, followed by a discussion of the hardware we used to implement it in \ref{sec:4_Hardware_and_Setup}. We will then present an assortment of experimental results that we obtained with this system in Secs. \ref{sec:4_Resonator_and_Two_Tone}-\ref{sec:4_StorageCoherenceProblems}, highlighting both our successes as well as the many challenges we encountered.  
 \section{Experimental Design and Theory \label{sec:4_3D_Experiment_Design_Theory}}
+The basic model that we considered for this experiment is that of a fluxonium dispersively coupled to a storage resonator, which we discussed in Sec. \ref{sec:3_Circuit_QED_with_Fluxonium}. Specifically, we consider: 
+\begin{equation}
+    \hat{H} = \omega_s \hat{a}^\dagger \hat{a} + \Big[4E_C \hat{n}^2 + \frac{1}{2}\hat{\varphi}^2 - E_J\cos(\hat{\varphi}+\varphi_{\rm ext})\Big] + g\hat{\varphi}(\hat{a} + \hat{a}^\dagger)
+    \label{eq:4_3DGKP_StorageQubit_H}
+\end{equation}
+where now the interaction is modelled in simulation via an inductive coupling term shown above. In reality, the interaction of a 2D fluxonium chip with a 3D cavity resonator is more complicated and requires full E\&M simulations to determine e.g. the coupling $g$. Still, we found Eq. \eqref{eq:4_3DGKP_StorageQubit_H} to be a good effective model to start from. 
 
-In this section, we 
+The main goal of this experiment was to eventually demonstrate bosonic QEC with the GKP code which, as we saw in Ch. \ref{ch:2_QEC} and Ch. \ref{ch:3_cQED}, requires an effective dispersive interaction $\chi\hat{a}^\dagger\hat{a}\sigmaz/2$ to realize conditional displacements operations using e.g. the ECD scheme from Sec. \ref{sec:2_ECD}. We thus wish to engineer a large dispersive shift $\chi = \chi(\varphi_{\rm ext})$ which ideally can also be tuned with flux to toggle the interaction on and off. The reason for this is that the SBS protocol for open-loop GKP error correction requires a qubit reset in between rounds of stabilization operations. During this stage, we would like to be able to reset the qubit state to $\ket{g}$ without impacting the quantum information stored in the resonator. If the $\chi$ is large, then the variable time $\tau$ over which the qubit is reset will result in dephasing of the storage at a rate $\sim \chi\tau/2$ due to the dispersive coupling \cite{sivak2023gkp-expt, nordquantique2023gkp-expt}. Luckily, the rich structure of the fluxonium will allow us to be able to engineer a flux-tunable dispersive shift $\chi(\varphi_{\rm ext})$ that crosses through zero, i.e. $\chi \to 0$ at a given flux operating point. 
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.85\linewidth]{Figures/4/SBS_Control_and_Reset.pdf}
+    \caption{GKP open-loop error correction consists of two sections: control (green) and reset (red). For control, we want large $\chi$ to get fast conditional displacements. For reset, we want $\chi = 0$ to minimize backaction on the storage mode.}
+    \label{fig:4_SBS_Control_and_Reset}
+\end{figure}
+In addition to having a large dynamic-range for the dispersive shift over some given set of external fluxes, we also wish to minimize the Kerr nonlinearities $K_g$ and $K_e$ since these terms are detrimental for bosonic QEC. Finally, we wish to be in the \textit{heavy-regime} of the fluxonium with $E_J \gg E_C \approx E_L$ in order to benefit from the bit-flip protection of the heavy fluxonium, which is the main reason that we are using this qubit in the first place. Simultaneously achieving all the conditions above requires us to do a multi-dimensional parameter optimization. We discovered, however, that it is possible to engineer the system to meet these requirements by carefully choosing the storage mode frequency to be \textit{between} the two sets of so-called fluxonium plasmon transitions, which are the transitions from the states $\ket{g}, \ket{e}$ to the higher excited states of the two wells, $\ket{f}$ and $\ket{h}$. At half-flux, the coupling between these plasmon states results in an avoided crossing (i.e. an energy gap), which we can use to engineer the dispersive shift $\chi(\varphi_{\rm ext})$ by placing $\omega_{gf} < \omega_s < \omega_{gh}$ and $\omega_{ef} < \omega_s < \omega_{eh}$. We refer to this condition as  \textbf{bosonic mode threading}, since the storage is 
+\textit{threaded} through the gap between the two plasmon states. In our numerical simulations, we found that the bosonic mode threading condition results in $\chi(\varphi_{\rm ext})$ crossing through zero (for $E_J, E_C, E_L$ in the right range), and also minimizes the effective Kerr nonlinearity. By numerically investigating Eq. \eqref{eq:4_3DGKP_StorageQubit_H} using threading as a guideline, we ultimately settled on the parameters $\omega_s/2\pi = 8.907$ GHz, $E_J/h = 8.74$ GHz, $E_C/h = 1.69$ GHz, $E_L/h = 0.5$ GHz, and coupling strength $g/2\pi = 24$ MHz. We demonstrate simulation results below. 
 
-$$
-\hat{H} = \hat{H}_q + \hat{H}_a + \hat{H}_{\rm int} = \Big[4E_C \hat{n}^2 + \frac{1}{2}\hat{\varphi}^2 - E_J\cos(\hat{\varphi}-2\pi\phi_{\rm ext})\Big] + \omega_s \hat{a}^\dagger \hat{a} + J \hat{n}\hat{n}_a
-$$
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.95\linewidth]{Figures/4/3D_GKP_Theory_Spectrum.pdf}
+    \caption{Energy spectrum obtained from numerical diagonalization of the fluxonium Hamiltonian with $E_J/h = 8.74$ GHz, $E_C/h = 1.69$ GHz, $E_L/h = 0.5$ GHz. The transitions $\ket{g/e}\to\ket{n}$ are colored by their phase matrix elements. We overlay the storage frequency $\omega_s/2\pi = 8.907$ GHz and see that it is \textit{threaded} between the two sets of plasmon transitions.}
+    \label{fig:4_3D_GKP_Theory_Spectrum}
+\end{figure}
 
-Here the term in parentheses is the qubit Hamiltonian defined in terms of the fluxonium $E_C$, $E_J$, and $E_L$ parameters, as well as the external flux $\phi_{\rm ext} = \Phi_{\rm ext}/\Phi_0$. The storage oscillator mode is defined in terms of its annihilation operator $\hat{a}$, its frequency $\omega_s$ and its zpf $\varphi_{a, \rm zpf}$, which defines:
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.95\linewidth]{Figures/4/3D_GKP_Theory_ChiKerr.pdf}
+    \caption{Left: Storage dispersive shift $\chi_{aq}$ obtained from numerical diagonalization of Eq. \eqref{eq:4_3DGKP_StorageQubit_H}. We see $\chi_{aq}$ tunes with flux and crosses through zero at $\Phi_{\rm ext} \approx 0.483\Phi_0$, which is where we would perform reset. Right: Storage Kerr nonlinearities $K_g$ and $K_e$ when qubit is in $\ket{g}$/$\ket{e}$ respectively. We also plot $K = [K_g+K_e]/2$ and $dK = [K_g-K_e]/2$.}
+    \label{fig:4_3D_GKP_Theory_ChiKerr}
+\end{figure}
 
-\begin{align*}
-\hat{\varphi}_a &= \varphi_{a, \rm zpf} (\hat{a}+\hat{a}^\dagger) \\
-\hat{n}_a &= \frac{i}{2\varphi_{a, \rm zpf}} (\hat{a}^\dagger - \hat{a})
-\end{align*}
+\clearpage
+\section{Hardware and Setup\label{sec:4_Hardware_and_Setup}}
 
-Finally, the coupling between the fluxonium and the storage mode is a charge-charge coupling of strength $J$.
+\subsection{3D Cavity-Fluxonium Architecture \label{sec:4_3D_Cavity_Resonators}}
+To implement the proposed experiment above, we designed a package consisting of three superconducting 3D post cavities fabricated from high-purity (``5N5'') aluminium, as well as a PCB and interconnect module on which we mounted two fluxonium qubit chips. We refer to the three cavity resonators as ``A'', ``B'', and ``C'' from left to right; cavity B serves as the storage resonator, while cavities A and C serve as readout resonators for the qubits [see Fig. \ref{fig:4-3DGKP-schematic-1}(b)]. We designed the package in this way to be able to screen multiple fluxonium devices per cooldown. The chips themselves were fabricated at MIT Lincoln Laboratory out of aluminium on an 8" Si wafer, while the cavity and housing were fabricated at MIT, and then later cleaned/etched in the MIT.nano cleanroom. For additional details about the cavity fabrication, see Appendix \ref{ch:AppB}. 
 
-We can diagonalize the full system together to get a set of joint eigen-energies $E_{q, s}$ where $q$ and $s$ index the qubit and storage respectively. Then, we can calculate dispersive shift $\chi$
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.95\linewidth]{Figures/4/3DGKP-Schematic-1.pdf}
+    \caption{\textbf{(a)} Assembled 3D cavity-fluxonium package. \textbf{(b)} Disassembled view showing qubit chips glued to the interconnect module and wirebonded to a PCB for signal delivery. The chips are then inserted into the chip tunnels and screwed tight with an indium seal to assemble the package. Cavities are labelled A, B, C from left to right; cavity B serves as the storage. Inset: inner structure showing the cavity posts, each forming a $\lambda/4$ resonator. All 3 cavities are driven via SMA pins (gold); the drive port is weakly coupled for the storage resonator and strongly coupled for the readout resonators.}
+    \label{fig:4-3DGKP-schematic-1}
+\end{figure}
 
-$$
-\chi \equiv \omega_s^{|e\rangle} - \omega_s^{|g\rangle} = [E_{1,1} - E_{1, 0}] - [E_{0, 1} - E_{0, 0}] 
-$$
-
-as well as the “single-photon” Kerr nonlinearities, defined as the anharmonicity:
-
-\begin{align*}
-K_g &= [E_{0, 2} - E_{0, 1}] - [E_{0, 1} - E_{0, 0}] \\
-K_e &= [E_{1, 2} - E_{1, 1}] - [E_{1, 1} - E_{1, 0}]
-\\ \\
-K &= \frac{K_g + K_e}{2}, \quad dK = \frac{K_g - K_e}{2}
-\end{align*}
-
-We can then write down an effective dispersive interaction between the qubit and storage which is defined by the following Hamiltonian:
-
-\begin{align*}
-\hat{H} &= \frac{\chi}{2} \hat{a}^\dagger\hat{a} \sigma_z + \frac{K_g}{2} \hat{a}^\dagger{}^2\hat{a}^2 \,|g\rangle\langle g| + \frac{K_e}{2} \hat{a}^\dagger{}^2\hat{a}^2 \,|e\rangle\langle e| \\
-&= \frac{\chi}{2} \hat{a}^\dagger\hat{a} \sigma_z + \frac{K}{2} \hat{a}^\dagger{}^2\hat{a}^2 + \frac{dK}{2}\hat{a}^\dagger{}^2\hat{a}^2 \sigma_z
-\end{align*}
-
-
-\section{Hardware and Setup}
-
-\subsection{3D Cavity Resonators \label{sec:4_3D_Cavity_Resonators}}
-
-Design of post cavities. Cavities A, B, C. Introduce Mk-II and Mk-III. Fitting to get pin lengths. 
-
-\subsection{Fluxonium Devices}
+We will refer to the specific cavity device shown in Fig. \ref{fig:4-3DGKP-schematic-1} as the ``Mark II'' cavity. Our first attempt at fabricating a 3D cavity resonator (the ``Mark I'') had low resonator lifetimes due to an unsuccessful etch process (etching is required in order to realize high quality-factors in a 3D cavity; see App. \ref{ch:AppB}). All of the fluxonium experiments in this thesis were performed using the Mark II. Before inserting the qubit, however, we performed cryogenic measurements of the bare cavities in order to characterize their coherence. We measured the lifetime of the storage resonator to be $T_1 \approx 710$ $\mu$s, which we extracted from a fit of the resonator response to a reflection measurement using a Vector Network Analyzer (VNA). For more details about such resonator measurements, see App. \ref{ch:AppA}. Later, after optimizing our etch process, we also fabricated a ``Mark III'' cavity; while we did not use it for any of the experimental results shown in this chapter, the Mark III was helpful to have for later debugging. The bare storage lifetime in \textit{this} cavity was found to be in excess of $T_1 \approx 3$ ms. 
 
 
 \begin{figure}[h]
     \centering
-    \includegraphics[width=\linewidth]{Figures/4/3DGKP-Schematic.pdf}
-    \caption{Left: Internal structure of the Leiden CF-450 dilution fridge. The cold finger where
-the chips are mounted is depicted on the right panel. \todo{finish}}
-    \label{fig:4-3DGKP-schematic}
+    \includegraphics[width=\linewidth]{Figures/4/3DGKP-Schematic-2.pdf}
+    \caption{Schematic of qubit chip in the 3D cavity architecture. \textbf{(a,b)} Fluxonium design showing capacitor pads (purple) and a shared superinductance with an auxiliary \textit{antenna} mode (pink). The antenna pads are then extended to the chip edge to implement coupling to the post cavities; the fluxonium-resonator couplings are thus mediated via the antenna. \textbf{(c)} The fluxonium is flux biased using an on-chip wideband flux line capable of delivering both radio-frequency (RF) and DC signals; the flux line terminates in a loop (cf. panel b) and the current returns via the ground plane (teal blue in panel c, representing aluminium metallization on the chip). \textbf{(d)} Chip integrated in 3D cavity showing the chip edge partially extending into both the storage and readout cavities (teal and lilac posts, respectively) to implement couplings. The schematic in panel d focuses on a single storage-qubit-readout subsystem of the package; the full system includes another qubit and readout (cf. Fig \ref{fig:4-3DGKP-schematic-1})}
+    \label{fig:4-3DGKP-schematic-2}
 \end{figure}
 
+%\todo{Fitting to get pin lengths.}
 
 
 \subsection{Cryogenic Setup}
 
-The experiments were performed using a Leiden CF-CS81 dilution refrigerator operated at base temperatures of 8-10 mK. The fridge consists of five temperature stages\footnote{Temperature in the fridge is primarily tracked using three 1 k$\Omega$ platinum (PT-1000) thermometers at the 50K, 3K, and MXC plates, as well as additional capacitive sensors at the MXC. \todo{double check!}} as shown in Fig. \ref{fig:4-fridge-wiring}, as well as seven shielding cans that each thermalize to a different temperature stage (not pictured). Specifically, we have two vacuum cans thermalized to room temperature and 1K respectively, and three other cans that provide additional electromagnetic shielding. Finally, to protect against magnetic fields and infrared (IR) radiation, we use two mu-metal shields \todo{check this??} on the coldfinger. A timelapse video of the process to install these cans can be found \href{https://youtu.be/KkvUc9Aw77s?t=829}{here}. 
+The experiments were performed using a Leiden CF-CS81 dilution refrigerator operated at base temperatures of 8-10 mK. The fridge consists of five temperature stages\footnote{Temperature in the fridge is primarily tracked using three 1 k$\Omega$ platinum (PT-1000) thermometers at the 50K, 3K, and MXC plates, as well as additional capacitive sensors at the MXC. \todo{double check!}} as shown in Fig. \ref{fig:4-fridge-wiring}, as well as seven shielding cans that each thermalize to a different temperature stage (not pictured). Specifically, we have two vacuum cans thermalized to room temperature and 1K respectively, and three other cans that provide additional electromagnetic shielding. Finally, to protect against magnetic fields and infrared (IR) radiation, we use two mu-metal shields \todo{double check before submission!} on the coldfinger. A timelapse video of the process to install these cans can be found \href{https://youtu.be/KkvUc9Aw77s?t=829}{\textbf{here}}. 
 
 \begin{figure}[h]
     \centering
     \includegraphics[width=0.9\linewidth]{Figures/4/Fridge-Wiring.pdf}
-    \caption{\todo{Caption}}
+    \caption{Left: Internal structure of the Leiden CF-450 dilution refrigerator used for the experiments in this thesis. The fridge consists of several plates/stages each thermalized to successively colder temperatures. Right: Devices are mounted onto a ``cold finger'' that is thermalized to the mixing chamber (MXC) plate at 10 mK.}
     \label{fig:4-fridge-wiring}
 \end{figure}
 
@@ -76,16 +75,16 @@ To attenuate thermal noise coming from the room temperature setup, several atten
 
 \begin{figure}[h]
     \centering
-    \includegraphics[width=\linewidth]{Figures/4/Microwave-Wiring-Diagram.pdf}
-    \caption{\todo{replace image with simplified and corrected version}}
+    \includegraphics[width=0.85\linewidth]{Figures/4/Microwave-Wiring-Diagram.pdf}
+    \caption{Wiring diagram for the experiment consisting of a readout chain set up in a reflection configuration and RF drives for the fluxonium qubit and storage resonator. We combine the qubit RF signal with a DC bias at the mixing chamber using an RF choke.}
     \label{fig:4-microwave-wiring-diagram}
 \end{figure}
 
 At room temperature, pulse waveforms for the various elements were generated using an OPX+ controller from Quantum Machines. For the storage drive, we used an Agilent PSG Signal Generator (E8267D) from Keysight to supply an RF signal which was then combined with the intermediate-frequency (IF) signal from the OPX using the PSG's internal wide-bandwidth IQ mixer. The qubit drive was produced similarly, using a separate Agilent PSG Signal Generator. When performing low-frequency two-tone spectroscopy of the fluxonium $g$--$e$ transition, however, we bypassed the Agilent and instead used baseband signals in the 0-350 MHz range directly from the OPX. Finally, the readout resonator IF signals were generated via the OPX and then passed into a Rohde and Schwarz SGS100A SGMA RF source for upconversion using an internal IQ mixer. The local oscillator (LO) reference signal used for IQ modulation was also passed on to a separate external IQ mixer to demodulate the readout RF output signal coming out of the fridge. The demodulated intermediate-frequency I and Q components were then digitized and processed using the FPGA within the OPX. All microwave signal generators were frequency-locked via a common 10 MHz rubidium clock. 
 
-The DC signals used for static flux biasing were generated via a Yokogawa GS200 Voltage/Current source operated in ``Voltage'' mode; this was then sent into the Qdevil breakout board and then into the fridge via a Fisher cable. Once in the fridge, the signal lines were passed through a resistive DC low-pass filter at the ??K stage \todo{check this!} before terminating in a twisted pair connection. When operating a Yokogawa (or ``Yoko'') in Voltage mode, the DC signal is typically routed through a 1-10 k$\Omega$ resistor to produce an associated current; anecdotally around our lab, this has also been reported to help reduce flux noise from DC lines. However, in the experiments reported below, we mostly chose not to do this and instead used only the bare resistance of the DC line when connected to the fluxonium device, which we measured to be 152.5 $\Omega$ using a multimeter when the fridge was cold. This allowed us to generate a larger current for a given voltage. As we discuss in Sec. \ref{sec:4_Time_Domain}, we later also measured the flux noise amplitude of the qubit when using the ``Current'' mode of the Yoko and found negligible differences in the results. 
+The DC signals used for static flux biasing were generated via a Yokogawa GS200 Voltage/Current source operated in ``Voltage'' mode; this was then sent into the Qdevil breakout board and then into the fridge via a Fisher cable. Once in the fridge, the signal lines were passed through a resistive DC low-pass filter before terminating in a twisted pair connection. When operating a Yokogawa (or ``Yoko'') in Voltage mode, the DC signal is typically routed through a 1-10 k$\Omega$ resistor to produce an associated current; anecdotally around our lab, this has also been reported to help reduce flux noise from DC lines. However, in the experiments reported below, we mostly chose not to do this and instead used only the bare resistance of the DC line when connected to the fluxonium device, which we measured to be 152.5 $\Omega$ using a multimeter when the fridge was cold. This allowed us to generate a larger current for a given voltage. As we discuss in Sec. \ref{sec:4_Time_Domain}, we later also measured the flux noise amplitude of the qubit when using the ``Current'' mode of the Yoko and found negligible differences in the results. % \todo: check DC low-pass filter
 
-\section{Resonator and Two-Tone Spectroscopy}
+\section{Resonator and Two-Tone Spectroscopy\label{sec:4_Resonator_and_Two_Tone}}
 
 \textit{In this section, we will present experimental results from our first 3D cavity-fluxonium device with a GKP1 fluxonium chip in our Mark II cavity. We begin with a spectroscopic characterization of the readout resonator and qubit here, followed by time-domain measurements of the qubit in Sec. \ref{sec:4_Time_Domain}, and finally discuss storage resonator measurements in Secs. \ref{sec:4_StorageChi} and \ref{sec:4_StorageCoherenceProblems}. Unless stated otherwise, all data in the upcoming sections was taken using readout cavity A and its associated fluxonium chip. We therefore restrict our focus to the subsystem of the Mark II cavity-fluxonium package comprised of cavity A (readout resonator), fluxonium A (qubit), and cavity B (storage resonator).}
 
@@ -277,7 +276,7 @@ In order to measure the storage $T_1$ this way, we can introduce a variable dela
 \end{figure}
 
 \subsection{Testing and Progress}
-We were very surprised to measure a storage lifetime of $T_{1s} \approx 1$ $\mu$s, given the bare lifetime of the Mark II storage cavity of $T_{1s}^{\rm bare} \approx 740$ $\mu$s that we had seen previously without qubit chips. We therefore set out to debug this part of our system over several subsequent cooldowns. In time, we were able to verify that our bare 3D cavity resonators indeed had high coherence; we tested both the Mark II and Mark III cavities in various configurations as shown in Fig. \ref{fig:4_3D_Cavity_Debugging}. These tests also helped us rule out excess coupling loss due to the storage drive pin. One observation we made is that even inserting blank Si chips into the cavity seemed to degrade their lifetime (i.e. with no qubit, flux line, or metallization). We attributed this to the lossy single-side polished Si wafer that was used to fabricate the fluxonium chips. Nonetheless, this effect alone was not enough to account for the drop in cavity lifetime from over 700 $\mu$s to $\sim\!1$ $\mu$s. 
+We were very surprised to measure a storage lifetime of $T_{1s} \approx 1$ $\mu$s, given the bare lifetime of the Mark II storage cavity of $T_{1s}^{\rm bare} \approx 710$ $\mu$s that we had seen previously without qubit chips. We therefore set out to debug this part of our system over several subsequent cooldowns. In time, we were able to verify that our bare 3D cavity resonators indeed had high coherence; we tested both the Mark II and Mark III cavities in various configurations as shown in Fig. \ref{fig:4_3D_Cavity_Debugging}. These tests also helped us rule out excess coupling loss due to the storage drive pin. One observation we made is that even inserting blank Si chips into the cavity seemed to degrade their lifetime (i.e. with no qubit, flux line, or metallization). We attributed this to the lossy single-side polished Si wafer that was used to fabricate the fluxonium chips. Nonetheless, this effect alone was not enough to account for the drop in cavity lifetime from over 700 $\mu$s to $\sim\!1$ $\mu$s. 
 
 \begin{figure}[t]
     \centering

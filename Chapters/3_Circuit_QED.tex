@@ -166,16 +166,65 @@ As a final remark on the Hamiltonian, we note that the inductive and charging te
 \end{equation}
 for the \textit{full} Hamiltonian, with $\omega_q = \sqrt{8 E_LE_C}$ and $\hat{\varphi} = (2E_C/E_L)^{1/4}[\hat{a} + \hat{a}^\dagger]$ as in Eq. \eqref{eq:3_LC_QHO}. Using this basis, it is possible to numerically diagonalize the full fluxonium Hamiltonian. We plot such an example with the phase-basis wavefunctions in Fig. \ref{fig:3_Circuit_QED_Overview}, using parameters $E_J/h = 6$ GHz,  $E_L/h = 0.2$ GHz, $E_C/h = 0.14$ GHz, and $\Phi_{\rm ext} = 0.42\Phi_0$. 
 
-The regime we are interested in for the fluxonium is the so-called heavy regime in which $E_J \gg E_C \approx E_L$. When $\Phi_{\rm ext} = 0.5\Phi_0$, the potential energy has a double-well structure, with the lowest energy states $\ket{g}$ and $\ket{e}$ given by symmetric and antisymmetric combinations of the two wells' localized wavefunctions, and the qubit frequency $\omega_{\rm ge}$ becomes small; the heaviness of a fluxonium can be characterized by the splitting $\omega_{\rm ge}$ at this half-flux point, with typical heavy fluxoniums having qubit frequencies of about 10-300 MHz, with lower $\omega_{\rm ge}$ translating to ``heavier'' \cite{earnest2018realization, zhang2021universal, ding2023FTF}. Meanwhile, if we move slightly off this half-flux point, the ground and excited states will have a larger energy splitting and be strongly localized to their respective wells, as is shown in Fig. \ref{fig:3_Circuit_QED_Overview}. When operated as a low-frequency qubit, the fluxonium has $\omega_{\rm ge} \ll \alpha$ (the anharmonicity), which truly enables us to think of it as a two-level system. Also, the charge matrix element vanishes $\mel{g}{\hat{n}}{e} \to 0$. This in turn has led to heavy fluxonium qubits reporting $T_1$ lifetimes (between states $\ket{g}$ and $\ket{e}$) in excess of 1 ms at the half-flux sweet spot, and typically even larger away from it \cite{earnest2018realization, zhang2021universal, ding2023FTF, nguyen2019high, somoroff2023millisecond}. It is for this reason that we are interested in the fluxonium, as a bit-flip protected control qubit. 
+The regime we are interested in for the fluxonium is the so-called heavy regime in which $E_J \gg E_C \approx E_L$. When $\Phi_{\rm ext} = 0.5\Phi_0$, the potential energy has a double-well structure, with the lowest energy states $\ket{g}$ and $\ket{e}$ given by symmetric and antisymmetric combinations of the two wells' localized wavefunctions, and the qubit frequency $\omega_{\rm ge}$ becomes small; the heaviness of a fluxonium can be characterized by the splitting $\omega_{\rm ge}$ at this half-flux point. Typical heavy fluxonium devices have qubit frequencies of about 10-300 MHz, with lower $\omega_{\rm ge}$ translating to ``heavier'' \cite{earnest2018realization, zhang2021universal, ding2023FTF}. Meanwhile, if we move slightly off this half-flux point, the ground and excited states will have a larger energy splitting and be strongly localized to their respective wells, as is shown in Fig. \ref{fig:3_Circuit_QED_Overview}. When operated as a low-frequency qubit, the fluxonium has $\omega_{\rm ge} \ll \alpha$ (the anharmonicity), which truly enables us to think of it as a two-level system. Also, the charge matrix element vanishes $\mel{g}{\hat{n}}{e} \to 0$. This in turn has led to heavy fluxonium qubits reporting $T_1$ lifetimes (between states $\ket{g}$ and $\ket{e}$) in excess of 1 ms at the half-flux sweet spot, and typically even larger away from it \cite{earnest2018realization, zhang2021universal, ding2023FTF, nguyen2019high, somoroff2023millisecond}. It is for this reason that we are interested in the fluxonium as a bit-flip protected control qubit. 
 
-\subsection{Circuit QED with the Fluxonium}
+\subsection{Circuit QED with the Fluxonium\label{sec:3_Circuit_QED_with_Fluxonium}}
 
 Just as we did for the transmon, let's now briefly examine how to couple a fluxonium to a harmonic oscillator. The basic model we follow is that of Ref. \cite{zhu2013cQEDfluxonium}, which starts from the Hamiltonian
 \begin{equation}
     \hat{H} = \sum_k \omega_k \op{k}{k} + \omega_a \hat{a}^\dagger\hat{a} + g\hat{n}(\hat{a} + \hat{a}^\dagger)
+    \label{eq:3_fluxonium_cQED}
 \end{equation}
-in terms of the bare fluxonium eigenstates $\ket{k}$ and coupling strength $g$. When we deal with this Hamiltonian in practice, we will typically just numerically diagonalize and calculate the hybridized energy levels $E_{k, n}$ associated with a qubit state $k$ and resonator state $n$; to be more precise, we diagonalize the coupled system to get eigenenergies $\epsilon_i$ and eigenstates $\ket{v_i}$ and then perform \textit{quantum number assignment} to label each state in terms of the uncoupled basis state $\ket{k}\otimes\ket{n}$ that it is closest to (i.e. largest overlap). In this manner, we can get the \textit{labelled} energies $E_{k, n}$ and eigenstates $\ket{k, n}$ for the hybridized system. 
+in terms of the bare fluxonium eigenstates $\ket{k}$ and coupling strength $g$. When we deal with this Hamiltonian in practice, we will typically just numerically diagonalize it and compute the hybridized energy levels $E_{k, n}$ associated with a qubit state $k$ and resonator state $n$; to be more precise, we diagonalize the coupled system to get the unlabelled eigenenergies $\lambda_i$ and eigenstates $\ket{v_i}$ and then perform \textit{quantum number assignment} to label each state $\ket{v_i}$ in terms of the uncoupled basis state $\ket{k}\otimes\ket{n}$ that it is closest to (i.e. largest overlap). In this way, we can get the \textit{labelled} energies $E_{k, n}$ and eigenstates $\ket{k, n}$ for the hybridized system. Note that implicit in this numerical diagonalization approach is the assumption that $g$ is a small parameter, i.e. we can treat the coupling as a perturbation. In this limit, it has been shown that Eq. \eqref{eq:3_fluxonium_cQED} admits a dispersive approximation \cite{zhu2013cQEDfluxonium}. Specifically, it is given by:
+\begin{equation}
+    \hat{H}_{\rm disp} = \omega_a \hat{a}^\dagger\hat{a} + \sum_k (\omega_k + \delta_k' + \delta_k'') \op{k}{k} + \sum_k \bigg[\Big(\chi_k' + \chi_k'' + \frac{K_k''}{2}\Big)\hat{a}^\dagger\hat{a} + \frac{K_k''}{2}\hat{a}^\dagger{}^2\hat{a}^2\bigg] \op{k}{k}
+    \label{eq:3_fluxonium_cQED_pert_theory}
+\end{equation}
+This Hamiltonian is computed using 2nd- and 4th-order perturbation theory. We get qubit Lamb shifts $\delta'$ and $\delta''$ from 2nd and 4th order corrections respectively; dispersive shifts $\chi_k'$ and $\chi_k''$ of qubit state $\ket{k}$ to the oscillator (computed via 2nd- and 4th order terms), as well as Kerr nonlinearities $K_k''$ (which come from the 4th order corrections). The full perturbation theory expressions for these various energy terms are rather unweildy but can be found in Ref. \cite{zhu2013cQEDfluxonium}. For our purposes, we can consider a simpler rewriting of Eq. \eqref{eq:3_fluxonium_cQED_pert_theory} in which we have
+\begin{equation}
+    \hat{H}_{\rm disp} = \omega_a \hat{a}^\dagger\hat{a} + \sum_k \tilde{\omega}_k \op{k}{k} + \sum_k \bigg[\chi_k\hat{a}^\dagger\hat{a} + \frac{K_k}{2}\hat{a}^\dagger{}^2\hat{a}^2\bigg] \op{k}{k}
+\end{equation}
+in terms of effective dispersive shifts $\chi_k$ and Kerrs $K_k$. We can connect these to the results we get from numerical diagonalization, expressing in terms of the (numerically obtained) system energies $E_{k, n}$. We can get the Kerr nonlinearity $K_k$ as the anharmonicity of the resonator when the qubit is in state $\ket{k}$, which we can compute as the difference of transition frequencies: 
+\begin{equation}
+    K_k = [E_{k, 2} - E_{k, 1}] - [E_{k, 1} - E_{k, 0}] = E_{k, 2} + E_{k, 0} - 2E_{k, 1}
+\end{equation}
+Meanwhile, we get an effective  resonator frequency $\omega_a^{\ket{k}}$ that depends on the qubit state. It is given by
+\begin{equation}
+    \omega_a^{\ket{k}} = \omega_a + \chi_k = E_{k, 1} - E_{k, 0}
+\end{equation}
+Finally, the qubit transitions $\tilde{\omega}_k$ are the `renormalized' frequencies, and computed via $E_{k, 0}$. 
 
+At this point, assuming we numerically diagonalize using the full fluxonium-oscillator model, we can safely truncate the fluxonium to a two-level system when $\Phi_{\rm ext} \approx 0.5\Phi_0$ (the external flux tunes the various energies above). Dropping constant terms
+
+
+We thus get
+\begin{equation}
+    \hat{H}_{\rm disp} = \omega_a \hat{a}^\dagger\hat{a} + \sum_k \tilde{\omega}_k \op{k}{k} + \sum_k \bigg[\chi_k\hat{a}^\dagger\hat{a} + \frac{K_k}{2}\hat{a}^\dagger{}^2\hat{a}^2\bigg] \op{k}{k}
+\end{equation}
+
+
+
+
+Here we instead present a simpler alternative based on numerical diagonalization. 
+
+
+We compute the Kerr in terms of the system energies $E_{k, n}$ via
+
+Also
+
+
+
+
+
+
+
+(a'a)(a'a) = a' (aa')a = a'[1 + a'a]a
+= a'a + a'a'aa
+
+[a, a'] = aa' - a'a = 1
+aa' = 1 + a'a
+
+To gain some more analytical insight, we can compute the 
 
 
 
@@ -190,3 +239,40 @@ in terms of the bare fluxonium eigenstates $\ket{k}$ and coupling strength $g$. 
 
 
 write down equation from MM talk depending on flux... 
+
+
+
+$$
+\hat{H} = \hat{H}_q + \hat{H}_a + \hat{H}_{\rm int} = \Big[4E_C \hat{n}^2 + \frac{1}{2}\hat{\varphi}^2 - E_J\cos(\hat{\varphi}-2\pi\phi_{\rm ext})\Big] + \omega_s \hat{a}^\dagger \hat{a} + J \hat{n}\hat{n}_a
+$$
+
+Here the term in parentheses is the qubit Hamiltonian defined in terms of the fluxonium $E_C$, $E_J$, and $E_L$ parameters, as well as the external flux $\phi_{\rm ext} = \Phi_{\rm ext}/\Phi_0$. The storage oscillator mode is defined in terms of its annihilation operator $\hat{a}$, its frequency $\omega_s$ and its zpf $\varphi_{a, \rm zpf}$, which defines:
+
+\begin{align*}
+\hat{\varphi}_a &= \varphi_{a, \rm zpf} (\hat{a}+\hat{a}^\dagger) \\
+\hat{n}_a &= \frac{i}{2\varphi_{a, \rm zpf}} (\hat{a}^\dagger - \hat{a})
+\end{align*}
+
+Finally, the coupling between the fluxonium and the storage mode is a charge-charge coupling of strength $J$.
+
+We can diagonalize the full system together to get a set of joint eigen-energies $E_{q, s}$ where $q$ and $s$ index the qubit and storage respectively. Then, we can calculate dispersive shift $\chi$
+
+$$
+\chi \equiv \omega_s^{|e\rangle} - \omega_s^{|g\rangle} = [E_{1,1} - E_{1, 0}] - [E_{0, 1} - E_{0, 0}] 
+$$
+
+as well as the “single-photon” Kerr nonlinearities, defined as the anharmonicity:
+
+\begin{align*}
+K_g &= [E_{0, 2} - E_{0, 1}] - [E_{0, 1} - E_{0, 0}] \\
+K_e &= [E_{1, 2} - E_{1, 1}] - [E_{1, 1} - E_{1, 0}]
+\\ \\
+K &= \frac{K_g + K_e}{2}, \quad dK = \frac{K_g - K_e}{2}
+\end{align*}
+
+We can then write down an effective dispersive interaction between the qubit and storage which is defined by the following Hamiltonian:
+
+\begin{align*}
+\hat{H} &= \frac{\chi}{2} \hat{a}^\dagger\hat{a} \sigma_z + \frac{K_g}{2} \hat{a}^\dagger{}^2\hat{a}^2 \,|g\rangle\langle g| + \frac{K_e}{2} \hat{a}^\dagger{}^2\hat{a}^2 \,|e\rangle\langle e| \\
+&= \frac{\chi}{2} \hat{a}^\dagger\hat{a} \sigma_z + \frac{K}{2} \hat{a}^\dagger{}^2\hat{a}^2 + \frac{dK}{2}\hat{a}^\dagger{}^2\hat{a}^2 \sigma_z
+\end{align*}
