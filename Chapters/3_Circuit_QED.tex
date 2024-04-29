@@ -194,85 +194,17 @@ Meanwhile, we get an effective  resonator frequency $\omega_a^{\ket{k}}$ that de
 \end{equation}
 Finally, the qubit transitions $\tilde{\omega}_k$ are the `renormalized' frequencies, and computed via $E_{k, 0}$. 
 
-At this point, assuming we numerically diagonalize using the full fluxonium-oscillator model, we can safely truncate the fluxonium to a two-level system when $\Phi_{\rm ext} \approx 0.5\Phi_0$ (the external flux tunes the various energies above). Dropping constant terms
-
-
-We thus get
+At this point, after numerically diagonalizing using the full fluxonium-oscillator model, we can safely truncate the fluxonium to a two-level system for $\Phi_{\rm ext} \approx 0.5\Phi_0$ (the external flux tunes the various energies above). In this case, we focus on only the two qubit state $\ket{g}$ and $\ket{e}$ in the sums above. Furthermore, it will be useful to define an effective dispersive shift
 \begin{equation}
-    \hat{H}_{\rm disp} = \omega_a \hat{a}^\dagger\hat{a} + \sum_k \tilde{\omega}_k \op{k}{k} + \sum_k \bigg[\chi_k\hat{a}^\dagger\hat{a} + \frac{K_k}{2}\hat{a}^\dagger{}^2\hat{a}^2\bigg] \op{k}{k}
+    \chi \equiv \omega_s^{|e\rangle} - \omega_s^{|g\rangle} = [E_{1,1} - E_{1, 0}] - [E_{0, 1} - E_{0, 0}]  = \chi_e - \chi_g
 \end{equation}
-
-
-
-
-Here we instead present a simpler alternative based on numerical diagonalization. 
-
-
-We compute the Kerr in terms of the system energies $E_{k, n}$ via
-
-Also
-
-
-
-
-
-
-
-(a'a)(a'a) = a' (aa')a = a'[1 + a'a]a
-= a'a + a'a'aa
-
-[a, a'] = aa' - a'a = 1
-aa' = 1 + a'a
-
-To gain some more analytical insight, we can compute the 
-
-
-
-
-
-
-
+as the difference in the resonator frequency when the qubit is in $\ket{g}$ vs. $\ket{e}$. Putting this all together, we can therefore write down an effective dispersive model for the system: 
 \begin{equation}
-    \hat{H} = \sum_k \tilde{E}_k \op{k}{k} + \bigg(\omega_r^0 + \sum_k \chi_k \op{k}{k}\bigg) \hat{a}^\dagger\hat{a}
+    \hat{H} = \omega_a \hat{a}^\dagger\hat{a} + \frac{\tilde{\omega}_{\rm ge}(\varphi_{\rm ext})}{2} \sigmaz + \frac{\chi(\varphi_{\rm ext})}{2}\hat{a}^\dagger\hat{a}\sigmaz  + \frac{K_g(\varphi_{\rm ext})}{2}\hat{a}^\dagger{}^2\hat{a}^2\op{g}{g} + \frac{K_e(\varphi_{\rm ext})}{2}\hat{a}^\dagger{}^2\hat{a}^2\op{e}{e}
+\label{eq:3_fluxonium_cQED_TLS}
 \end{equation}
-
-
-
-write down equation from MM talk depending on flux... 
-
-
-
-$$
-\hat{H} = \hat{H}_q + \hat{H}_a + \hat{H}_{\rm int} = \Big[4E_C \hat{n}^2 + \frac{1}{2}\hat{\varphi}^2 - E_J\cos(\hat{\varphi}-2\pi\phi_{\rm ext})\Big] + \omega_s \hat{a}^\dagger \hat{a} + J \hat{n}\hat{n}_a
-$$
-
-Here the term in parentheses is the qubit Hamiltonian defined in terms of the fluxonium $E_C$, $E_J$, and $E_L$ parameters, as well as the external flux $\phi_{\rm ext} = \Phi_{\rm ext}/\Phi_0$. The storage oscillator mode is defined in terms of its annihilation operator $\hat{a}$, its frequency $\omega_s$ and its zpf $\varphi_{a, \rm zpf}$, which defines:
-
-\begin{align*}
-\hat{\varphi}_a &= \varphi_{a, \rm zpf} (\hat{a}+\hat{a}^\dagger) \\
-\hat{n}_a &= \frac{i}{2\varphi_{a, \rm zpf}} (\hat{a}^\dagger - \hat{a})
-\end{align*}
-
-Finally, the coupling between the fluxonium and the storage mode is a charge-charge coupling of strength $J$.
-
-We can diagonalize the full system together to get a set of joint eigen-energies $E_{q, s}$ where $q$ and $s$ index the qubit and storage respectively. Then, we can calculate dispersive shift $\chi$
-
-$$
-\chi \equiv \omega_s^{|e\rangle} - \omega_s^{|g\rangle} = [E_{1,1} - E_{1, 0}] - [E_{0, 1} - E_{0, 0}] 
-$$
-
-as well as the “single-photon” Kerr nonlinearities, defined as the anharmonicity:
-
-\begin{align*}
-K_g &= [E_{0, 2} - E_{0, 1}] - [E_{0, 1} - E_{0, 0}] \\
-K_e &= [E_{1, 2} - E_{1, 1}] - [E_{1, 1} - E_{1, 0}]
-\\ \\
-K &= \frac{K_g + K_e}{2}, \quad dK = \frac{K_g - K_e}{2}
-\end{align*}
-
-We can then write down an effective dispersive interaction between the qubit and storage which is defined by the following Hamiltonian:
-
-\begin{align*}
-\hat{H} &= \frac{\chi}{2} \hat{a}^\dagger\hat{a} \sigma_z + \frac{K_g}{2} \hat{a}^\dagger{}^2\hat{a}^2 \,|g\rangle\langle g| + \frac{K_e}{2} \hat{a}^\dagger{}^2\hat{a}^2 \,|e\rangle\langle e| \\
-&= \frac{\chi}{2} \hat{a}^\dagger\hat{a} \sigma_z + \frac{K}{2} \hat{a}^\dagger{}^2\hat{a}^2 + \frac{dK}{2}\hat{a}^\dagger{}^2\hat{a}^2 \sigma_z
-\end{align*}
+This closely resembles the other dispersive qubit-oscillator Hamiltonians that we studied in this chapter, except now the qubit frequency $\tilde{\omega}_{ge} = \tilde{\omega}_{e} - \tilde{\omega}_{g}$, dispersive shift $\chi$, and Kerr nonlinearities $K_g$, $K_e$ all tune with the external flux $\varphi_{\rm ext}$, a features that will be incredibly useful when designing a bosonic QEC experiment, as we will discuss in Ch. \ref{ch:4_3DGKP}. Lastly, one can also rewrite Eq. \eqref{eq:3_fluxonium_cQED_TLS} in terms of an \textit{average} Kerr $K = [K_g + K_e]/2$ and what we call a differential Kerr $dK = [K_g + K_e]/2$, to better match previous expressions. In this case:
+\begin{equation}
+    \hat{H} = \omega_a \hat{a}^\dagger\hat{a} + \frac{\tilde{\omega}_{\rm ge}(\varphi_{\rm ext})}{2} \sigmaz + \frac{\chi(\varphi_{\rm ext})}{2}\hat{a}^\dagger\hat{a}\sigmaz  + \frac{K(\varphi_{\rm ext})}{2}\hat{a}^\dagger{}^2\hat{a}^2 + \frac{dK(\varphi_{\rm ext})}{2}\hat{a}^\dagger{}^2\hat{a}^2\sigmaz
+\end{equation}
+We will use this Hamiltonian going forward when discussing our experiments. 

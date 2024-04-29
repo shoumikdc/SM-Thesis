@@ -3,7 +3,7 @@
 It is sometimes said that the concept of quantum error correction is more remarkable than the concept of quantum computation itself \cite{girvin2019QECvideo}. Indeed, the fact that quantum error correction is in principle even possible is somewhat surprising, for three fundamental reasons: (1) the \textit{no-cloning} theorem \cite{ike-and-mike}, which forbids us from copying unknown quantum states to naively add redundancy; (2) the \textit{measurement problem}, also known as Born's rule, whereby measuring a quantum state causes it to collapse due to measurement backaction; and (3) errors on quantum states can be continuous-valued and are thus in some sense analog. Despite these somewhat severe restrictions imposed by quantum mechanics, quantum error correction (QEC) can still be realized. 
 
 
-In this thesis, we are concerned with a specific class of quantum error correcting codes called \textit{bosonic codes}, which store information in continuous-variable degrees of freedom of a quantum harmonic oscillator \cite{terhal2020bosonic, cai2021bosonic, joshi2021bosonic}. Bosonic codes offer a hardware-efficient alternative to the traditional qubit-based register codes, such as the surface code, and are thus interesting for practical QEC implementations. Among the various bosonic codes that exist, we will specifically focus on the so-called Gottesman-Kitaev-Preskill (GKP) grid code and the requirements for its realization in experiment. In this chapter, we will introduce the basic notions of bosonic QEC and the GKP code, study specific theoretical proposals for error correction of the GKP codewords, and present simulations of GKP error correction under various error channels. 
+In this thesis, we are concerned with a specific class of quantum error correcting codes called \textit{bosonic codes}, which store information in continuous-variable degrees of freedom of a quantum harmonic oscillator \cite{terhal2020bosonic, cai2021bosonic, joshi2021bosonic}. Bosonic codes offer a hardware-efficient alternative to the traditional qubit-based register codes, such as the surface code, and are thus interesting for practical QEC implementations. Among the various bosonic codes that exist, we will specifically focus on the so-called Gottesman-Kitaev-Preskill (GKP) grid code and the requirements for its realization in experiment. In this chapter, we will introduce the basic notions of bosonic QEC and the GKP code, study specific theoretical proposals for error correction of the GKP codewords, and discuss how to implement the basic conditional displacement operation required for GKP QEC.
 
 \section{Overview of Bosonic Error Correction}
 \subsection{Definitions and Notation \label{sec:2_BosonicQEC_Definitions}}
@@ -284,6 +284,29 @@ After round 30, we perform a projective measurement of $\hat{Z}_L^\Delta$ within
     \label{fig:2_SBS_NoLoss_QEC_Sim}
 \end{figure}
 
+\subsection{SBS with Oscillator Single-Photon Loss}
+Following up from the ideal stabilization case in Fig. \ref{fig:2_SBS_NoLoss_QEC_Sim} above, we can also examine what happens during SBS error correction when there is single-photon loss on the oscillator. In this case, we define \begin{equation}
+    \hat{\rho}_{i + 1} =  \mathcal{E}_{\rm loss}\Big(\mathcal{R}_\Delta^X\Big[\mathcal{E}_{\rm loss}\Big(\mathcal{R}_\Delta^Z(\hat{\rho}_i)\Big)\Big]\Big)
+    \label{eq:2_SBS_Lossy_Kraus}
+\end{equation}
+i.e. we interleave the single-photon loss channel $\mathcal{E}_{\rm loss}$ with the error correction channels. We demonstrate an example of evolving an oscillator vacuum state $\ket{0}$ under this equation in Fig. \ref{fig:2_SBS_Lossy_QEC_Sim}, setting $\Delta = 0.25$ and $\epsilon_1 = \epsilon_2$ for the GKP code and $\kappa_1\delta t = 8\times 10^{-3}$ for the loss.
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.85\linewidth]{Figures/2/SBS_Lossy_QEC_Sim.pdf}
+    \caption{Plot of expectation value $\ev{\hat{Z}_L^\Delta}$ vs. time over multiple rounds of SBS. We take $\Delta = 0.25$ and $\epsilon_1 = \epsilon_2$ for the GKP code, and set $\kappa_1\delta t = 8\times 10^{-3}$. Starting from the vacuum state, we first converge to the codespace over 30 rounds, perform a logical measurement of $\hat{Z}_L^\Delta$, and then stabilize for another 30 rounds. Due to the single-photon loss, we see $\ev{\hat{Z}_L^\Delta}$ decay exponentially with time. Compared to Fig. \ref{fig:2_SBS_NoLoss_QEC_Sim}, the contrast of the Wigner functions is also reduced here due to the effect of the loss on the stabilization.}
+    \label{fig:2_SBS_Lossy_QEC_Sim}
+\end{figure}
+
+Note that the single-photon loss channel $\mathcal{E}_{\rm loss}$ is entirely specified in terms of the product $\kappa_1\delta t$, where $\delta t$ is a period over which we accrue loss. The evolution modelled by Eq. \eqref{eq:2_SBS_Lossy_Kraus} is thus one of instantaneous QEC channels interleaved by periods $\delta t$ of photon loss, which is meant to approximate the true error correction process occurring continuously over the period $\delta t$. One could also perform a full master equation simulation [cf. Eq. \eqref{eq:2_lindblad_photon_loss}] of the SBS gate sequence in Fig. \ref{fig:2-SBS}, but this will give similar results for small $k_1\delta t$. 
+
+The SBS evolution shown here in Fig. \ref{fig:2_SBS_Lossy_QEC_Sim} is only meant to be an illustrative example of the GKP error correction process, showing what happens when QEC and single-photon loss both occur simultaneously. We will demonstrate more extensive such simulations in Ch. \ref{ch:5_2DGKP}, where we sweep over various amounts of single-photon loss $\kappa_1\delta t$. In those simulations, we will actually fit the exponential decay of $\ev{\hat{Z}_L^\Delta}$ with time to extract the lifetime $T_{\ket{+Z}}$ for the state $\ket{+\tilde{Z}_L}$. To give a preview, in the simulation we show in Ch. \ref{ch:5_2DGKP}, we will then repeat this QEC process to prepare all six cardinal states $\ket{\pm \tilde{Z}_L}$, $\ket{\pm \tilde{X}_L}$, $\ket{\pm \tilde{Y}_L}$ of the GKP logical Bloch sphere. From there, we can calculate $T_Z = \frac{1}{2}[T_{\ket{+Z}} + T_{\ket{-Z}}]$, and likewise for $X$ and $Y$, to finally get
+\begin{equation}
+    T_L = 3\bigg(\frac{1}{T_X} + \frac{1}{T_Y} + \frac{1}{T_Z}\bigg)^{-1}
+\end{equation}
+as the total logical lifetime of the GKP qubit averaged over all six cardinal states \cite{royer2020gkp, sivak2023gkp-expt}. In Ch. \ref{ch:5_2DGKP}, our simulation will consist of then optimizing over the GKP code parameters $\Delta$, $\epsilon_1$ and $\epsilon_2$ in order to maximize the logical lifetime $T_L$ for any given value of single-photon loss. 
+
+
+
 
 
 
@@ -353,7 +376,7 @@ Here, the third term is a Stark-shift of the qubit (i.e. an $\alpha$-dependent f
 \begin{equation}
     \hat{H} \approx \Big[g_{\rm CD}(t)\hat{a}^\dagger + g_{\rm CD}^\ast(t)\hat{a}\Big]\sigmaz
 \end{equation}
-with $g_{\rm CD}(t) = \chi\alpha(t)/2$ and a maximum CD rate given by $\chi\alpha_{\rm max}/2$. Of course, we can't just ignore the other terms and so must somehow find a way to cancel them out. The strategy adopted in ECD is to use an ``echo'' sequence which, as depicted in Fig. \ref{fig:2_ECD_pulse_sequence}, consists of a qubit $\pi$-pulse halfway through the evolution [$\ev\sigmaz \to -\ev\sigmaz$] and a flip on the displacement sign $\alpha(t) \to -\alpha(t)$. Intuitively, this can be understood to cancel out all terms in Eq. \eqref{eq:ECD_disp_frame_H} besides the second, which is proportional to $\alpha\sigmaz$ and thus unaffected by the echo, leaving just the desired CD term. More rigorously, there is an exact trajectory in phase space that needs to be implemented via $\epsilon(t)$ and $\Omega(t)$ in order to cancel the unwanted terms, and it can be calculated by solving the Schr\"odinger equation for a given target operation \cite{eickbusch2022fast}. In practice, for finite bandwidth pulses, this typically requires some numerical optimization to compute the correct pulse schedules. In the end, the ECD gate implements the following unitary:
+with $g_{\rm CD}(t) = \chi\alpha(t)/2$ and a maximum CD rate given by $\chi\alpha_{\rm max}/2$. Of course, we can't just ignore the other terms and so must somehow find a way to cancel them out. The strategy adopted in ECD is to use an ``echo'' sequence which consists of a qubit $\pi$-pulse halfway through the evolution [$\ev\sigmaz \to -\ev\sigmaz$] and a flip on the displacement sign $\alpha(t) \to -\alpha(t)$. Intuitively, this can be understood to cancel out all terms in Eq. \eqref{eq:ECD_disp_frame_H} besides the second, which is proportional to $\alpha\sigmaz$ and thus unaffected by the echo, leaving just the desired CD term. More rigorously, there is an exact trajectory in phase space that needs to be implemented via $\epsilon(t)$ and $\Omega(t)$ in order to cancel the unwanted terms, and it can be calculated by solving the Schr\"odinger equation for a given target operation \cite{eickbusch2022fast}. In practice, for finite bandwidth pulses, this typically requires some numerical optimization to compute the correct pulse schedules. In the end, the ECD gate implements the following unitary:
 \begin{equation}
     {\rm ECD}(\beta) = \hat{D}\bigg(\frac{\beta}{2}\bigg)\op{e}{g} + \hat{D}\bigg(\frac{-\beta}{2}\bigg)\op{g}{e}
 \end{equation}
@@ -368,37 +391,9 @@ The time taken to realize a conditional displacement of $\beta$ is approximately
 
 
 
-\clearpage
-\section{QEC Simulations with SBS \label{sec:2_simulations_SBS}}
+% \clearpage
+% \section{QEC Simulations with SBS \label{sec:2_simulations_SBS}}
 
-\subsection{Simulations with SBS: I. Oscillator Single-Photon Loss}
+% \subsection{Simulations with SBS: I. Oscillator Single-Photon Loss}  
 
-In this section, we present an overview of our numerical simulation results of SBS QEC in the presence of different oscillator and qubit error channels. We start by studying the performance of the SBS protocol in the presence of single-photon loss on the oscillator. Specifically, we perform similar simulations to the one shown in Sec. \ref{sec:2_SBS} (see Fig. \ref{fig:2_SBS_NoLoss_QEC_Sim} where we presented SBS stabilization in the lossless case). An example of such a simulation is shown below in Fig. \ref{fig:2_SBS_Lossy_QEC_Sim}.
-
-\begin{figure}[h]
-    \centering
-    \includegraphics[width=0.85\linewidth]{Figures/2/SBS_Lossy_QEC_Sim.pdf}
-    \caption{Plot of expectation value $\ev{\hat{Z}_L^\Delta}$ vs. time over multiple rounds of SBS. We take $\Delta = 0.25$ and $\epsilon_1 = \epsilon_2$ for the GKP code, and set $\kappa_1\delta t = 8\times 10^{-3}$. Starting from the vacuum state, we first converge to the codespace over 30 rounds, perform a logical measurement of $\hat{Z}_L^\Delta$, and then stabilize for another 30 rounds. Due to the single-photon loss, we see $\ev{\hat{Z}_L^\Delta}$ decay exponentially with time. Compared to Fig. \ref{fig:2_SBS_NoLoss_QEC_Sim}, the contrast of the Wigner functions is also reduced here due to the effect of the loss on the stabilization.}
-    \label{fig:2_SBS_Lossy_QEC_Sim}
-\end{figure}
-
-The simulation setup closely follows the one in Sec. \ref{sec:2_SBS}, but instead each QEC round is now defined by
-\begin{equation}
-    \hat{\rho}_{i + 1} =  \mathcal{E}_{\rm loss}\Big(\mathcal{R}_\Delta^X\Big[\mathcal{E}_{\rm loss}\Big(\mathcal{R}_\Delta^Z(\hat{\rho}_i)\Big)\Big]\Big)
-\end{equation}
-i.e. we interleave the single-photon loss channel $\mathcal{E}_{\rm loss}$ with the error correction steps. Each loss channel is defined in terms of the product $\kappa_1 \delta t$ and we set $\kappa_1 \delta t = 8 \times 10^{-3}$ in Fig. \ref{fig:2_SBS_Lossy_QEC_Sim}. As with the lossless simulation, we perform a logical measurement of $\hat{Z}_L^\Delta$ at round 30 to prepare a state close to the logical state $\ket{+\tilde{Z}_L}$. We can then continue stabilizing in the presence of photon loss and we see a characteristic exponential decay of $\ev{\hat{Z}_L^\Delta}$ with time. By fitting this decay, we extract the logical lifetime $T_{\ket{+Z}}$ for the state $\ket{+\tilde{Z}_L}$. 
-
-We repeat this process for each of the cardinal states $\ket{\pm \tilde{Z}_L}$, $\ket{\pm \tilde{X}_L}$, $\ket{\pm \tilde{Y}_L}$ of the logical Bloch sphere. From here, we calculate $T_Z = \frac{1}{2}[T_{\ket{+Z}} + T_{\ket{-Z}}]$, and likewise for $X$ and $Y$. Finally, we can arrive at
-\begin{equation}
-    T_L = 3\bigg(\frac{1}{T_X} + \frac{1}{T_Y} + \frac{1}{T_Z}\bigg)^{-1}
-\end{equation}
-as the total logical lifetime of the GKP qubit averaged over all six cardinal states \cite{royer2020gkp, sivak2023gkp-expt}. 
-
-
-Our simulations agree with the results of Ref. \cite{royer2020gkp}, and we can draw several key conclusions. First, the logical lifetime of a GKP qubit depends sensitively on the level of single-photon loss, and in particular scales exponentially in the product $\kappa_1\delta t$, where $\kappa_1$ is the loss rate and $\delta t$ is the SBS cycle time. Next, we find that the GKP lifetime is  
-
-
-
-\subsection{Simulations with SBS: II. Control Qubit Error Channels}
-
-
+% \subsection{Simulations with SBS: II. Control Qubit Error Channels}
