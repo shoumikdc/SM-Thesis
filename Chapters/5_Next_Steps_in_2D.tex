@@ -1,7 +1,7 @@
 \chapter{Next Steps and Moving to 2D\label{ch:5_2DGKP}}
 
 
-In the previous chapter, we presented the results of our experiments with a fluxonium in a 3D cavity. We demonstrated a tunable dispersive shift between the qubit and the storage resonator via bosonic mode threading and characterized the various components of our system. In doing so, we discovered that the lifetime of the storage mode was \textit{significantly} lower than expected (as compared to its bare value) whenever the qubit chip was inserted into the resonator package. After many rounds of experimentation and testing, we were ultimately able to attribute this effect to two main sources: (i) the storage mode's coupling to the lossy qubit flux line; and (ii), its participation in spurious modes of the 3D superconducting package. While the former issue could in principle be solved via clever microwave engineering and filtering, the latter unfortunately is intrinsic to our 3D design and not easily remedied. As we came to learn, it is generally difficult to integrate fast-flux into a 3D cavity while also maintaining the cavity coherence. 
+In the previous chapter, we presented the results of our experiments with a fluxonium in a 3D cavity. We demonstrated a tunable dispersive shift between the qubit and the storage resonator via bosonic mode threading and characterized the various components of our system. In doing so, however, we discovered that the lifetime of the storage mode was \textit{significantly} lower than expected (as compared to its bare value) whenever the qubit chip was inserted into the resonator package: specifically our Mark II cavity lifetime dropped from approximately 760 $\mu$s to less than 1 $\mu$s! After many rounds of experimentation and testing, we were ultimately able to attribute this effect to two main sources: (i) the storage mode's coupling to the lossy qubit flux line; and (ii), its participation in spurious modes of the 3D superconducting package. While the former issue could in principle be solved via clever microwave engineering and filtering, the latter unfortunately is intrinsic to our 3D design and not easily remedied. As we came to learn, it is generally difficult to integrate fast-flux into a 3D cavity while also maintaining the cavity coherence. 
 
 There are certain approaches that have been proposed and implemented in the literature that work towards integrating fast-flux in 3D. One such example is the magnetic hose from Refs. \cite{gargiulo2021fast,valadares2023demand}. Here, the authors route flux from an external coil to a tunable transmon qubit in a 3D superconducting package using a ``hose'' composed of concentric aluminium and mu-metal layers. In the experiment of Ref. \cite{valadares2023demand} specifically, this is done for the purpose of bosonic cQED, and the authors demonstrate that the lifetime of their 3D storage resonator is not limited by their flux delivery mechanism. Unfortunately, however, the design and implementation of a magnetic hose is quite painstaking, and would require a full redesign of both the cavities and the fluxonium chips that were presented in Ch. \ref{ch:4_3DGKP}. Other designs have also been proposed recently, e.g. Ref. \cite{hutin2024monitoring} or Ref. \cite{maiti2024ancilla}, which both rely on some form of on-chip distributed-element microwave filtering to prevent losses from the flux line at the frequency of the storage. Despite requiring more advanced microwave engineering in design, these approach seem promising for integrating fast-flux in 3D while maintaining the storage resonator lifetime. 
 
@@ -15,7 +15,7 @@ Here, my aim is give a broad overview to our upcoming 2D experiments; however, m
 
 \section{The Asymmetrically-Threaded-SQUID Coupler \label{sec:5_RAT}}
 
-The core insight that motivated our investigation into GKP error correction in 2D was that we can use an Asymmetrically-Threaded SQUID (ATS) as a coupler element to realize the desired ``three-wave mixing'' conditional displacement term that underpins all GKP QEC schemes. The ATS is a superconducting dipole element consisting of a symmetric SQUID shunted by an inductor, as shown in Fig. \ref{fig:5_ats_spectrum}(a); the two resulting flux loops in the circuit are then typically biased \textit{asymmetrically} \cite{lescanne2020exponential, berdou2023one}. In practice, the inductor is realized using an array of Josephson junctions and so the circuit itself is similar to that of a gradiometric SNAIL \cite{miano2022frequency}; it was also recently referred to as the Linear Inductive Coupler when biased symmetrically \cite{maiti2024ancilla}. Despite these various names, we will refer to the actual dipole element as an ATS throughout our work, irrespective of its bias point. 
+The core insight that motivated our investigation into GKP error correction in 2D was that we can use an Asymmetrically-Threaded SQUID (ATS) as a coupler element to realize the desired ``three-wave mixing'' conditional displacement term that underpins all GKP QEC schemes. The ATS is a superconducting dipole element consisting of a symmetric SQUID shunted by an inductor, as shown in Fig. \ref{fig:5_ats_spectrum}(a); the two resulting flux loops in the circuit are then typically biased \textit{asymmetrically} \cite{lescanne2020exponential, berdou2023one}. In practice, the inductor is realized using an array of Josephson junctions and so the circuit itself is similar to that of a gradiometric SNAIL \cite{miano2022frequency}; it was also recently referred to as the Linear Inductive Coupler when biased symmetrically \cite{maiti2024ancilla}. Despite these various names, we will refer to the actual dipole element as an ATS throughout this work, irrespective of its bias point. 
 
 \begin{figure}[h]
     \centering
@@ -32,7 +32,7 @@ Here, we have used the method of Ref. \cite{you2019circuit} to write the potenti
 \begin{equation}
 \hat{U}_b(\hat{\varphi}) = \frac{1}{2}E_L(\hat{\varphi} - \varphi_\Delta)^2 - 2E_J \cos(\varphi_\Sigma)\cos(\hat{\varphi})
 \end{equation}
-In what follows, we will typically keep the differential flux $\varphi_\Delta$ constant and only modulate the common flux $\varphi_\Sigma = \varphi_\Sigma(t)$. Therefore, we can perform a gauge transformation to move the now DC flux $\varphi_\Delta$ to the cosine via $\hat{\varphi} \mapsto \hat{\varphi} + \varphi_\Delta$. This finally get us back to the familiar expression
+In what follows, we will typically keep the differential flux $\varphi_\Delta$ constant and only modulate the common flux $\varphi_\Sigma = \varphi_\Sigma(t)$. Therefore, we can perform a gauge transformation to move the now DC flux $\varphi_\Delta$ to the cosine via $\hat{\varphi} \mapsto \hat{\varphi} + \varphi_\Delta$. This finally get us back to the expression
 \begin{equation}
 \hat{U}_b(\hat{\varphi}) = \frac{1}{2}E_L\hat{\varphi}^2 - 2E_J \cos(\varphi_\Sigma)\cos(\hat{\varphi} + \varphi_\Delta)
 \end{equation}
@@ -41,11 +41,11 @@ that can be found in Refs. \cite{lescanne2020exponential, berdou2023one}. We wil
 As shown in Fig. \ref{fig:5_ats_spectrum}(b), when the ATS is connected to a capacitance, the resulting mode has a fundamental frequency that is doubly periodic in $\varphi_\Sigma$ and $\varphi_\Delta$, forming an `egg-carton' potential as it is sometimes referred to. There are two typical operating points for the ATS:
 
 \begin{itemize}
-    \item \textbf{Asymmetric bias point:} $(\varphi_\Sigma, \varphi_\Delta) = (\pi/2, \pi/2)$, corresponding to $\varphi_l = \pi$ and $\varphi_r = 0$. This is the standard operating point for the ATS. By modulating the sum flux around this bias, i.e. $\varphi_\Sigma(t) = \pi/2 + \epsilon(t)$, we get the following time-dependent potential for the ATS dipole:
+    \item \textbf{Asymmetric bias point:} $(\varphi_\Sigma, \varphi_\Delta) = (\pi/2, \pi/2)$ corresponding to $\varphi_l = \pi$ and $\varphi_r = 0$. This is the standard operating point for the ATS. By modulating the sum flux around this bias, i.e. $\varphi_\Sigma(t) = \pi/2 + \epsilon(t)$, we get the following time-dependent potential for the ATS dipole:
     \begin{equation}
         \hat{U}_b(\hat{\varphi}) = \frac{1}{2}E_L \hat{\varphi}^2 - 2E_J \sin[\epsilon(t)]\sin(\hat{\varphi})
     \end{equation}
-\item \textbf{Symmetric bias point:} $(\varphi_\Sigma, \varphi_\Delta) = (\pi/2, 0)$, corresponding to $\varphi_l = \varphi_r = \pi/2$. Biasing here gives us:
+\item \textbf{Symmetric bias point:} $(\varphi_\Sigma, \varphi_\Delta) = (\pi/2, 0)$ corresponding to $\varphi_l = \varphi_r = \pi/2$ (see \cite{maiti2024ancilla}). Biasing here gives:
 \begin{equation}
         \hat{U}_b(\hat{\varphi}) = \frac{1}{2}E_L \hat{\varphi}^2 - 2E_J \sin[\epsilon(t)]\cos(\hat{\varphi})
     \end{equation}
@@ -77,7 +77,7 @@ Here, $\theta_i$ denotes the participation of mode $i$ in the phase across the J
 \end{equation}
 as the Hamiltonian for the full resonator-ATS-transmon system written in the ``black-box quantization'' basis (i.e. of the normal modes of the linearized circuit). 
 
-With the Hamiltonian written down, let's now see how to get conditional displacements out of it. We park the ATS at its standard asymmetric bias point $(\varphi_\Sigma, \varphi_\Delta) = (\pi/2, \pi/2)$ and modulate $\varphi_\Sigma(t) = \pi/2 + \epsilon(t)$ about this. The ATS potential takes on the form $\sin[\epsilon(t)]\sin(\hat{\varphi})$, and so we can Taylor expand $\sin[\epsilon(t)] \approx \epsilon(t)$ and $\sin(\hat{\varphi}) \approx \hat{\varphi} - \hat{\varphi}^3/6$ in anticipation of making a rotating-wave approximation. We can also truncate the transmon potential to a Duffing oscillator, considering only the leading fourth-order nonlinearity. These approximations give us
+With the Hamiltonian written down, we can now understand how to generate conditional displacements. We park the ATS at its standard asymmetric bias point $(\varphi_\Sigma, \varphi_\Delta) = (\pi/2, \pi/2)$ and modulate $\varphi_\Sigma(t) = \pi/2 + \epsilon(t)$ about this. The ATS potential takes on the form $\sin[\epsilon(t)]\sin(\hat{\varphi})$, and so we can Taylor expand $\sin[\epsilon(t)] \approx \epsilon(t)$ and $\sin(\hat{\varphi}) \approx \hat{\varphi} - \hat{\varphi}^3/6$ in anticipation of making a rotating-wave approximation. We can also truncate the transmon potential to a Duffing oscillator, considering only the leading fourth-order nonlinearity. These approximations give us
 \begin{equation}
 \hat{H} = \sum_{c = \{a, b, q\}}\omega_c \hat{c}^\dagger\hat{c} - \frac{E_{J,q}}{24}\hat{\theta}^4 - 2E_J \epsilon(t)\hat{\varphi} + \frac{1}{3}E_J\epsilon(t)\hat{\varphi}^3
 \end{equation}
@@ -112,7 +112,7 @@ Here we have included a fictitious qubit state parameter $z(t) = \ev{\sigma_z(t)
 \begin{equation}
     \hat{U}(t) = \exp(i\theta \hat{\sigma}_z / 2)\,\exp\!\Big[\hat{a}^\dagger(\gamma + \delta \hat{\sigma}_z) - \hat{a}(\gamma^\ast + \delta^\ast \hat{\sigma}_z)\Big]\exp(i\phi\hat{a}^\dagger\hat{a}\hat{\sigma}_z)
 \end{equation}
-where $\theta(t), \gamma(t), \delta(t), \phi(t)$ correspond to a qubit rotation, cavity displacement and conditional displacement, and a qubit-selective cavity rotation. Plugging in Eq. \eqref{eq:5_FCD_simplified_hamiltonian} and solving the Schr\"odinger equation, it turns out we can actually find a solution:
+where $\theta(t), \gamma(t), \delta(t), \phi(t)$ correspond to a qubit rotation, cavity displacement and conditional displacement, and a qubit-selective cavity rotation. Plugging in Eq. \eqref{eq:5_FCD_simplified_hamiltonian} and solving the Schr\"odinger equation, we find a solution:
 \begin{align}
     \begin{split}
         \theta(t) & = +2 \int_0^t d\tau \mathrm{Re}[g_{\rm CD}^*(\tau)\gamma(\tau)] \qquad \qquad\delta(t) = -i \int_0^t d\tau \cos[\phi(\tau)-\phi(t)] g_{\rm CD}(\tau)z(\tau) \\\gamma(t) & = - \int_0^t d\tau \sin[\phi(\tau)-\phi(t)] g_{\rm CD}(\tau)z(\tau) \qquad \qquad\phi(t) = -\frac{\chi}{2} \int_0^t d\tau z(\tau)
@@ -240,11 +240,11 @@ The 2D dispersive design consists of four main elements: the storage resonator, 
         4134.0 & 3.0 & 3754.9 & 844.0 & 299.9 & 42.1 & 6125.0 & 6137.0 & 27.6
     \end{tabular}
     \end{subfigure}
-    \caption{Final GDS design and parameters for the 2D dispersive experiment, showing the on-chip storage resonator, fluxonium qubit, readout resonator, and Purcell filter. The frequency parameters for the various elements in the table are all listed in MHz}
+    \caption{Final GDS design and parameters for the 2D dispersive experiment, showing the on-chip storage resonator, fluxonium qubit, readout resonator, and Purcell filter. The frequency parameters for the various elements in the table are all listed in MHz.}
     \label{fig:5_2D_Dispersive_GDS}
 \end{figure}
 
-\noindent \textbf{Fluxonium:} We chose the nominal qubit parameters $E_J, E_C, E_L$ shown above in Fig. \ref{fig:5_2D_Dispersive_GDS} to achieve a moderately heavy fluxonium with a frequency of $\omega_q/2\pi \simeq 107$ MHz at half-flux. We expect this will result in a long $T_1^{g\to e}$ away from the sweet spot. These parameters also ensured that the qubit plasmon transition frequencies were high enough to not be limited by heating out of the $\ket{g}$-$\ket{e}$ manifold. 
+\noindent \textbf{Fluxonium:} We chose the nominal qubit parameters $E_J, E_C, E_L$ shown above in Fig. \ref{fig:5_2D_Dispersive_GDS} to achieve a moderately heavy fluxonium with a frequency of $\omega_q/2\pi \simeq 107$ MHz at half-flux. We expect this will result in a long $T_1^{g\leftrightarrow e}$ away from the sweet spot. These parameters also ensured that the qubit plasmon transition frequencies were high enough to not be limited by heating out of the $\ket{g}$-$\ket{e}$ manifold. 
 
 
 \noindent \textbf{Storage and Fluxonium System:} The storage mode was designed as a large gap (60 $\mu$m) $\lambda/4$ coplanar waveguide resonator with a resulting impedance of $Z_0 = 95.127$ $\Omega$. We chose its frequency to be as low as possible to maximize $T_1$ given a constant $Q = \omega_s T_1$, ultimately settling on $\omega_s/2\pi = 4.134$ GHz. This was co-designed with the fluxonium so as to achieve bosonic mode threading. For the fluxonium-storage coupling $J_{fs}$, we performed numerical diagonalization simulations of the following Hamiltonian (similar to that in Ch. \ref{sec:4_3D_Experiment_Design_Theory}):
@@ -288,6 +288,6 @@ We performed extensive SBS simulations using this value of $\delta t$, assuming 
 
 \noindent Of course, in practice, the logical lifetime will be reduced by many other experimental factors. But, we see from this that it is at least plausible to realize break-even error correction. Finally, since these curves depend only on the product $\kappa_{1s}\delta t$ (i.e. on $T_{1s}/\delta t$), we can use the x-axis to get a sense of the required storage lifetimes for each of our three experiments: the 3D dispersive, the 2D dispersive, and the RAF (2D parametric). We overlay the three expected performance ranges on the plot; what we see is that in the best case scenario, the performance of the 2D dispersive experiment should not be too far behind the ideal performance that we had originally hoped for in our 3D experiment. Additionally, by the same metric, we see that the RAF experiment has the potential to far outperform the other two approaches, and so we expect to be able to achieve state-of-the-art QEC gain here.
 
-Overall, we find that both of our upcoming experiments represent promising pathways towards realizing robust and extensible GKP error correction in 2D. The expect to receive both the RAF and 2D dispersive designs shortly after this writing, and are excited to test these platforms in experiment.  
+Overall, we find that both of our upcoming experiments represent promising pathways towards realizing robust and extensible GKP error correction in 2D. We expect to receive both the RAF and 2D dispersive designs shortly after this writing, and are excited to test these platforms in experiment.  
 
 \printbibliography[heading=subbibliography, title = References]
