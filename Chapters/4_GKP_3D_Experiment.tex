@@ -118,7 +118,7 @@ We see that the the resonator frequency indeed varies periodically with the bias
 \begin{figure}[h]
     \centering
     \includegraphics[width=0.51\linewidth]{Figures/4/single_shots.pdf}
-    \caption[Readout I-Q histogram showing two characteristic readout ``blobs'' when the fluxonium is parked at half-flux.]{Histogram of 10,000 digitized single-shot readout measurements, plotted in the I-Q plane. The two ``blobs'' correspond to the two qubit states $\ket{g}$ and $\ket{e}$ that will both be populated in equilibrium when the fluxonium is parked near the half-flux sweet spot.}
+    \caption[Readout I-Q histogram for a fluxonium parked at half-flux.]{Histogram of 10,000 digitized single-shot readout measurements, plotted in the I-Q plane. The two ``blobs'' correspond to the two qubit states $\ket{g}$ and $\ket{e}$ that will both be populated in equilibrium when the fluxonium is parked near the half-flux sweet spot.}
 \label{fig:4_single_shots}
 \end{figure}
 
@@ -223,10 +223,10 @@ In the right panel of Fig. \ref{fig:4_qubit_T1_vs_flux_spec}, we reproduce the $
 
 \subsection{Ramsey and Echo Measurements}
 
-We also performed coherence measurements of the qubit using typical $T_2$ Ramsey and Echo sequences. A Ramsey measurement involves applying two ($\pi/2$)-pulses separated by a variable length delay $\tau$; by detuning the frequency of the pulses from the actual qubit frequency, we observe characteristic Ramsey oscillation fringes of the qubit population vs. time with a frequency given by the detuning \cite{raimond2006exploring, krantz2019quantum, naghiloo2019introduction}. An Echo measurement is similar, but adds an additional $\pi$-pulse in the middle of the sequence to refocus dephasing errors; in this case, all pulses are set to be resonant with the qubit and we see no oscillations. In both cases, the overall envelope decays with time and we can fit this decay to the function $A\cdot\exp[-(\tau/T_2)^{1 +\alpha}]$, where $A$ is an overall amplitude, $T_2$ is the characteristic \textit{coherence} time, and $\alpha$ is a parameter that depends on the noise statistics\footnote{When $\alpha = 0$, we get an overall exponential decay characteristic of white noise. Meanwhile $\alpha=1$ results in a Gaussian decay, which is characteristic of $1/f$ flux noise.} with typical values between 0-1 \cite{ithier2005decoherence, hutchings2017tunable, didier2019ac}. We can further separate $1/T_2 = 1/2T_1 + 1/T_\varphi$, where $T_1$ is the relaxation time from before and $T_\varphi$ corresponds to the pure dephasing time \cite{krantz2019quantum}. In our device, we had $T_1 \gg T_2$, and thus $T_\varphi \approx T_2$. We show typical Ramsey and Echo  measurements of our fluxonium in Fig. \ref{fig:4_T2_ramsey_echo}, taken with the qubit parked at the half-flux sweet spot. 
+We also performed coherence measurements of the qubit using typical $T_2$ Ramsey and Echo sequences. A Ramsey measurement involves applying two ($\pi/2$)-pulses separated by a variable length delay $\tau$; by detuning the frequency of the pulses from the actual qubit frequency, we observe characteristic Ramsey oscillation fringes of the qubit population vs. time with a frequency given by the detuning \cite{raimond2006exploring, krantz2019quantum, naghiloo2019introduction}. An Echo measurement is similar, but adds an additional $\pi$-pulse in the middle of the sequence to refocus dephasing errors; in this case, all pulses are set to be resonant with the qubit and we see no oscillations. In both cases, the overall envelope decays with time and we can fit this decay to the function $A\cdot\exp[-(\tau/T_2)^{1 +\alpha}]$, where $A$ is an overall amplitude, $T_2$ is the characteristic \textit{coherence} time, and $\alpha$ is a parameter that depends on the noise statistics\footnote{When $\alpha = 0$, we get an overall exponential decay characteristic of white noise. Meanwhile $\alpha=1$ results in a Gaussian decay, which is characteristic of $1/f$ flux noise.} with typical values between 0-1 \cite{ithier2005decoherence, hutchings2017tunable, didier2019ac}. We can further separate $1/T_2 = 1/2T_1 + 1/T_\varphi$, where $T_1$ is the relaxation time from before and $T_\varphi$ corresponds to the pure dephasing time \cite{krantz2019quantum}. In our device, we had $T_1 \gg T_2$, and thus we could safely approximate $T_\varphi \approx T_2$. We show typical Ramsey and Echo  measurements of our fluxonium in Fig. \ref{fig:4_T2_ramsey_echo}, taken with the qubit parked at the half-flux sweet spot. 
 \begin{figure}[h]
     \centering
-    \includegraphics[width=0.95\linewidth]{Figures/4/T2_ramsey_echo.pdf}
+    \includegraphics[width=\linewidth]{Figures/4/T2_ramsey_echo.pdf}
     \caption[Qubit \texorpdfstring{$T_2$}{T2} Ramsey and Echo measurements.]{$T_2$ measurements for our fluxonium at half-flux. \textbf{(a)} The Ramsey experiment reveals $T_{2R} = 2.28 \pm 0.02$ $\mu$s. Oscillation fringes were introduced by detuning the qubit pulses from the qubit frequency. \textbf{(b)} The Echo measurement reveals $T_{2E} = 13.4 \pm 0.2$ $\mu$s. }
     \label{fig:4_T2_ramsey_echo}
 \end{figure}
@@ -248,7 +248,7 @@ We are now ready to discuss measurements of the storage resonator. At this stage
 
 \subsection{Engineering a Tunable Dispersive Shift}
 
-The storage spectroscopy measurement above presents a method to extract the dispersive shift $\chi_{qs}$ between the fluxonium and storage. We simply sweep the external flux $\Phi_{\rm ext}$ and tune up a frequency-selective $\pi$-pulse at each bias point. Since the storage flux dispersion is minimal, we can perform a storage spectroscopy at each flux, and calculate $\chi_{qs}$ as the difference in the resonance frequency when the qubit is in $\ket{g}$ vs. $\ket{e}$, as is consistent with a Hamiltonian coupling term $\chi_{qs} \hat{a}^\dagger\hat{a}\sigmaz/2$. The result of this measurement is shown in Fig. \ref{fig:4_tunable_chi}, and we see that the dispersive shift indeed tunes with flux and crosses through zero, as is expected with bosonic mode threading. 
+The storage spectroscopy measurement above presents a method to extract the dispersive shift $\chi_{qs}$ between the fluxonium and storage. We simply sweep the external flux $\Phi_{\rm ext}$ and tune up a frequency-selective $\pi$-pulse at each bias point. Since the storage flux dispersion is minimal, we can perform a storage spectroscopy at each flux, and calculate $\chi_{qs}$ as the difference in the resonance frequency when the qubit is in $\ket{g}$ vs. $\ket{e}$, as is consistent with a Hamiltonian coupling term $\chi_{qs} \hat{a}^\dagger\hat{a}\sigmaz/2$. The result of this measurement is shown in Fig. \ref{fig:4_tunable_chi}, and we see that the dispersive shift indeed tunes with flux and crosses through zero, as is expected with bosonic mode threading. This is one of the central results of this thesis.
 
 \begin{figure}[h]
     \centering
@@ -257,7 +257,7 @@ The storage spectroscopy measurement above presents a method to extract the disp
     \label{fig:4_tunable_chi}
 \end{figure}
 
-Given that we used a selective $\pi$-pulse of the same length $\tau = 2.4$ $\mu$s at each flux point, we do not expect this measurement technique to work well near the zero crossing point where $\chi_{qs} \to 0$, since there the condition $\tau \gg 1/\chi_{qs}$ ceases to hold. We consequently see slightly larger error bars at the crossing and cannot measure the exact point at which $\chi_{qs}=0$ (the fit fails there). 
+Given that we used a selective $\pi$-pulse of the same length $\tau = 2.4$ $\mu$s at each flux point, we do not expect this measurement technique to work well near the zero crossing point where $\chi_{qs} \to 0$, since there the condition $\tau \gg 1/\chi_{qs}$ ceases to hold. We thus see slightly larger error bars at the crossing and cannot measure the exact point at which $\chi_{qs}=0$ (the fit fails there). Nonetheless, we have the desired upshot of being able to toggle the qubit-storage interaction with flux. 
 
 \clearpage
 
@@ -283,7 +283,7 @@ We were very surprised to measure a storage lifetime of $T_{1s} \approx 1$ $\mu$
 \begin{figure}[t]
     \centering
     \includegraphics[width=\linewidth]{Figures/4/3D_Cavity_Debugging.pdf}
-    \caption[Attempts to debug low storage lifetime in different configurations.]{Maximum single-photon $T_{1s}$ measured across all three resonators of the Mark III cavity. We calculate $T_{1s}$ using a frequency-domain measurement of the cavity using a Vector Network Analyzer. Each configuration was tested during a different cooldown of the fridge.}
+    \caption[Attempts to debug low storage lifetime in different configurations.]{Maximum single-photon $T_{1s}$ measured across all three resonators of the Mark III cavity. We calculate $T_{1s}$ using low-power frequency-domain measurements with a Vector Network Analyzer. Each configuration was tested during a different cooldown of the fridge.}
     \label{fig:4_3D_Cavity_Debugging}
 \end{figure}
 
