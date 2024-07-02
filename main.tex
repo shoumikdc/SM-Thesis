@@ -3,6 +3,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \documentclass[12pt]{mitthesis}
 \usepackage{formatting}
+
 \input{symbols_max.tex}
 \input{symbols}
 
@@ -13,23 +14,24 @@
 \newcommand{\todo}[1]{\textcolor{red}{\textsc{To-do:} #1}} % To-Do list: Marked in Red
 
 %% Fast compiling: include only desired chapters
-% \includeonly{Chapters/5_Next_Steps_in_2D}
-% \includeonly{Chapters/6_Conclusion}
-% \includeonly{Chapters/2_Error_Correction}
-% \includeonly{Chapters/4_GKP_3D_Experiment}
-% \includeonly{Chapters/B_Etching}
+% \includeonly{Chapters/0_Acknowledgements}
 % \includeonly{Chapters/0_Coverpage}
 % \includeonly{Chapters/1_Introduction}
+% \includeonly{Chapters/2_Error_Correction}
 % \includeonly{Chapters/3_Circuit_QED}
+% \includeonly{Chapters/4_GKP_3D_Experiment}
+% \includeonly{Chapters/5_Next_Steps_in_2D}
+% \includeonly{Chapters/6_Conclusion}
 % \includeonly{Chapters/A_Resonator_Fitting}
+% \includeonly{Chapters/B_Etching}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%% Thesis Document %%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{document}
 
-% %%%%% Chapter 0: Title and Preface Material %%%%%%
-% %%%%% Cover Page %%%%%%
+%%%% Chapter 0: Title and Preface Material %%%%%%
+%%%% Cover Page %%%%%%
 \clearpage
 \include{Chapters/0_Coverpage}
 \clearpage
@@ -47,8 +49,8 @@
 \clearpage
 % % ------------------------------------------------
 % %%%%% List of Figures/Tables %%%%%%
-% \addcontentsline{toc}{chapter}{List of Figures}
-% \listoffigures
+\addcontentsline{toc}{chapter}{List of Figures}
+\listoffigures
 \clearpage
 \phantomsection
 \rmfamily
